@@ -1,0 +1,5 @@
+F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\bin\Debug\WHBLL.dll
+F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\bin\Debug\WHBLL.pdb
+F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\obj\Debug\WHBLL.dll
+F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\obj\Debug\WHBLL.pdb
+F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\obj\Debug\WHBLL.csprojResolveAssemblyReference.cache

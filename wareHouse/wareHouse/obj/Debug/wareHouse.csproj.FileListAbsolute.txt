@@ -1,0 +1,9 @@
+F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\bin\Debug\wareHouse.exe.config
+F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\bin\Debug\wareHouse.exe
+F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\bin\Debug\wareHouse.pdb
+F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\obj\Debug\wareHouse.frmLogin.resources
+F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\obj\Debug\wareHouse.Properties.Resources.resources
+F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\obj\Debug\wareHouse.csproj.GenerateResource.Cache
+F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\obj\Debug\wareHouse.exe
+F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\obj\Debug\wareHouse.pdb
+F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\obj\Debug\wareHouse.csprojResolveAssemblyReference.cache

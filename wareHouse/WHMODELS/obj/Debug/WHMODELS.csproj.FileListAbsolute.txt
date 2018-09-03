@@ -1,0 +1,5 @@
+F:\Items\C#\希创仓库管理系统\wareHouse\WHMODELS\bin\Debug\WHMODELS.dll
+F:\Items\C#\希创仓库管理系统\wareHouse\WHMODELS\bin\Debug\WHMODELS.pdb
+F:\Items\C#\希创仓库管理系统\wareHouse\WHMODELS\obj\Debug\WHMODELS.dll
+F:\Items\C#\希创仓库管理系统\wareHouse\WHMODELS\obj\Debug\WHMODELS.pdb
+F:\Items\C#\希创仓库管理系统\wareHouse\WHMODELS\obj\Debug\WHMODELS.csprojResolveAssemblyReference.cache
