@@ -40,7 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WHDAL\WHDAL.csproj">
+      <Project>{9caf1e03-b9bb-4c66-b00e-db20e36a318f}</Project>
+      <Name>WHDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WHMODELS\WHMODELS.csproj">
+      <Project>{73dbd46f-676d-4f2f-853e-77e677cff9c5}</Project>
+      <Name>WHMODELS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

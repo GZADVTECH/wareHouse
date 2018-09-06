@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WHBLL;
+using WHMODELS;
 
 namespace wareHouse
 {
@@ -34,7 +36,21 @@ namespace wareHouse
                 MessageBox.Show("密码不允许为空！", "系统提示", MessageBoxButtons.OK);
                 txtPwd.Focus();
             }
-
+            DataTable i = BLL.GetLogin(txtUid.Text, txtPwd.Text);
+            if (i.Rows.Count > 0)
+            {
+                //存储ID，姓名及权限
+                userMessage um = new userMessage();
+                um.userID = i.Rows[0]["userID"].ToString();
+                um.userName = i.Rows[0]["userName"].ToString();
+                um.userLimit = Convert.ToInt32(i.Rows[0]["userLimit"]);
+                //进入主页面
+                frmMainWindow mw = new frmMainWindow(um);
+                mw.Show();
+                this.Hide();
+            }
+            else
+                MessageBox.Show("登录失败！");
         }
     }
 }

@@ -3,3 +3,5 @@ F:\Items\C#\希创仓库管理系统\wareHouse\WHDAL\bin\Debug\WHDAL.pdb
 F:\Items\C#\希创仓库管理系统\wareHouse\WHDAL\obj\Debug\WHDAL.csprojResolveAssemblyReference.cache
 F:\Items\C#\希创仓库管理系统\wareHouse\WHDAL\obj\Debug\WHDAL.dll
 F:\Items\C#\希创仓库管理系统\wareHouse\WHDAL\obj\Debug\WHDAL.pdb
+F:\Items\C#\希创仓库管理系统\wareHouse\WHDAL\bin\Debug\WHMODELS.dll
+F:\Items\C#\希创仓库管理系统\wareHouse\WHDAL\bin\Debug\WHMODELS.pdb

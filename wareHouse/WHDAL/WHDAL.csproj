@@ -45,6 +45,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLHelper.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WHMODELS\WHMODELS.csproj">
+      <Project>{73dbd46f-676d-4f2f-853e-77e677cff9c5}</Project>
+      <Name>WHMODELS</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

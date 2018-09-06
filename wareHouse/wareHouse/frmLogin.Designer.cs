@@ -50,7 +50,7 @@
             this.txtUid.MaxLength = 30;
             this.txtUid.Name = "txtUid";
             this.txtUid.Size = new System.Drawing.Size(120, 21);
-            this.txtUid.TabIndex = 1;
+            this.txtUid.TabIndex = 0;
             // 
             // btnLogin
             // 
@@ -82,6 +82,7 @@
             // 
             // frmLogin
             // 
+            this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
