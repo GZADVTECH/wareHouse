@@ -65,7 +65,7 @@ namespace wareHouse
         /// <param name="e"></param>
         private void tsbProcurement_Click(object sender, EventArgs e)
         {
-            frmProcurement procurement = new frmProcurement(userName);
+            frmProcurement procurement = new frmProcurement(userName,userID);
             procurement.MdiParent = this;
             procurement.Show();
         }

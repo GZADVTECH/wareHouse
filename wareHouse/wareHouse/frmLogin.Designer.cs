@@ -46,6 +46,7 @@
             // 
             // txtUid
             // 
+            this.txtUid.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtUid.Location = new System.Drawing.Point(96, 109);
             this.txtUid.MaxLength = 30;
             this.txtUid.Name = "txtUid";
