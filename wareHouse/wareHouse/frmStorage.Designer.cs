@@ -149,6 +149,7 @@
             // 
             // tstxtPID
             // 
+            this.tstxtPID.MergeIndex = 0;
             this.tstxtPID.Name = "tstxtPID";
             this.tstxtPID.Size = new System.Drawing.Size(100, 25);
             // 
@@ -207,7 +208,7 @@
             this.dtpDeliveryDate.Location = new System.Drawing.Point(296, 51);
             this.dtpDeliveryDate.Name = "dtpDeliveryDate";
             this.dtpDeliveryDate.Size = new System.Drawing.Size(112, 21);
-            this.dtpDeliveryDate.TabIndex = 4;
+            this.dtpDeliveryDate.TabIndex = 5;
             // 
             // dtparrive
             // 
@@ -224,7 +225,7 @@
             this.rtbRemark.Location = new System.Drawing.Point(103, 82);
             this.rtbRemark.Name = "rtbRemark";
             this.rtbRemark.Size = new System.Drawing.Size(719, 75);
-            this.rtbRemark.TabIndex = 3;
+            this.rtbRemark.TabIndex = 7;
             this.rtbRemark.Text = "";
             // 
             // cbbLocation
@@ -238,7 +239,7 @@
             this.cbbLocation.Location = new System.Drawing.Point(296, 18);
             this.cbbLocation.Name = "cbbLocation";
             this.cbbLocation.Size = new System.Drawing.Size(112, 20);
-            this.cbbLocation.TabIndex = 2;
+            this.cbbLocation.TabIndex = 1;
             // 
             // cbbCourier
             // 
@@ -259,7 +260,7 @@
             this.cbbCourier.Location = new System.Drawing.Point(487, 52);
             this.cbbCourier.Name = "cbbCourier";
             this.cbbCourier.Size = new System.Drawing.Size(112, 20);
-            this.cbbCourier.TabIndex = 2;
+            this.cbbCourier.TabIndex = 6;
             // 
             // label10
             // 
@@ -285,7 +286,7 @@
             this.txtCourier.MaxLength = 50;
             this.txtCourier.Name = "txtCourier";
             this.txtCourier.Size = new System.Drawing.Size(112, 21);
-            this.txtCourier.TabIndex = 1;
+            this.txtCourier.TabIndex = 2;
             // 
             // label9
             // 
@@ -328,7 +329,7 @@
             this.txtSupplierID.Location = new System.Drawing.Point(710, 18);
             this.txtSupplierID.Name = "txtSupplierID";
             this.txtSupplierID.Size = new System.Drawing.Size(112, 21);
-            this.txtSupplierID.TabIndex = 1;
+            this.txtSupplierID.TabIndex = 3;
             // 
             // label3
             // 
@@ -407,7 +408,7 @@
             this.btnDou.Location = new System.Drawing.Point(194, 80);
             this.btnDou.Name = "btnDou";
             this.btnDou.Size = new System.Drawing.Size(27, 17);
-            this.btnDou.TabIndex = 9;
+            this.btnDou.TabIndex = 3;
             this.btnDou.Text = "...";
             this.btnDou.UseVisualStyleBackColor = true;
             this.btnDou.Click += new System.EventHandler(this.btnDou_Click);
@@ -417,7 +418,7 @@
             this.btnSNSave.Location = new System.Drawing.Point(146, 115);
             this.btnSNSave.Name = "btnSNSave";
             this.btnSNSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSNSave.TabIndex = 9;
+            this.btnSNSave.TabIndex = 4;
             this.btnSNSave.Text = "录入";
             this.btnSNSave.UseVisualStyleBackColor = true;
             // 
@@ -591,12 +592,14 @@
             // 
             // consigneeID
             // 
+            this.consigneeID.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
             this.consigneeID.HeaderText = "收货人";
             this.consigneeID.Name = "consigneeID";
             // 
             // checktaker
             // 
             this.checktaker.DataPropertyName = "check_taker";
+            this.checktaker.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
             this.checktaker.HeaderText = "收发票人";
             this.checktaker.Name = "checktaker";
             this.checktaker.Resizable = System.Windows.Forms.DataGridViewTriState.True;

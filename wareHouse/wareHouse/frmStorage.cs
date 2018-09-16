@@ -100,13 +100,15 @@ namespace wareHouse
                 int index = 1;
 
                 //收货人绑定数据
-                consigneeID.DataSource = BLL.GetUser(0);
                 consigneeID.ValueMember = "userID";
                 consigneeID.DisplayMember = "userName";
+                consigneeID.DataSource = BLL.GetUser(0);
+                consigneeID.DefaultCellStyle.NullValue = ((System.Data.DataRowView)consigneeID.Items[0])[consigneeID.DisplayMember].ToString();
                 //收发票人绑定数据
-                checktaker.DataSource = BLL.GetUser(0);
                 checktaker.ValueMember = "userID";
                 checktaker.DisplayMember = "userName";
+                checktaker.DataSource = BLL.GetUser(0);
+                checktaker.DefaultCellStyle.NullValue = ((System.Data.DataRowView)checktaker.Items[0])[consigneeID.DisplayMember].ToString();
                 foreach (DataRow item in dt.Rows)
                 {
                     DataGridViewRow dgvr = new DataGridViewRow();
@@ -244,7 +246,8 @@ namespace wareHouse
             }
             int allindex = 0;
             foreach (DataGridViewRow dgvr in dgvPro.Rows)
-            {
+            { 
+                /********************************bug:无法获取DataGridViewComboBoxCell选中的值****************************************/
                 string[] data = new string[] {
                     txtCourier.Text,cbbCourier.Text,cbbLocation.Text, txtSupplierID.Text
                     , dtpDeliveryDate.Text, dgvr.Cells["productID"].Value.ToString()

@@ -370,6 +370,41 @@ end
 end
 go
 
+--用户信息综合操作
+create proc pro_user
+@userid nvarchar(20)='',@username nvarchar(20)='',@userpwd nvarchar(max)='',@userlimit int='',@typeid int
+as
+begin
+--查询
+if(@typeid=0)
+begin
+--如果id为空，查询全部信息，不为空查询指定id的信息
+if(@userid='')
+begin
+select * from user_Message
+end
+else
+begin
+select * from user_Message where userID=@userid
+end
+end
+--插入
+else if(@typeid=1)
+begin
+insert into user_Message values(@userid,@username,@userpwd,@userlimit)
+end
+--更新
+else if(@typeid=2)
+begin
+update user_Message set @username=@username,@userpwd=@userpwd,userLimit=@userlimit where userID=@userid
+end
+--删除
+else if(@typeid=3)
+begin
+delete user_Message where userID=@userid
+end
+end
+go
 -----------------------------测试数据-----------------------------------------
 --插入用户权限表信息
 insert into user_Limit values('超级管理员'),('采购管理员'),('财务管理员'),('仓库管理员'),('其他管理员')
