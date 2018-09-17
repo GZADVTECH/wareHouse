@@ -58,6 +58,9 @@ namespace wareHouse
                     //窗体加载
                     Procurement("Stock.rpt");
                     break;
+                case 3:
+                    Procurement("DeliveryNote.rpt");
+                    break;
                 default:
                     break;
             }

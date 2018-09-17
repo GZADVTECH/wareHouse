@@ -59,6 +59,7 @@ go
 --序列号表
 create table SNIDTable
 (
+	pID nvarchar(20),--内部订单号
 	productID nvarchar(50),--产品编号
 	SNID nvarchar(50) unique--S/N号
 )
@@ -361,7 +362,7 @@ end
 else if(@typeid=2)
 begin
 update storage_cargo set trackingID=@tid,trackingName=@tname,location=@location,supplierOrderID=@soid,deliveryDate=@deliverydate,productID=productID,actualAmount=@actualamount
-,consigneeID=@consigneeid,invoiceID=@invoiceid,checkTaker=@checktaker,remark=@remark where pID=@pid
+,consigneeID=@consigneeid,invoiceID=@invoiceid,checkTaker=@checktaker,remark=@remark where pID=@pid and productID=@productid
 end
 else if(@typeid=3)
 begin
@@ -405,6 +406,36 @@ delete user_Message where userID=@userid
 end
 end
 go
+
+--SN表综合操作
+create proc pro_snid
+@pid nvarchar(20),@productid nvarchar(50),@snid nvarchar(50)='',@typeid int
+as
+begin
+--查询
+if(@typeid=0)
+begin
+select snid.*,inven.productName,inven.PNID from SNIDTable snid left join inventory_Table inven on snid.productID=inven.productID where pid=@pid and snid.productID=@productid
+end
+--插入
+else if(@typeid=1)
+begin
+insert into SNIDTable values(@pid,@productid,@snid)
+end
+--更新
+else if(@typeid=2)
+begin
+update SNIDTable set SNID=@snid where pid=@pid and productID=@productid and SNID=@snid
+end
+--删除
+else if(@typeid=3)
+begin
+delete SNIDTable where pid=@pid and productID=@productid and SNID=@snid
+end
+end
+go
+
+
 -----------------------------测试数据-----------------------------------------
 --插入用户权限表信息
 insert into user_Limit values('超级管理员'),('采购管理员'),('财务管理员'),('仓库管理员'),('其他管理员')
@@ -418,7 +449,10 @@ go
 select * from user_Message
 go
 --采购订单报表数据
-select pro.pID,client.cName,inv.productName,inv.PNID,inv.unit,cargo.amount,inv.unitPrice,pro.buyDate,pro.arrivalDate,cargo.isTax,cargo.isParts from procurement pro left join procurement_cargo cargo on pro.pID=cargo.pID left join inventory_Table inv on cargo.productID=inv.productID left join ClientTable client on pro.clientID=client.autoID
+select pro.pID,client.cName,inv.productName,inv.PNID,inv.unit,cargo.amount,inv.unitPrice,pro.buyDate,pro.arrivalDate,cargo.isTax,cargo.isParts from procurement pro 
+left join procurement_cargo cargo on pro.pID=cargo.pID 
+left join inventory_Table inv on cargo.productID=inv.productID 
+left join ClientTable client on pro.clientID=client.autoID
 --收货通知单报表数据
 select usemes.userName,pro.pID,supp.supperName,pro.arrivalDate,inven.productName,inven.PNID,cargo.amount,cargo.isInvoice from procurement pro 
 left join procurement_cargo cargo on pro.pID=cargo.pID
@@ -440,3 +474,6 @@ select * from inventory_Table where productID='ATY59764'
 select pro.pID,client.cName,inv.productName,inv.PNID,inv.unit,cargo.amount,inv.unitPrice,pro.arrivalDate from procurement pro left join procurement_cargo cargo on pro.pID=cargo.pID left join inventory_Table inv on cargo.productID=inv.productID left join ClientTable client on pro.clientID=client.autoID
 
 select pro.*,inv.*,cargo.*,client.* from procurement pro left join procurement_cargo cargo on pro.pID=cargo.pID left join inventory_Table inv on cargo.productID=inv.productID left join ClientTable client on pro.clientID=client.autoID
+
+select * from procurement_cargo
+select * from storage_cargo

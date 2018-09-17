@@ -16,5 +16,15 @@ namespace wareHouse
         {
             InitializeComponent();
         }
+        /// <summary>
+        /// 打印送货单
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            frmReport report = new frmReport(3);
+            report.ShowDialog();
+        }
     }
 }

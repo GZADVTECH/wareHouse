@@ -33,6 +33,7 @@
             this.btnLogin = new System.Windows.Forms.Button();
             this.lPwd = new System.Windows.Forms.Label();
             this.txtPwd = new System.Windows.Forms.TextBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // lUid
@@ -81,12 +82,24 @@
             this.txtPwd.TabIndex = 1;
             this.txtPwd.UseSystemPasswordChar = true;
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(207, 240);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(65, 12);
+            this.linkLabel1.TabIndex = 3;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "修改密码？";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // frmLogin
             // 
             this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.txtPwd);
             this.Controls.Add(this.lPwd);
@@ -108,6 +121,7 @@
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Label lPwd;
         private System.Windows.Forms.TextBox txtPwd;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
 

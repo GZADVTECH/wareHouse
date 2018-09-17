@@ -53,5 +53,15 @@ namespace wareHouse
             else
                 MessageBox.Show("登录失败！");
         }
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            frmSelf self = new frmSelf();
+            self.ShowDialog();
+        }
     }
 }

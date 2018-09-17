@@ -258,5 +258,41 @@ namespace WHBLL
             DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_user", param, CommandType.StoredProcedure);
             return dt;
         }
+        /// <summary>
+        /// 添加SN码
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <param name="productid"></param>
+        /// <param name="snid"></param>
+        /// <returns></returns>
+        public static int InsSNID(string pid,string productid,string snid)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("@typeid",1),
+                new SqlParameter("@pid",pid),
+                new SqlParameter("@productid",productid),
+                new SqlParameter("@snid",snid)
+            };
+            int index = SQLHelper.Execute("SQL", "pro_snid", param, CommandType.StoredProcedure);
+            return index;
+        }
+        /// <summary>
+        /// 查询SN表
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <param name="productid"></param>
+        /// <returns></returns>
+        public static DataTable QuerySNID(string pid,string productid)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("@pid",pid),
+                new SqlParameter("@productid",productid),
+                new SqlParameter("@typeid","0")
+            };
+            DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_snid", param, CommandType.StoredProcedure);
+            return dt;
+        }
     }
 }

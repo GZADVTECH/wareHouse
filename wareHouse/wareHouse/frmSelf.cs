@@ -12,11 +12,9 @@ namespace wareHouse
 {
     public partial class frmSelf : Form
     {
-        public static string userid;
-        public frmSelf(string id)
+        public frmSelf()
         {
             InitializeComponent();
-            userid = id;
         }
         /// <summary>
         /// 修改密码
@@ -43,9 +41,9 @@ namespace wareHouse
                 MessageBox.Show("密码不一致");
             }
             //判断旧密码是否正确，如果正确，将进行修改密码操作
-            if ((WHBLL.BLL.GetLogin(userid, txtOldPwd.Text).Rows.Count > 0))
+            if ((WHBLL.BLL.GetLogin(txtUid.Text, txtOldPwd.Text).Rows.Count > 0))
             {
-                if (WHBLL.BLL.UpdatePwd(userid, txtNewPwd.Text) > 0)
+                if (WHBLL.BLL.UpdatePwd(txtUid.Text, txtNewPwd.Text) > 0)
                 {
                     MessageBox.Show("修改成功！");
                     this.Close();
@@ -57,6 +55,11 @@ namespace wareHouse
             }
             else
                 MessageBox.Show("密码错误！");
+        }
+
+        private void frmSelf_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

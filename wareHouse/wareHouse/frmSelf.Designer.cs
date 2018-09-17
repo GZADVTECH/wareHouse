@@ -36,12 +36,14 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtRePwd = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtUid = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(35, 30);
+            this.label1.Location = new System.Drawing.Point(37, 46);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 12);
             this.label1.TabIndex = 0;
@@ -49,7 +51,7 @@
             // 
             // txtOldPwd
             // 
-            this.txtOldPwd.Location = new System.Drawing.Point(115, 27);
+            this.txtOldPwd.Location = new System.Drawing.Point(117, 43);
             this.txtOldPwd.Name = "txtOldPwd";
             this.txtOldPwd.Size = new System.Drawing.Size(119, 21);
             this.txtOldPwd.TabIndex = 1;
@@ -58,7 +60,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(35, 57);
+            this.label2.Location = new System.Drawing.Point(37, 73);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(41, 12);
             this.label2.TabIndex = 0;
@@ -66,7 +68,7 @@
             // 
             // txtNewPwd
             // 
-            this.txtNewPwd.Location = new System.Drawing.Point(115, 54);
+            this.txtNewPwd.Location = new System.Drawing.Point(117, 70);
             this.txtNewPwd.Name = "txtNewPwd";
             this.txtNewPwd.Size = new System.Drawing.Size(119, 21);
             this.txtNewPwd.TabIndex = 1;
@@ -75,7 +77,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(35, 84);
+            this.label3.Location = new System.Drawing.Point(37, 100);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 12);
             this.label3.TabIndex = 0;
@@ -83,7 +85,7 @@
             // 
             // txtRePwd
             // 
-            this.txtRePwd.Location = new System.Drawing.Point(115, 81);
+            this.txtRePwd.Location = new System.Drawing.Point(117, 97);
             this.txtRePwd.Name = "txtRePwd";
             this.txtRePwd.Size = new System.Drawing.Size(119, 21);
             this.txtRePwd.TabIndex = 1;
@@ -91,13 +93,30 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(92, 118);
+            this.btnSave.Location = new System.Drawing.Point(92, 128);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 2;
             this.btnSave.Text = "提交";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(37, 19);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(29, 12);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "账号";
+            // 
+            // txtUid
+            // 
+            this.txtUid.Location = new System.Drawing.Point(117, 16);
+            this.txtUid.Name = "txtUid";
+            this.txtUid.Size = new System.Drawing.Size(119, 21);
+            this.txtUid.TabIndex = 1;
+            this.txtUid.UseSystemPasswordChar = true;
             // 
             // frmSelf
             // 
@@ -109,11 +128,14 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtNewPwd);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.txtUid);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.txtOldPwd);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmSelf";
             this.Text = "修改密码";
+            this.Load += new System.EventHandler(this.frmSelf_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -128,5 +150,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtRePwd;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtUid;
     }
 }

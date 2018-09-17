@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmStorage));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsbNew = new System.Windows.Forms.ToolStripButton();
             this.tsbSave = new System.Windows.Forms.ToolStripButton();
@@ -62,7 +62,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnDou = new System.Windows.Forms.Button();
             this.btnSNSave = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.lvSN = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -287,6 +287,7 @@
             this.txtCourier.Name = "txtCourier";
             this.txtCourier.Size = new System.Drawing.Size(112, 21);
             this.txtCourier.TabIndex = 2;
+            this.txtCourier.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ControlKeyPress);
             // 
             // label9
             // 
@@ -330,6 +331,7 @@
             this.txtSupplierID.Name = "txtSupplierID";
             this.txtSupplierID.Size = new System.Drawing.Size(112, 21);
             this.txtSupplierID.TabIndex = 3;
+            this.txtSupplierID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ControlKeyPress);
             // 
             // label3
             // 
@@ -380,15 +382,17 @@
             this.dgvPro.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvPro.Size = new System.Drawing.Size(855, 296);
             this.dgvPro.TabIndex = 2;
+            this.dgvPro.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPro_CellClick);
             this.dgvPro.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPro_CellContentClick);
             this.dgvPro.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPro_CellEndEdit);
             this.dgvPro.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvPro_CellMouseDown);
+            this.dgvPro.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPro_CellMouseLeave);
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnDou);
             this.groupBox2.Controls.Add(this.btnSNSave);
-            this.groupBox2.Controls.Add(this.listView1);
+            this.groupBox2.Controls.Add(this.lvSN);
             this.groupBox2.Controls.Add(this.txtSNName);
             this.groupBox2.Controls.Add(this.label15);
             this.groupBox2.Controls.Add(this.txtSNSNID);
@@ -421,19 +425,21 @@
             this.btnSNSave.TabIndex = 4;
             this.btnSNSave.Text = "录入";
             this.btnSNSave.UseVisualStyleBackColor = true;
+            this.btnSNSave.Click += new System.EventHandler(this.btnSNSave_Click);
             // 
-            // listView1
+            // lvSN
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.lvSN.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
-            this.listView1.Location = new System.Drawing.Point(-1, 155);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(240, 309);
-            this.listView1.TabIndex = 8;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.lvSN.FullRowSelect = true;
+            this.lvSN.Location = new System.Drawing.Point(-1, 155);
+            this.lvSN.Name = "lvSN";
+            this.lvSN.Size = new System.Drawing.Size(240, 309);
+            this.lvSN.TabIndex = 8;
+            this.lvSN.UseCompatibleStateImageBehavior = false;
+            this.lvSN.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader1
             // 
@@ -520,9 +526,9 @@
             // 
             // plus
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.NullValue = "+";
-            this.plus.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.NullValue = "+";
+            this.plus.DefaultCellStyle = dataGridViewCellStyle3;
             this.plus.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.plus.HeaderText = "+";
             this.plus.Name = "plus";
@@ -532,9 +538,9 @@
             // 
             // minus
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.NullValue = "-";
-            this.minus.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.NullValue = "-";
+            this.minus.DefaultCellStyle = dataGridViewCellStyle4;
             this.minus.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.minus.HeaderText = "-";
             this.minus.Name = "minus";
@@ -582,6 +588,7 @@
             this.isInvoice.HeaderText = "是否附有发票";
             this.isInvoice.Name = "isInvoice";
             this.isInvoice.ReadOnly = true;
+            this.isInvoice.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.isInvoice.Width = 120;
             // 
             // invoiceID
@@ -592,14 +599,12 @@
             // 
             // consigneeID
             // 
-            this.consigneeID.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
             this.consigneeID.HeaderText = "收货人";
             this.consigneeID.Name = "consigneeID";
             // 
             // checktaker
             // 
             this.checktaker.DataPropertyName = "check_taker";
-            this.checktaker.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
             this.checktaker.HeaderText = "收发票人";
             this.checktaker.Name = "checktaker";
             this.checktaker.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -663,7 +668,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnDou;
         private System.Windows.Forms.Button btnSNSave;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView lvSN;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
