@@ -38,6 +38,12 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.dgvInventory = new System.Windows.Forms.DataGridView();
+            this.pid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ppnid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.punit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pnum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.cbbUnit = new System.Windows.Forms.ComboBox();
@@ -52,12 +58,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtPID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.pid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ppnid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.punit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pnum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -150,6 +150,45 @@
             this.dgvInventory.TabIndex = 1;
             this.dgvInventory.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInventory_CellDoubleClick);
             // 
+            // pid
+            // 
+            this.pid.DataPropertyName = "productID";
+            this.pid.HeaderText = "产品编号";
+            this.pid.Name = "pid";
+            // 
+            // pname
+            // 
+            this.pname.DataPropertyName = "productName";
+            this.pname.HeaderText = "产品名称";
+            this.pname.Name = "pname";
+            this.pname.Width = 180;
+            // 
+            // ppnid
+            // 
+            this.ppnid.DataPropertyName = "PNID";
+            this.ppnid.HeaderText = "规格型号";
+            this.ppnid.Name = "ppnid";
+            this.ppnid.Width = 200;
+            // 
+            // pprice
+            // 
+            this.pprice.DataPropertyName = "unitPrice";
+            this.pprice.HeaderText = "单价";
+            this.pprice.Name = "pprice";
+            // 
+            // punit
+            // 
+            this.punit.DataPropertyName = "unit";
+            this.punit.HeaderText = "单位";
+            this.punit.Name = "punit";
+            this.punit.Width = 80;
+            // 
+            // pnum
+            // 
+            this.pnum.DataPropertyName = "quantity";
+            this.pnum.HeaderText = "库存数量";
+            this.pnum.Name = "pnum";
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.btnSave);
@@ -174,9 +213,9 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(699, 34);
+            this.btnSave.Location = new System.Drawing.Point(698, 30);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Size = new System.Drawing.Size(82, 33);
             this.btnSave.TabIndex = 6;
             this.btnSave.Text = "提交";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -200,11 +239,12 @@
             // txtNum
             // 
             this.txtNum.Location = new System.Drawing.Point(553, 51);
-            this.txtNum.MaxLength = 50;
+            this.txtNum.MaxLength = 5;
             this.txtNum.Name = "txtNum";
             this.txtNum.Size = new System.Drawing.Size(71, 21);
             this.txtNum.TabIndex = 5;
             this.txtNum.Text = "0";
+            this.txtNum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
             // 
             // label6
             // 
@@ -230,6 +270,8 @@
             this.txtPrice.Name = "txtPrice";
             this.txtPrice.Size = new System.Drawing.Size(100, 21);
             this.txtPrice.TabIndex = 3;
+            this.txtPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPrice_KeyPress);
+            this.txtPrice.Leave += new System.EventHandler(this.txtPrice_Leave);
             // 
             // label4
             // 
@@ -287,45 +329,6 @@
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 0;
             this.label1.Text = "产品编号";
-            // 
-            // pid
-            // 
-            this.pid.DataPropertyName = "productID";
-            this.pid.HeaderText = "产品编号";
-            this.pid.Name = "pid";
-            // 
-            // pname
-            // 
-            this.pname.DataPropertyName = "productName";
-            this.pname.HeaderText = "产品名称";
-            this.pname.Name = "pname";
-            this.pname.Width = 180;
-            // 
-            // ppnid
-            // 
-            this.ppnid.DataPropertyName = "PNID";
-            this.ppnid.HeaderText = "规格型号";
-            this.ppnid.Name = "ppnid";
-            this.ppnid.Width = 200;
-            // 
-            // pprice
-            // 
-            this.pprice.DataPropertyName = "unitPrice";
-            this.pprice.HeaderText = "单价";
-            this.pprice.Name = "pprice";
-            // 
-            // punit
-            // 
-            this.punit.DataPropertyName = "unit";
-            this.punit.HeaderText = "单位";
-            this.punit.Name = "punit";
-            this.punit.Width = 80;
-            // 
-            // pnum
-            // 
-            this.pnum.DataPropertyName = "quantity";
-            this.pnum.HeaderText = "库存数量";
-            this.pnum.Name = "pnum";
             // 
             // frmInventory
             // 

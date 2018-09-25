@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmStorage));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsbNew = new System.Windows.Forms.ToolStripButton();
             this.tsbSave = new System.Windows.Forms.ToolStripButton();
@@ -56,9 +56,25 @@
             this.label7 = new System.Windows.Forms.Label();
             this.txtSupplierID = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.txtorderID = new System.Windows.Forms.TextBox();
             this.txtPID = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvPro = new System.Windows.Forms.DataGridView();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.plus = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.minus = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.productName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pnid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.supplierName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Num = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.actualAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isInvoice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.invoiceID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.consigneeID = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.checktaker = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.cargoautoID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnDou = new System.Windows.Forms.Button();
             this.btnSNSave = new System.Windows.Forms.Button();
@@ -73,19 +89,6 @@
             this.txtSN = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.productID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.plus = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.minus = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.productName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pnid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.supplierName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Num = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.actualAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.isInvoice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.invoiceID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.consigneeID = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.checktaker = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPro)).BeginInit();
@@ -152,6 +155,7 @@
             this.tstxtPID.MergeIndex = 0;
             this.tstxtPID.Name = "tstxtPID";
             this.tstxtPID.Size = new System.Drawing.Size(100, 25);
+            this.tstxtPID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tstxtPID_KeyPress);
             // 
             // tsbtnSelect
             // 
@@ -192,7 +196,9 @@
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.txtSupplierID);
             this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.txtorderID);
             this.groupBox1.Controls.Add(this.txtPID);
+            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(0, 28);
             this.groupBox1.Name = "groupBox1";
@@ -205,7 +211,7 @@
             // 
             this.dtpDeliveryDate.CustomFormat = "yyyy/MM/dd";
             this.dtpDeliveryDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDeliveryDate.Location = new System.Drawing.Point(296, 51);
+            this.dtpDeliveryDate.Location = new System.Drawing.Point(300, 51);
             this.dtpDeliveryDate.Name = "dtpDeliveryDate";
             this.dtpDeliveryDate.Size = new System.Drawing.Size(112, 21);
             this.dtpDeliveryDate.TabIndex = 5;
@@ -236,7 +242,7 @@
             "工厂",
             "公司",
             "直销"});
-            this.cbbLocation.Location = new System.Drawing.Point(296, 18);
+            this.cbbLocation.Location = new System.Drawing.Point(710, 18);
             this.cbbLocation.Name = "cbbLocation";
             this.cbbLocation.Size = new System.Drawing.Size(112, 20);
             this.cbbLocation.TabIndex = 1;
@@ -257,7 +263,7 @@
             "德邦",
             "如风达",
             "宅急送"});
-            this.cbbCourier.Location = new System.Drawing.Point(487, 52);
+            this.cbbCourier.Location = new System.Drawing.Point(493, 51);
             this.cbbCourier.Name = "cbbCourier";
             this.cbbCourier.Size = new System.Drawing.Size(112, 20);
             this.cbbCourier.TabIndex = 6;
@@ -265,7 +271,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(225, 55);
+            this.label10.Location = new System.Drawing.Point(233, 55);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(53, 12);
             this.label10.TabIndex = 0;
@@ -282,7 +288,7 @@
             // 
             // txtCourier
             // 
-            this.txtCourier.Location = new System.Drawing.Point(487, 19);
+            this.txtCourier.Location = new System.Drawing.Point(493, 18);
             this.txtCourier.MaxLength = 50;
             this.txtCourier.Name = "txtCourier";
             this.txtCourier.Size = new System.Drawing.Size(112, 21);
@@ -292,7 +298,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(243, 22);
+            this.label9.Location = new System.Drawing.Point(657, 22);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(29, 12);
             this.label9.TabIndex = 0;
@@ -301,7 +307,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(422, 55);
+            this.label8.Location = new System.Drawing.Point(426, 55);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(53, 12);
             this.label8.TabIndex = 0;
@@ -319,7 +325,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(424, 22);
+            this.label7.Location = new System.Drawing.Point(426, 22);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(53, 12);
             this.label7.TabIndex = 0;
@@ -327,7 +333,7 @@
             // 
             // txtSupplierID
             // 
-            this.txtSupplierID.Location = new System.Drawing.Point(710, 18);
+            this.txtSupplierID.Location = new System.Drawing.Point(710, 51);
             this.txtSupplierID.Name = "txtSupplierID";
             this.txtSupplierID.Size = new System.Drawing.Size(112, 21);
             this.txtSupplierID.TabIndex = 3;
@@ -336,19 +342,36 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(617, 22);
+            this.label3.Location = new System.Drawing.Point(619, 55);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(77, 12);
             this.label3.TabIndex = 0;
             this.label3.Text = "供应商订单号";
             // 
+            // txtorderID
+            // 
+            this.txtorderID.Enabled = false;
+            this.txtorderID.Location = new System.Drawing.Point(298, 18);
+            this.txtorderID.Name = "txtorderID";
+            this.txtorderID.Size = new System.Drawing.Size(116, 21);
+            this.txtorderID.TabIndex = 0;
+            // 
             // txtPID
             // 
             this.txtPID.Enabled = false;
-            this.txtPID.Location = new System.Drawing.Point(103, 18);
+            this.txtPID.Location = new System.Drawing.Point(105, 18);
             this.txtPID.Name = "txtPID";
             this.txtPID.Size = new System.Drawing.Size(116, 21);
             this.txtPID.TabIndex = 0;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(227, 22);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 12);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "合同订单号";
             // 
             // label1
             // 
@@ -375,7 +398,8 @@
             this.isInvoice,
             this.invoiceID,
             this.consigneeID,
-            this.checktaker});
+            this.checktaker,
+            this.cargoautoID});
             this.dgvPro.Location = new System.Drawing.Point(0, 197);
             this.dgvPro.Name = "dgvPro";
             this.dgvPro.RowTemplate.Height = 23;
@@ -388,6 +412,113 @@
             this.dgvPro.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvPro_CellMouseDown);
             this.dgvPro.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPro_CellMouseLeave);
             // 
+            // ID
+            // 
+            this.ID.HeaderText = "序号";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Width = 80;
+            // 
+            // productID
+            // 
+            this.productID.DataPropertyName = "productID";
+            this.productID.HeaderText = "产品编号";
+            this.productID.Name = "productID";
+            this.productID.ReadOnly = true;
+            this.productID.Visible = false;
+            // 
+            // plus
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.NullValue = "+";
+            this.plus.DefaultCellStyle = dataGridViewCellStyle1;
+            this.plus.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.plus.HeaderText = "+";
+            this.plus.Name = "plus";
+            this.plus.Text = "+";
+            this.plus.UseColumnTextForButtonValue = true;
+            this.plus.Width = 20;
+            // 
+            // minus
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.NullValue = "-";
+            this.minus.DefaultCellStyle = dataGridViewCellStyle2;
+            this.minus.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.minus.HeaderText = "-";
+            this.minus.Name = "minus";
+            this.minus.Text = "-";
+            this.minus.UseColumnTextForButtonValue = true;
+            this.minus.Width = 20;
+            // 
+            // productName
+            // 
+            this.productName.HeaderText = "产品名称";
+            this.productName.Name = "productName";
+            this.productName.ReadOnly = true;
+            this.productName.Width = 150;
+            // 
+            // pnid
+            // 
+            this.pnid.HeaderText = "配置（规格）";
+            this.pnid.Name = "pnid";
+            this.pnid.ReadOnly = true;
+            this.pnid.Width = 200;
+            // 
+            // supplierName
+            // 
+            this.supplierName.HeaderText = "供应商";
+            this.supplierName.Name = "supplierName";
+            this.supplierName.ReadOnly = true;
+            // 
+            // Num
+            // 
+            this.Num.HeaderText = "数量";
+            this.Num.Name = "Num";
+            this.Num.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Num.Width = 80;
+            // 
+            // actualAmount
+            // 
+            this.actualAmount.DataPropertyName = "actualAmount";
+            this.actualAmount.HeaderText = "应收数量";
+            this.actualAmount.Name = "actualAmount";
+            this.actualAmount.ReadOnly = true;
+            // 
+            // isInvoice
+            // 
+            this.isInvoice.DataPropertyName = "isInvoice";
+            this.isInvoice.HeaderText = "是否附有发票";
+            this.isInvoice.Name = "isInvoice";
+            this.isInvoice.ReadOnly = true;
+            this.isInvoice.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.isInvoice.Width = 120;
+            // 
+            // invoiceID
+            // 
+            this.invoiceID.DataPropertyName = "invoiceID";
+            this.invoiceID.HeaderText = "发票号码";
+            this.invoiceID.Name = "invoiceID";
+            // 
+            // consigneeID
+            // 
+            this.consigneeID.HeaderText = "收货人";
+            this.consigneeID.Name = "consigneeID";
+            // 
+            // checktaker
+            // 
+            this.checktaker.DataPropertyName = "check_taker";
+            this.checktaker.HeaderText = "收发票人";
+            this.checktaker.Name = "checktaker";
+            this.checktaker.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.checktaker.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // cargoautoID
+            // 
+            this.cargoautoID.HeaderText = "入库编号";
+            this.cargoautoID.Name = "cargoautoID";
+            this.cargoautoID.Visible = false;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnDou);
@@ -399,9 +530,9 @@
             this.groupBox2.Controls.Add(this.label14);
             this.groupBox2.Controls.Add(this.txtSN);
             this.groupBox2.Controls.Add(this.label13);
-            this.groupBox2.Location = new System.Drawing.Point(862, 29);
+            this.groupBox2.Location = new System.Drawing.Point(862, 28);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(239, 464);
+            this.groupBox2.Size = new System.Drawing.Size(239, 465);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "S/N号录入";
@@ -509,107 +640,6 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // ID
-            // 
-            this.ID.HeaderText = "序号";
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
-            this.ID.Width = 80;
-            // 
-            // productID
-            // 
-            this.productID.DataPropertyName = "productID";
-            this.productID.HeaderText = "产品编号";
-            this.productID.Name = "productID";
-            this.productID.ReadOnly = true;
-            this.productID.Visible = false;
-            // 
-            // plus
-            // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.NullValue = "+";
-            this.plus.DefaultCellStyle = dataGridViewCellStyle3;
-            this.plus.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.plus.HeaderText = "+";
-            this.plus.Name = "plus";
-            this.plus.Text = "+";
-            this.plus.UseColumnTextForButtonValue = true;
-            this.plus.Width = 20;
-            // 
-            // minus
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.NullValue = "-";
-            this.minus.DefaultCellStyle = dataGridViewCellStyle4;
-            this.minus.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.minus.HeaderText = "-";
-            this.minus.Name = "minus";
-            this.minus.Text = "-";
-            this.minus.UseColumnTextForButtonValue = true;
-            this.minus.Width = 20;
-            // 
-            // productName
-            // 
-            this.productName.HeaderText = "产品名称";
-            this.productName.Name = "productName";
-            this.productName.ReadOnly = true;
-            this.productName.Width = 150;
-            // 
-            // pnid
-            // 
-            this.pnid.HeaderText = "配置（规格）";
-            this.pnid.Name = "pnid";
-            this.pnid.ReadOnly = true;
-            this.pnid.Width = 200;
-            // 
-            // supplierName
-            // 
-            this.supplierName.HeaderText = "供应商";
-            this.supplierName.Name = "supplierName";
-            this.supplierName.ReadOnly = true;
-            // 
-            // Num
-            // 
-            this.Num.HeaderText = "数量";
-            this.Num.Name = "Num";
-            this.Num.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Num.Width = 80;
-            // 
-            // actualAmount
-            // 
-            this.actualAmount.DataPropertyName = "actualAmount";
-            this.actualAmount.HeaderText = "应收数量";
-            this.actualAmount.Name = "actualAmount";
-            this.actualAmount.ReadOnly = true;
-            // 
-            // isInvoice
-            // 
-            this.isInvoice.DataPropertyName = "isInvoice";
-            this.isInvoice.HeaderText = "是否附有发票";
-            this.isInvoice.Name = "isInvoice";
-            this.isInvoice.ReadOnly = true;
-            this.isInvoice.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.isInvoice.Width = 120;
-            // 
-            // invoiceID
-            // 
-            this.invoiceID.DataPropertyName = "invoiceID";
-            this.invoiceID.HeaderText = "发票号码";
-            this.invoiceID.Name = "invoiceID";
-            // 
-            // consigneeID
-            // 
-            this.consigneeID.HeaderText = "收货人";
-            this.consigneeID.Name = "consigneeID";
-            // 
-            // checktaker
-            // 
-            this.checktaker.DataPropertyName = "check_taker";
-            this.checktaker.HeaderText = "收发票人";
-            this.checktaker.Name = "checktaker";
-            this.checktaker.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.checktaker.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
             // frmStorage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -679,6 +709,8 @@
         private System.Windows.Forms.TextBox txtSN;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.TextBox txtorderID;
+        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn productID;
         private System.Windows.Forms.DataGridViewButtonColumn plus;
@@ -692,5 +724,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn invoiceID;
         private System.Windows.Forms.DataGridViewComboBoxColumn consigneeID;
         private System.Windows.Forms.DataGridViewComboBoxColumn checktaker;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cargoautoID;
     }
 }

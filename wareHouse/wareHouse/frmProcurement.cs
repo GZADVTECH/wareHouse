@@ -18,6 +18,7 @@ namespace wareHouse
         private static string PID;//内部编号
         private static string USERID;//用户ID
         private static string USERNAME;//用户姓名
+        private static string CHECK;//是否审核
         /// <summary>
         /// 是否保存成功
         /// </summary>
@@ -89,6 +90,15 @@ namespace wareHouse
             {
                 if (item is TextBox)
                 {
+                    if (item.Name == "txtunitPrice")
+                        continue;
+                    if (item.Name == "txtAmount")
+                    {
+                        item.Text = "0";
+                        continue;
+                    }
+                    if (item.Name=="txtsellPrice")
+                        continue;
                     item.Text = string.Empty;
                 }
                 if (item is CheckBox)
@@ -123,6 +133,10 @@ namespace wareHouse
             int errorcount = 0;
             foreach (Control item in groupBox2.Controls)
             {
+                if (item.Name=="txtorderid")
+                {
+                    continue;
+                }
                 if (string.IsNullOrEmpty(item.Text.Trim()))
                     errorcount++;
             }
@@ -133,18 +147,18 @@ namespace wareHouse
             }
             if (dgvProcurement.Rows.Count > 0)
             {
-                if (BLL.QueryPID(txtPID.Text) > 0)
+                if (BLL.QueryPID(txtPID.Text) <= 0)
                 {
                     //插入数据
-                    int procurement = BLL.InsProcurement(txtPID.Text, USERID, dtpBuy.Value, dtpArrival.Value, cbbClient.SelectedValue.ToString(), 1);
+                    int procurement = BLL.InsProcurement(txtPID.Text,txtorderid.Text, USERID, dtpBuy.Value, dtpArrival.Value, cbbClient.SelectedValue.ToString(), 1);
                     if (procurement > 0)
                     {
                         for (int i = 0; i < dgvProcurement.Rows.Count; i++)
                         {
                             DataGridViewRow dgvr = dgvProcurement.Rows[i];
-                            int procargo = BLL.InsProcargo(txtPID.Text, dgvr.Cells["proID"].Value.ToString(), Convert.ToBoolean(dgvr.Cells["parts"].Value), Convert.ToInt32(dgvr.Cells["supID"].Value.ToString()), Convert.ToInt32(dgvr.Cells[4].Value.ToString()), Decimal.Parse(dgvr.Cells[7].Value.ToString(), System.Globalization.NumberStyles.Currency), Convert.ToBoolean(dgvr.Cells["tax"].Value), Convert.ToDouble(dgvr.Cells[6].Value.ToString()), Convert.ToBoolean(dgvr.Cells["check"].Value), 3);
+                            int procargo = BLL.InsProcargo(txtPID.Text, dgvr.Cells["proID"].Value.ToString(), Convert.ToBoolean(dgvr.Cells["parts"].Value), Convert.ToInt32(dgvr.Cells["supID"].Value.ToString()), Convert.ToInt32(dgvr.Cells["amount"].Value.ToString()), Decimal.Parse(dgvr.Cells["unitprice"].Value.ToString(), System.Globalization.NumberStyles.Currency), Convert.ToBoolean(dgvr.Cells["unittax"].Value), Convert.ToDouble(dgvr.Cells["discount"].Value.ToString()), Convert.ToBoolean(dgvr.Cells["ischeck"].Value), 3, Convert.ToBoolean(dgvr.Cells["sellTax"].Value), Decimal.Parse(dgvr.Cells["sellprice"].Value.ToString(), System.Globalization.NumberStyles.Currency));
                         }
-                        MessageBox.Show("操作成功！", "系统提示");
+                        MessageBox.Show("操作成功！请等待审核。。。", "系统提示");
                         PID = txtPID.Text;
                         Clear(groupBox2);
                         Clear(groupBox3);
@@ -170,7 +184,7 @@ namespace wareHouse
         /// <param name="e"></param>
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("是否保存？","系统提示",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
+           if (MessageBox.Show("是否保存？","系统提示",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
             {
                 Inspect();
             }
@@ -181,7 +195,7 @@ namespace wareHouse
         private void Inventory()
         {
             cbbName.DisplayMember = "productName";
-            cbbName.DataSource = BLL.GetInventory(4,new string[] { "", "", "", "", "", "" });
+            cbbName.DataSource = BLL.GetInventory(4,new string[] { "", "", "", "", "", "", "" });
         }
         /// <summary>
         /// 根据产品名称获得相关的型号以及价格
@@ -192,8 +206,8 @@ namespace wareHouse
         {
             cbbPNID.DisplayMember = "PNID";
             cbbPNID.ValueMember = "productID";
-            string[] data = new string[] { "", cbbName.Text,"","","","" };
-            cbbPNID.DataSource = BLL.GetInventory(0,data);
+            string[] data = new string[] { "", cbbName.Text, "", "", "", "", "" };
+            cbbPNID.DataSource = BLL.GetInventory(0, data);
         }
         /// <summary>
         /// 规格改变时单价随之改变
@@ -204,12 +218,14 @@ namespace wareHouse
         {
             try
             {
-                string[] data = new string[] { "", cbbName.Text, cbbPNID.Text,"","","" };
-            txtPrice.Text = string.Format("{0:C2}",Convert.ToDecimal(BLL.GetInventory(5,data).Rows[0]["unitPrice"].ToString()));
+                string[] data = new string[] { "", cbbName.Text, cbbPNID.Text, "", "", "", "" };
+                txtunitPrice.Text = string.Format("{0:C2}", Convert.ToDecimal(BLL.GetInventory(5, data).Rows[0]["unitPrice"].ToString()));
+                txtSellPrice.Text = string.Format("{0:C2}", Convert.ToDecimal(BLL.GetInventory(5, data).Rows[0]["sellPrice"].ToString()));
             }
             catch (Exception)
             {
-                txtPrice.Text = string.Empty;
+                txtunitPrice.Text = "0";
+                txtSellPrice.Text = "0";
             }
         }
         /// <summary>
@@ -268,7 +284,7 @@ namespace wareHouse
             {
                 //-1：不存在相同数据，添加数据
                 DataGridViewRow dgvr = new DataGridViewRow();
-                string[] items = new string[] { cbbPNID.SelectedValue.ToString(), cbbSupplierName.SelectedValue.ToString(), cbbName.Text, cbbPNID.Text, txtNumber.Text, cbbSupplierName.Text, cbbSale.SelectedValue.ToString(), txtPrice.Text,cbTax.Checked.ToString(),cbParts.Checked.ToString(),cbcheck.Checked.ToString() };
+                string[] items = new string[] { cbbPNID.SelectedValue.ToString(), cbbSupplierName.SelectedValue.ToString(), cbbName.Text, cbbPNID.Text, txtNumber.Text, cbbSupplierName.Text, cbbSale.SelectedValue.ToString(), txtunitPrice.Text,cbunitTax.Checked.ToString(),txtSellPrice.Text,cbsellTax.Checked.ToString(),cbParts.Checked.ToString(),cbcheck.Checked.ToString() };
                 for (int i = 0; i < items.Count(); i++)
                 {
                     DataGridViewTextBoxCell txtcell = new DataGridViewTextBoxCell();
@@ -296,6 +312,11 @@ namespace wareHouse
         {
             if (Status)
             {
+                if (Convert.ToBoolean(CHECK) == false)
+                {
+                    MessageBox.Show("该订单尚未审核，无法打印", "系统提示");
+                    return;
+                }
                 frmReport report = new frmReport(PID,0);
                 report.Show();
             }
@@ -313,9 +334,9 @@ namespace wareHouse
             double allamount = 0;
             for (int i = 0; i < dgvProcurement.Rows.Count; i++)
             {
-                double money = Convert.ToDouble(Decimal.Parse(dgvProcurement.Rows[i].Cells[7].Value.ToString(), System.Globalization.NumberStyles.Currency));
-                int amount = Convert.ToInt32(dgvProcurement.Rows[i].Cells[4].Value);
-                double discount = Convert.ToDouble(dgvProcurement.Rows[i].Cells[6].Value);
+                double money = Convert.ToDouble(Decimal.Parse(dgvProcurement.Rows[i].Cells["unitprice"].Value.ToString(), System.Globalization.NumberStyles.Currency));
+                int amount = Convert.ToInt32(dgvProcurement.Rows[i].Cells["amount"].Value);
+                double discount = Convert.ToDouble(dgvProcurement.Rows[i].Cells["discount"].Value);
                 allamount += (money * amount * discount);
             }
             txtAmount.Text = string.Format("{0:C2}",Decimal.Parse(allamount.ToString()));
@@ -353,7 +374,9 @@ namespace wareHouse
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
+                CHECK = dr["check"].ToString();
                 txtPID.Text = dr["pID"].ToString();
+                txtorderid.Text = dr["contractOrder"].ToString();
                 UserName.Text = dr["userName"].ToString();
                 cbbClient.Text = dr["cName"].ToString();
                 dtpBuy.Value = Convert.ToDateTime(dr["buyDate"]);
@@ -365,7 +388,7 @@ namespace wareHouse
                 {
                     dr = dt.Rows[j];
                     DataGridViewRow selectdgvr = new DataGridViewRow();
-                    string[] items = new string[] { dr["productID"].ToString(), dr["autoID"].ToString(), dr["productName"].ToString(), dr["PNID"].ToString(), dr["amount"].ToString(), dr["supperName"].ToString(), dr["discount"].ToString(), dr["unitPrice"].ToString(), dr["isTax"].ToString(), dr["isParts"].ToString(), (dr["isInvoice"]).ToString() } ;
+                    string[] items = new string[] { dr["productID"].ToString(), dr["autoID"].ToString(), dr["productName"].ToString(), dr["PNID"].ToString(), dr["amount"].ToString(), dr["supperName"].ToString(), dr["discount"].ToString(), dr["unitPrice"].ToString(), dr["isTax"].ToString(),dr["sellPrice"].ToString(), dr["sellisTax"].ToString(), dr["isParts"].ToString(), (dr["isInvoice"]).ToString() } ;
                     for (int i = 0; i < items.Count(); i++)
                     {
                         DataGridViewTextBoxCell txtcell = new DataGridViewTextBoxCell();
@@ -380,6 +403,12 @@ namespace wareHouse
                 PID = tstxtPID.Text;
                 Status = true;
             }
+            else
+            {
+                tstxtPID.SelectAll();
+                MessageBox.Show("查无此订单号！", "系统提示");
+                return;
+            }
         }
         /// <summary>
         /// 打印收货通知单
@@ -390,6 +419,11 @@ namespace wareHouse
         {
             if (Status)
             {
+                if (Convert.ToBoolean(CHECK)==false)
+                {
+                    MessageBox.Show("该订单尚未审核，无法打印","系统提示");
+                    return;
+                }
                 frmReport report = new frmReport(PID,1);
                 report.Show();
             }
@@ -397,6 +431,76 @@ namespace wareHouse
             {
                 MessageBox.Show("文档尚未保存，无法打印！", "系统提示");
                 return;
+            }
+        }
+        /// <summary>
+        /// 允许Enter
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tstxtPID_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar==13)
+            {
+                tsbtnSelect_Click(sender, e);
+            }
+        }
+        /// <summary>
+        /// 不允许输入特殊符号，除了退格键
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NaturalKeyPress(object sender,KeyPressEventArgs e)
+        {
+            if (e.KeyChar <= '9' && e.KeyChar >= '0' || e.KeyChar <= 'z' && e.KeyChar >= 'a' || e.KeyChar <= 'Z' && e.KeyChar >= 'A' || e.KeyChar == 8)
+            {
+                e.Handled = false;
+            }
+            else
+                e.Handled = true;
+        }
+        /// <summary>
+        /// 当销售价格输入完毕之后自动转化为￥形式
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtSellPrice_Leave(object sender, EventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            try
+            {
+                tb.Text = string.Format("{0:C2}", Convert.ToDecimal(tb.Text));
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+        /// <summary>
+        /// 文本框只允许输入数字
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NumberKeyPress(object sender,KeyPressEventArgs e)
+        {
+            if (e.KeyChar <= '9' && e.KeyChar >= '0' || e.KeyChar == '.' || e.KeyChar == 8)
+            {
+                e.Handled = false;
+            }
+            else
+                e.Handled = true;
+        }
+
+        private void txtSellPrice_Enter(object sender, EventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            try
+            {
+                tb.Text = Decimal.Parse(tb.Text, System.Globalization.NumberStyles.Currency).ToString();
+            }
+            catch
+            {
+                tb.Text = "0";
             }
         }
     }

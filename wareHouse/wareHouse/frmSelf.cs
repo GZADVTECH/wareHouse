@@ -12,9 +12,15 @@ namespace wareHouse
 {
     public partial class frmSelf : Form
     {
+        private string ID;
         public frmSelf()
         {
             InitializeComponent();
+        }
+        public frmSelf(string id)
+        {
+            InitializeComponent();
+            ID = id;
         }
         /// <summary>
         /// 修改密码
@@ -59,7 +65,7 @@ namespace wareHouse
 
         private void frmSelf_Load(object sender, EventArgs e)
         {
-
+            txtUid.Text = ID;
         }
     }
 }

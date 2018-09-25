@@ -12,6 +12,7 @@ create table procurement
 (
 	autoID int identity(1,1),--自动编号
 	pID nvarchar(20) primary key,--内部订单号（AVG）
+	contractOrder nvarchar(50),--正式订单号
 	userID nvarchar(20),--采购员账号
 	clientID int,--客户编号
 	buyDate datetime,--发货日期
@@ -29,8 +30,10 @@ create table procurement_cargo
 	isParts bit,--是否含有配套产品
 	supplierID int,--供应商编号
 	amount int,--数量
-	isTax bit,--是否含税
+	isTax bit,--采购单价是否含税
 	unitPrice money,--采购单价
+	sellisTax bit,--销售单价是否含税
+	sellPrice money,--销售单价
 	discount float,--折扣
 	totalPrices money,--采购总金额
 	isInvoice bit,--是否附有发票
@@ -40,7 +43,7 @@ go
 --入库表
 create table storage_cargo
 (
-	autoID int identity(1,1),--自动编号
+	autoID int,--入库编号
 	pID nvarchar(20),--内部订单号
 	trackingID nvarchar(50),--快递单号
 	trackingName nvarchar(50),--快递公司名称
@@ -61,7 +64,8 @@ create table SNIDTable
 (
 	pID nvarchar(20),--内部订单号
 	productID nvarchar(50),--产品编号
-	SNID nvarchar(50) unique--S/N号
+	SNID nvarchar(50),--S/N号
+	isSell bit default(0),--是否售出
 )
 go
 
@@ -88,6 +92,7 @@ go
 create table financeTable
 (
 	pID nvarchar(20),--内部订单号
+	financeID int,--财务编号
 	payDate datetime,--财务付款日期
 	paySum money,--付款金额
 	remark nvarchar(max),--备注
@@ -102,7 +107,9 @@ create table delivery_cargo
 	cID nvarchar(20),--客户编号
 	productID nvarchar(50),--产品编号
 	[count] int,--数量
+	sellingPrice money,--销售单价
 	discount float,--折扣
+	deliveryIsTax bit,--是否含税
 	discountPrice money,--折后价
 	sellingPrices money,--总金额
 	trackingID nvarchar(50),--快递单号
@@ -112,7 +119,6 @@ create table delivery_cargo
 	Remark nvarchar(max),--备注
 )
 go
-
 --库存表
 create table inventory_Table
 (
@@ -120,7 +126,8 @@ create table inventory_Table
 	productID nvarchar(50) primary key,--产品编号
 	productName nvarchar(50),--产品名称
 	PNID nvarchar(50),--规格
-	unitPrice money,--单价
+	unitPrice money,--采购单价
+	sellPrice money,--销售单价
 	unit char(2),--单位
 	quantity int,--库存数量
 )
@@ -245,22 +252,22 @@ go
 
 --采购订单综合操作
 create procedure pro_procurement
-@pid nvarchar(20),@userid nvarchar(20),@buydate datetime,@arrivaldate datetime,@check bit=0,@cid int,@typeid int
+@pid nvarchar(20),@orderID nvarchar(50),@userid nvarchar(20),@buydate datetime,@arrivaldate datetime,@check bit=0,@cid int,@typeid int
 as
 begin
 --查询
 if(@typeid=0)
 begin
-select * from procurement pro left join procurement_cargo procargo on pro.pID=procargo.pID
+select * from procurement pro left join procurement_cargo procargo on pro.pID=procargo.pID or contractOrder=@orderID
 end
 --插入
 else if(@typeid=1)
 begin
-insert into procurement values(@pid,@userid,@cid,@buydate,@arrivaldate,@check)
+insert into procurement values(@pid,@orderID,@userid,@cid,@buydate,@arrivaldate,@check)
 end
 --更新
 else if(@typeid=2)
-update procurement set buyDate=@buydate,arrivalDate=@arrivaldate,[check]=@check where pID=@pid
+update procurement set contractOrder=@orderID,buyDate=@buydate,arrivalDate=@arrivaldate,[check]=@check where pID=@pid
 --删除
 else if(@typeid=3)
 delete procurement where pID=@pid
@@ -269,7 +276,8 @@ go
 
 --采购产品综合操作
 create proc pro_procargo
-@pid nvarchar(20)='',@productID nvarchar(50)='',@isparts bit,@supplierid int=0,@amount int=0,@istax bit,@unitprice money='',@discount float=0,@isInvoice bit,@typeid int
+@pid nvarchar(20)='',@productID nvarchar(50)='',@isparts bit,@supplierid int=0,@amount int=0,@istax bit,@unitprice money='',@sellistax bit,@sellprice money
+,@discount float=0,@isInvoice bit,@typeid int
 as
 begin
 --查询
@@ -281,10 +289,10 @@ else if(@typeid=2)
 select * from procurement_cargo where productID=@productID
 --插入
 else if(@typeid=3)
-insert into procurement_cargo values(@pid,@productID,@isparts,@supplierid,@amount,@istax,@unitprice,@discount,@amount*@unitprice*@discount,@isInvoice)
+insert into procurement_cargo values(@pid,@productID,@isparts,@supplierid,@amount,@istax,@unitprice,@sellistax,@sellprice,@discount,@amount*@unitprice*@discount,@isInvoice)
 --更新
 else if(@typeid=4)
-update procurement_cargo set isParts=@isparts,supplierID=@supplierid,amount=@amount,isTax=@istax,discount=@discount,totalPrices=@amount*@unitprice*@discount,isInvoice=@isInvoice where pid=@pid and productID=@productID
+update procurement_cargo set isParts=@isparts,supplierID=@supplierid,amount=@amount,isTax=@istax,discount=@discount,sellisTax=@sellistax,sellPrice=@sellprice,totalPrices=@amount*@unitprice*@discount,isInvoice=@isInvoice where pid=@pid and productID=@productID
 --删除
 else if(@typeid=5)
 delete procurement_cargo where pid=@pid and productID=@productID
@@ -292,8 +300,8 @@ end
 go
 
 --库存表综合操作
-alter proc pro_inventory
-@pid nvarchar(50)='',@productname nvarchar(50)='',@pnid nvarchar(50)='',@unitprice money='',@unit char(2)='',@quantity int='',@typeid int
+create proc pro_inventory
+@pid nvarchar(50)='',@productname nvarchar(50)='',@pnid nvarchar(50)='',@unitprice money='',@sellprice money='',@unit char(2)='',@quantity int='',@typeid int
 as
 begin 
 --查询
@@ -309,29 +317,29 @@ end
 --插入
 else if(@typeid=1)
 begin
-insert into inventory_Table values(@pid,@productname,@pnid,@unitprice,@unit,@quantity)
+insert into inventory_Table values(@pid,@productname,@pnid,@unitprice,@sellprice,@unit,@quantity)
 end
 --更新
 else if(@typeid=2)
-update inventory_Table set productName=@productname,PNID=@pnid,unitPrice=@unitprice,unit=@unit,quantity=@quantity where productID=@pid
+update inventory_Table set productName=@productname,PNID=@pnid,unitPrice=@unitprice,sellPrice=@sellprice,unit=@unit,quantity=@quantity where productID=@pid
 --删除
 else if(@typeid=3)
 delete inventory_Table where productID=@pid
 --查询产品名称
 else if(@typeid=4)
 select Max(productName) as productName from inventory_Table group by productName
---通过产品名称及内部订单号查询产品
+--通过产品名称及规格查询产品
 else if(@typeid=5)
 select * from inventory_Table where productName=@productname and PNID=@pnid
 end
 go
 
 --通过编号查询订单详细信息
-create proc pro_proc_inven
+alter proc pro_proc_inven
 @pid nvarchar(20)
 as
 begin
-select pro.pID,userm.userName,client.cName,pro.buyDate,pro.arrivalDate,inven.productID,supp.autoID,inven.productName,inven.PNID,cargo.amount,supp.supperName,cargo.discount,cargo.unitPrice,cargo.isTax,cargo.isParts,cargo.isInvoice
+select pro.[check],pro.pID,pro.contractOrder,userm.userName,client.cName,pro.buyDate,pro.arrivalDate,inven.productID,supp.autoID,inven.productName,inven.PNID,cargo.autoID as cargoautoID,cargo.amount,supp.supperName,cargo.discount,cargo.unitPrice,cargo.isTax,cargo.sellisTax,cargo.sellPrice,cargo.isParts,cargo.isInvoice
 from procurement pro
  left join procurement_cargo cargo on cargo.pID=pro.pID
  left join inventory_Table inven on cargo.productID=inven.productID 
@@ -344,29 +352,29 @@ go
 
 --入库综合操作
 create proc pro_cargo
-@pid nvarchar(20),@tid nvarchar(50)='',@tname nvarchar(50)='',@location nvarchar(20)='',@soid nvarchar(50)='',@deliverydate datetime='',@productid nvarchar(50)=''
+@storageid int='',@pid nvarchar(20),@tid nvarchar(50)='',@tname nvarchar(50)='',@location nvarchar(20)='',@soid nvarchar(50)='',@deliverydate datetime='',@productid nvarchar(50)=''
 ,@actualamount int=0,@consigneeid nvarchar(50)='',@invoiceid nvarchar(50)='',@checktaker nvarchar(20)='',@remark nvarchar(max)='',@typeid int
 as
 begin
 --查询
 if(@typeid=0)
 begin
-select * from storage_cargo where pID=@pid
+select * from storage_cargo where autoID=@storageid or pid=@pid
 end
 --插入
 else if(@typeid=1)
 begin
-insert into storage_cargo values(@pid,@tid,@tname,@location,@soid,@deliverydate,@productid,@actualamount,@consigneeid,@invoiceid,@checktaker,@remark)
+insert into storage_cargo values(@storageid,@pid,@tid,@tname,@location,@soid,@deliverydate,@productid,@actualamount,@consigneeid,@invoiceid,@checktaker,@remark)
 end
 --更新
 else if(@typeid=2)
 begin
 update storage_cargo set trackingID=@tid,trackingName=@tname,location=@location,supplierOrderID=@soid,deliveryDate=@deliverydate,productID=productID,actualAmount=@actualamount
-,consigneeID=@consigneeid,invoiceID=@invoiceid,checkTaker=@checktaker,remark=@remark where pID=@pid and productID=@productid
+,consigneeID=@consigneeid,invoiceID=@invoiceid,checkTaker=@checktaker,remark=@remark where pID=@pid and autoID=@storageid
 end
 else if(@typeid=3)
 begin
-delete storage_cargo where pid=@pid
+delete storage_cargo where pid=@pid or autoID=@storageid
 end
 end
 go
@@ -408,24 +416,24 @@ end
 go
 
 --SN表综合操作
-create proc pro_snid
-@pid nvarchar(20),@productid nvarchar(50),@snid nvarchar(50)='',@typeid int
+alter proc pro_snid
+@pid nvarchar(20),@productid nvarchar(50),@snid nvarchar(50)='',@issell bit=0,@typeid int
 as
 begin
 --查询
 if(@typeid=0)
 begin
-select snid.*,inven.productName,inven.PNID from SNIDTable snid left join inventory_Table inven on snid.productID=inven.productID where pid=@pid and snid.productID=@productid
+select snid.*,inven.productName,inven.PNID from SNIDTable snid left join inventory_Table inven on snid.productID=inven.productID where pid=@pid and snid.productID=@productid and isSell=@issell
 end
 --插入
 else if(@typeid=1)
 begin
-insert into SNIDTable values(@pid,@productid,@snid)
+insert into SNIDTable values(@pid,@productid,@snid,@issell)
 end
 --更新
 else if(@typeid=2)
 begin
-update SNIDTable set SNID=@snid where pid=@pid and productID=@productid and SNID=@snid
+update SNIDTable set SNID=@snid,isSell=@issell where pid=@pid and productID=@productid and SNID=@snid
 end
 --删除
 else if(@typeid=3)
@@ -435,7 +443,79 @@ end
 end
 go
 
+--财务报表查询
+alter proc pro_finace
+@pid nvarchar(20)=''
+as
+begin
+if(@pid<>'')
+begin
+select  pro.pID,pro.buyDate,sup.supperName,cargo.totalPrices,cargo.isTax,pro.arrivalDate,pro.[check]
+,inven.productName,cargo.unitPrice,cargo.amount,client.cName,storage.deliveryDate,storage.actualAmount
+,storage.invoiceID,delivery.cOrderID,delivery.sellingPrices,delivery.deliveryIsTax,finance.remark,finance.payDate,finance.paySum,cargo.autoID
+from procurement pro
+left join procurement_cargo cargo on pro.pID=cargo.pID
+left join inventory_Table inven on inven.productID=cargo.productID
+left join storage_cargo storage on storage.autoID=cargo.autoID
+left join supplierTable sup on sup.autoID=cargo.supplierID
+left join ClientTable client on client.autoID=pro.clientID
+left join financeTable finance on finance.financeID=cargo.autoID
+left join delivery_cargo delivery on delivery.cOrderID=pro.contractOrder
+where pro.pID=@pid
+end
+else
+begin
+select  pro.pID,pro.buyDate,sup.supperName,cargo.totalPrices,cargo.isTax,pro.arrivalDate,pro.[check]
+,inven.productName,cargo.unitPrice,cargo.amount,client.cName,storage.deliveryDate,storage.actualAmount
+,storage.invoiceID,delivery.cOrderID,delivery.sellingPrices,delivery.deliveryIsTax,finance.remark,finance.payDate,finance.paySum,cargo.autoID
+from procurement pro
+left join procurement_cargo cargo on pro.pID=cargo.pID
+left join inventory_Table inven on inven.productID=cargo.productID
+left join storage_cargo storage on storage.autoID=cargo.autoID
+left join supplierTable sup on sup.autoID=cargo.supplierID
+left join ClientTable client on client.autoID=pro.clientID
+left join financeTable finance on finance.financeID=cargo.autoID
+left join delivery_cargo delivery on delivery.cOrderID=pro.contractOrder
+end
+end
+go
 
+--财务表综合操作
+create proc pro_finance
+@pid nvarchar(20),@financeID int,@payDate datetime='',@paySum money='',@remark nvarchar(max)='',@typeid int
+as
+begin
+--查询
+if(@typeid=0)
+begin
+if(@pid<>'')
+begin
+select * from financeTable where pID=@pid and financeID=@financeID
+end
+else
+begin
+select * from financeTable
+end
+end
+--插入
+else if(@typeid=1)
+begin
+insert into financeTable values(@pid,@financeID,@payDate,@paySum,@remark)
+end
+--更新
+else if(@typeid=2)
+begin
+update financeTable set payDate=@payDate,paySum=@paySum,remark=@remark where pID=@pid and financeID=@financeID
+end
+--删除
+else if(@typeid=3)
+begin
+delete financeTable where pID=@pid and financeID=@financeID
+end
+end
+go
+
+--通过合同订单号查询详细信息
 -----------------------------测试数据-----------------------------------------
 --插入用户权限表信息
 insert into user_Limit values('超级管理员'),('采购管理员'),('财务管理员'),('仓库管理员'),('其他管理员')
@@ -459,11 +539,21 @@ left join procurement_cargo cargo on pro.pID=cargo.pID
 left join inventory_Table inven on cargo.productID=inven.productID
 left join supplierTable supp on cargo.supplierID=supp.autoID
 left join user_Message usemes on usemes.userID=pro.userID
-
+--财务报表数据
+ select  pro.pID,pro.buyDate,pro.contractOrder,cargo.totalPrices,cargo.isTax,pro.arrivalDate,pro.[check]
+,inven.productName,cargo.unitPrice,cargo.amount,client.cName,storage.deliveryDate,storage.actualAmount
+,storage.invoiceID,cargo.sellPrice,cargo.sellisTax,finance.remark,finance.payDate,finance.paySum,cargo.autoID
+from procurement pro
+left join procurement_cargo cargo on pro.pID=cargo.pID
+left join inventory_Table inven on inven.productID=cargo.productID
+left join storage_cargo storage on storage.autoID=cargo.autoID
+left join supplierTable sup on sup.autoID=cargo.supplierID
+left join ClientTable client on client.autoID=pro.clientID
+left join financeTable finance on finance.financeID=cargo.autoID
 
 ---------------------------不保存测试数据---------------------------------
 insert into procurement values('AVG1809061334','admin','2018/9/6','2018/9/6',0,1)
-insert into inventory_Table values('00001','打印机','SN154',1200,'台',3),('00002','打印机','SL1130',1000,'台',1),('00003','打印头','1255',12000,'台',0),('00004','色带','110mm',120,'卷',10)
+insert into inventory_Table values('00001','打印机','SN154',1200,2300,'台',3),('00002','打印机','SL1130',1000,2100,'台',1),('00003','打印头','1255',12000,20000,'台',0),('00004','色带','110mm',120,200,'卷',10)
 insert into procurement_cargo values('AVG1809061334','00001','1',2,1300,0,2600)
 insert into procurement_cargo values('AVG1809061334','00002','1',1,1300,0,2600)
 
@@ -474,6 +564,54 @@ select * from inventory_Table where productID='ATY59764'
 select pro.pID,client.cName,inv.productName,inv.PNID,inv.unit,cargo.amount,inv.unitPrice,pro.arrivalDate from procurement pro left join procurement_cargo cargo on pro.pID=cargo.pID left join inventory_Table inv on cargo.productID=inv.productID left join ClientTable client on pro.clientID=client.autoID
 
 select pro.*,inv.*,cargo.*,client.* from procurement pro left join procurement_cargo cargo on pro.pID=cargo.pID left join inventory_Table inv on cargo.productID=inv.productID left join ClientTable client on pro.clientID=client.autoID
+ 
+select * from procurement_cargo
+select * from procurement
+select * from inventory_Table
+select * from SNIDTable
+select * from storage_cargo
+
+select i.* from 
+(select  pro.buyDate,sup.supperName,cargo.unitPrice,cargo.isTax,pro.arrivalDate,pro.[check],inven.productName
+,inven.PNID,inven.unitPrice as a ,cargo.amount,client.cName,storage.deliveryDate,storage.actualAmount
+from procurement pro
+left join procurement_cargo cargo on pro.pID=cargo.pID
+left join inventory_Table inven on inven.productID=cargo.productID
+left join (select distinct pID,trackingID,deliveryDate,actualAmount,autoID from storage_cargo) storage on storage.autoID=cargo.autoID
+left join supplierTable sup on sup.autoID=cargo.supplierID
+left join ClientTable client on client.autoID=pro.clientID) as i
+
+
 
 select * from procurement_cargo
 select * from storage_cargo
+select * from procurement_cargo cargo
+left join storage_cargo sto on sto.pID=cargo.pID 
+
+
+select i.*,stor.trackingID from (select  pro.pID,pro.buyDate,sup.supperName,cargo.unitPrice,cargo.isTax,pro.arrivalDate,pro.[check],inven.productName
+,inven.PNID,inven.unitPrice as a ,cargo.amount,client.cName
+from procurement pro
+left join procurement_cargo cargo on pro.pID=cargo.pID
+left join inventory_Table inven on inven.productID=cargo.productID
+left join supplierTable sup on sup.autoID=cargo.supplierID
+left join ClientTable client on client.autoID=pro.clientID) as i,storage_cargo stor where i.pID=stor.pID
+
+select pro.*,cargo.* from (select * from procurement) as pro,(select * from storage_cargo) as cargo,(select  pro.pID,pro.buyDate,sup.supperName,cargo.unitPrice,cargo.isTax,pro.arrivalDate,pro.[check],inven.productName
+,inven.PNID,inven.unitPrice as a ,cargo.amount,client.cName
+from procurement pro
+left join procurement_cargo cargo on pro.pID=cargo.pID
+left join inventory_Table inven on inven.productID=cargo.productID
+left join supplierTable sup on sup.autoID=cargo.supplierID
+left join ClientTable client on client.autoID=pro.clientID)as i
+go
+
+select * from procurement pro 
+left join storage_cargo storage on pro.pID=storage.pID
+left join ClientTable client on client.autoID=pro.clientID
+select * from procurement_cargo cargo
+ left join inventory_Table inven on inven.productID=cargo.productID
+ left join supplierTable sup on sup.autoID=cargo.supplierID
+
+
+

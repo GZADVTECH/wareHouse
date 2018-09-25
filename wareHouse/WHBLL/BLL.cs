@@ -86,11 +86,12 @@ namespace WHBLL
        /// <param name="isinvoice"></param>
        /// <param name="typeid"></param>
        /// <returns></returns>
-        public static int InsProcurement(string pid,string uid,DateTime buydate,DateTime arrival,string cid,int typeid)
+        public static int InsProcurement(string pid,string orderid,string uid,DateTime buydate,DateTime arrival,string cid,int typeid)
         {
             SqlParameter[] param =
             {
                 new SqlParameter("@pid",pid),
+                new SqlParameter("@orderid",orderid),
                 new SqlParameter("@userid",uid),
                 new SqlParameter("@buydate",buydate),
                 new SqlParameter("@arrivaldate",arrival),
@@ -111,7 +112,7 @@ namespace WHBLL
         /// <param name="discount"></param>
         /// <param name="typeid"></param>
         /// <returns></returns>
-        public static int InsProcargo(string pid,string productID,bool isparts,int supplierid,int amount,decimal unitprice,bool istax,double discount, bool isinvoice,int typeid)
+        public static int InsProcargo(string pid,string productID,bool isparts,int supplierid,int amount,decimal unitprice,bool istax,double discount, bool isinvoice,int typeid,bool sellistax,decimal sellprice)
         {
             SqlParameter[] param =
             {
@@ -122,6 +123,8 @@ namespace WHBLL
                 new SqlParameter("@amount",amount),
                 new SqlParameter("@istax",istax),
                 new SqlParameter("@unitprice",unitprice),
+                new SqlParameter("@sellistax",sellistax),
+                new SqlParameter("@sellprice",sellprice),
                 new SqlParameter("@discount",discount),
                 new SqlParameter("@isInvoice",isinvoice),
                 new SqlParameter("@typeid",typeid)
@@ -196,7 +199,7 @@ namespace WHBLL
             {
                 new SqlParameter("@pid",pid)
             };
-            int index = SQLHelper.Execute("SQL", "select pID from procurement where pID=@pid", param, CommandType.Text);
+            int index = (int)SQLHelper.QueryScalar("SQL", "select Count(pID) from procurement where pID=@pid", param,CommandType.Text);
             return index;
         }
         /// <summary>
@@ -210,6 +213,7 @@ namespace WHBLL
         {
             SqlParameter[] param =
             {
+                new SqlParameter("@storageid",data[11]),
                 new SqlParameter("@pid",pid),
                 new SqlParameter("@typeid",typeid),
                 new SqlParameter("@tid",data[0]),
@@ -292,6 +296,65 @@ namespace WHBLL
                 new SqlParameter("@typeid","0")
             };
             DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_snid", param, CommandType.StoredProcedure);
+            return dt;
+        }
+        /// <summary>
+        /// Excel读取
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static DataTable QueryExcel(string path,string sql)
+        {
+            DataTable dt = ExcelHelper.QueryExcel(path, sql);
+            return dt;
+        }
+        /// <summary>
+        /// 财务查询
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <returns></returns>
+        public static DataTable QueryFinace(string pid)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("@pid",pid)
+            };
+            DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_finace", param, CommandType.StoredProcedure);
+            return dt;
+        }
+        /// <summary>
+        /// 财务插入
+        /// </summary>
+        /// <param name="typeid"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static int InsFinance(int typeid,params string[] data)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("typeid",typeid),
+                new SqlParameter("pid",data[0]),
+                new SqlParameter("financeID",data[1]),
+                new SqlParameter("payDate",data[2]),
+                new SqlParameter("paySum",data[3]),
+                new SqlParameter("remark",data[4])
+            };
+            int index = SQLHelper.Execute("SQL", "pro_finance", param, CommandType.StoredProcedure);
+            return index;
+        }
+        /// <summary>
+        /// 通过合同订单号查询详细信息
+        /// </summary>
+        /// <param name="contractorder"></param>
+        /// <returns></returns>
+        public static DataTable QueryContractOrder(string contractorder)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("@contractorder",contractorder)
+            };
+            DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_contractOrder", param, CommandType.StoredProcedure);
             return dt;
         }
     }

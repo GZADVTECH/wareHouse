@@ -231,7 +231,7 @@ namespace WHDAL
 
                     using (SqlCommand cmd = GetCommand(conn, null, cmdType, sql, parms))
                     {
-                        if (cmdType == CommandType.StoredProcedure)
+                        if (cmdType == CommandType.Text)
                             cmd.Parameters.AddWithValue("@RETURN_VALUE", "").Direction = ParameterDirection.ReturnValue;
 
                         count = cmd.ExecuteNonQuery();

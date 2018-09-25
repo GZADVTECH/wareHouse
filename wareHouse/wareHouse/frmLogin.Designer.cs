@@ -47,12 +47,15 @@
             // 
             // txtUid
             // 
+            this.txtUid.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.txtUid.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.txtUid.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtUid.Location = new System.Drawing.Point(96, 109);
             this.txtUid.MaxLength = 30;
             this.txtUid.Name = "txtUid";
             this.txtUid.Size = new System.Drawing.Size(120, 21);
             this.txtUid.TabIndex = 0;
+            this.txtUid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUid_KeyPress);
             // 
             // btnLogin
             // 
@@ -109,6 +112,7 @@
             this.MinimizeBox = false;
             this.Name = "frmLogin";
             this.Text = "希创管理系统";
+            this.Load += new System.EventHandler(this.frmLogin_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -61,6 +61,15 @@ namespace wareHouse
                 case 3:
                     Procurement("DeliveryNote.rpt");
                     break;
+                case 4:
+                    break;
+                case 5:
+                    Procurement("Finance.rpt");
+                    if (PID != null)
+                    {
+                    ParamField(crystalReportViewer1, "内部订单号", PID.ToString());
+                    }
+                    break;
                 default:
                     break;
             }

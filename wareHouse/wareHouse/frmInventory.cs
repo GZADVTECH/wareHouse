@@ -212,5 +212,40 @@ namespace wareHouse
             frmReport report = new frmReport(2);
             report.Show();
         }
+
+        private void txtNum_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar <= '9' && e.KeyChar >= '0'||e.KeyChar==8)
+            {
+                e.Handled = false;
+            }
+            else
+                e.Handled = true;
+        }
+
+        private void txtPrice_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar <= '9' && e.KeyChar >= '0' || e.KeyChar == 8||e.KeyChar=='.')
+            {
+                e.Handled = false;
+            }
+            else
+                e.Handled = true;
+        }
+
+        private void txtPrice_Leave(object sender, EventArgs e)
+        {
+                TextBox tb = (TextBox)sender;
+            try
+            {
+                Double db = Convert.ToDouble(tb.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("输入不正确！", "系统提示");
+                tb.Text = string.Empty;
+                return;
+            }
+        }
     }
 }

@@ -79,11 +79,64 @@ namespace wareHouse
         /// <param name="e"></param>
         private void btnDou_Click(object sender, EventArgs e)
         {
+            int count = 0;
             openFileDialog1.Title = "选择Excel文件";
             openFileDialog1.Filter = "Excel(*.xlsx)|*.xlsx|Excel(*.xls)|*.xls";
             openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             openFileDialog1.Multiselect = false;
-            openFileDialog1.ShowDialog();
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    string path = openFileDialog1.FileName;
+                    DataTable dt = BLL.QueryExcel(path, "select * from [Sheet1$]");
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        txtSN.Text = dr[0].ToString();
+                        if (string.IsNullOrEmpty(txtSNName.Text) || string.IsNullOrEmpty(txtSNSNID.Text))
+                        {
+                            MessageBox.Show("无详细的产品信息，无法录入！", "系统提示");
+                            return;
+                        }
+                        if (string.IsNullOrEmpty(txtSN.Text.Trim()))
+                        {
+                            MessageBox.Show("请输入S/N号！", "系统提示");
+                            return;
+                        }
+                        foreach (ListViewItem item in lvSN.Items)
+                        {
+                            if (txtSN.Text == item.SubItems[2].Text)
+                            {
+                                MessageBox.Show("已存在该S/N号！", "系统提示");
+                                return;
+                            }
+                        }
+                        if (actalamount < lvSN.Items.Count+1)
+                        {
+                            MessageBox.Show("超出实际数量！提交成功" + count+"条数据。", "系统提示");
+                            return;
+                        }
+                        //添加数据到数据库
+                        if (BLL.InsSNID(txtPID.Text, groupBox2.Tag.ToString(), txtSN.Text) > 0)
+                        {
+                            count++;
+                            //将数据添加到listview中
+                            ListViewItem lvi = new ListViewItem(txtSNName.Text);
+                            lvi.SubItems.Add(txtSNSNID.Text);
+                            lvi.SubItems.Add(txtSN.Text);
+                            lvSN.Items.Add(lvi);
+                            //清空并给予焦点
+                            txtSN.Text = string.Empty;
+                            txtSN.Focus();
+                        }
+                    }
+                    MessageBox.Show("提交成功" + count + "条数据。", "系统提示");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("查询错误！错误内容：" + ex.Message);
+                }
+            }
         }
         /// <summary>
         /// 查询事件
@@ -101,7 +154,13 @@ namespace wareHouse
             DataTable storageDt = BLL.QueryStorage(0, tstxtPID.Text);
             if (storageDt.Rows.Count > 0)
             {
+                if (Convert.ToBoolean(dt.Rows[0]["check"].ToString()) == false)
+                {
+                    MessageBox.Show("该订单尚未审核。。。", "系统提示");
+                    return;
+                }
                 txtPID.Text = storageDt.Rows[0]["pID"].ToString();
+                txtorderID.Text = storageDt.Rows[0]["contractOrder"].ToString();
                 dtparrive.Text = dt.Rows[0]["arrivalDate"].ToString();
                 cbbLocation.DisplayMember = storageDt.Rows[0]["location"].ToString();
                 txtCourier.Text = storageDt.Rows[0]["trackingID"].ToString();
@@ -134,9 +193,9 @@ namespace wareHouse
                         index++.ToString(),dr["productID"].ToString(),dr["productName"].ToString(),dr["PNID"].ToString()
                         ,dr["supperName"].ToString(),storageDt.Rows[i]["actualAmount"].ToString(),dr["amount"].ToString()
                         ,Convert.ToBoolean(dr["isTax"])==true?"是":"否",storageDt.Rows[i]["invoiceID"].ToString(),storageDt.Rows[i]["consigneeID"].ToString()
-                        ,storageDt.Rows[i]["checkTaker"].ToString()
+                        ,storageDt.Rows[i]["checkTaker"].ToString(),dr["cargoautoID"].ToString()
                     };
-                    int[] count = new int[] { 0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+                    int[] count = new int[] { 0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12,13 };
                     int order = 0;
                     foreach (int number in count)
                     {
@@ -149,7 +208,13 @@ namespace wareHouse
             {
                 if (dt.Rows.Count > 0)
                 {
+                    if (Convert.ToBoolean(dt.Rows[0]["check"].ToString()) == false)
+                    {
+                        MessageBox.Show("该订单尚未审核。。。", "系统提示");
+                        return;
+                    }
                     txtPID.Text = dt.Rows[0]["pID"].ToString();
+                    txtorderID.Text = dt.Rows[0]["contractOrder"].ToString();
                     dtparrive.Text = dt.Rows[0]["arrivalDate"].ToString();
 
                     int index = 1;
@@ -172,9 +237,9 @@ namespace wareHouse
                         dgvr.CreateCells(dgvPro);//根据dgvPro创建模板
                         string[] data = new string[]
                         {
-                        index++.ToString(),item["productID"].ToString(),item["productName"].ToString(),item["PNID"].ToString(),item["supperName"].ToString(),"0",item["amount"].ToString(),Convert.ToBoolean(item["isTax"])==true?"是":"否"
+                        index++.ToString(),item["productID"].ToString(),item["productName"].ToString(),item["PNID"].ToString(),item["supperName"].ToString(),"0",item["amount"].ToString(),Convert.ToBoolean(item["isTax"])==true?"是":"否",item["cargoautoID"].ToString()
                         };
-                        int[] count = new int[] { 0, 1, 4, 5, 6, 7, 8, 9 };
+                        int[] count = new int[] { 0, 1, 4, 5, 6, 7, 8, 9,13 };
                         int order = 0;
                         foreach (int number in count)
                         {
@@ -347,7 +412,7 @@ namespace wareHouse
                     txtCourier.Text,cbbCourier.Text,cbbLocation.Text, txtSupplierID.Text
                     , dtpDeliveryDate.Text, dgvr.Cells["productID"].Value.ToString()
                     , dgvr.Cells["Num"].Value.ToString() , dgvr.Cells["consigneeID"].Value.ToString(),invoiceid
-                    ,checktaker , rtbRemark.Text };
+                    ,checktaker , rtbRemark.Text,dgvr.Cells["cargoautoID"].Value.ToString() };
                 int index = BLL.InsStorage(typeid, txtPID.Text, data);
                 allindex += index;
             }
@@ -395,13 +460,13 @@ namespace wareHouse
             dgvPro.EndEdit();
         }
         /// <summary>
-        /// 验证：不允许输入任何特殊符号
+        /// 验证：不允许输入任何特殊符号,除了退格键
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ControlKeyPress(object sender,KeyPressEventArgs e)
         {
-            if (e.KeyChar <= '9' && e.KeyChar >= '0' || e.KeyChar <= 'Z' && e.KeyChar >= 'A' || e.KeyChar <= 'z' && e.KeyChar >= 'a')
+            if (e.KeyChar <= '9' && e.KeyChar >= '0' || e.KeyChar <= 'Z' && e.KeyChar >= 'A' || e.KeyChar <= 'z' && e.KeyChar >= 'a'||e.KeyChar==8)
             {
                 e.Handled = false;
             }
@@ -433,7 +498,7 @@ namespace wareHouse
                     return;
                 }
             }
-            if (actalamount < lvSN.Items.Count-1)
+            if (actalamount < lvSN.Items.Count+1)
             {
                 MessageBox.Show("超出实际数量！", "系统提示");
                 return;
@@ -449,6 +514,15 @@ namespace wareHouse
                 //清空并给予焦点
                 txtSN.Text = string.Empty;
                 txtSN.Focus();
+                MessageBox.Show("提交成功！", "系统提示");
+            }
+        }
+
+        private void tstxtPID_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar==13)
+            {
+                tsbtnSelect_Click(sender, e);
             }
         }
     }

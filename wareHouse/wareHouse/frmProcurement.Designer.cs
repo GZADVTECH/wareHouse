@@ -32,14 +32,31 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cbParts = new System.Windows.Forms.CheckBox();
-            this.cbTax = new System.Windows.Forms.CheckBox();
+            this.cbcheck = new System.Windows.Forms.CheckBox();
+            this.cbsellTax = new System.Windows.Forms.CheckBox();
+            this.cbunitTax = new System.Windows.Forms.CheckBox();
             this.cbbSupplierName = new System.Windows.Forms.ComboBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.dgvProcurement = new System.Windows.Forms.DataGridView();
+            this.proID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.supID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.discount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.unitprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.unittax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sellprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sellTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.parts = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ischeck = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtAmount = new System.Windows.Forms.TextBox();
-            this.txtPrice = new System.Windows.Forms.TextBox();
+            this.txtSellPrice = new System.Windows.Forms.TextBox();
+            this.txtunitPrice = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             this.txtNumber = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -51,15 +68,16 @@
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.cbcheck = new System.Windows.Forms.CheckBox();
             this.dtpBuy = new System.Windows.Forms.DateTimePicker();
             this.dtpArrival = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.UserName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.txtorderid = new System.Windows.Forms.TextBox();
             this.txtPID = new System.Windows.Forms.TextBox();
             this.cbbClient = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
@@ -75,17 +93,6 @@
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.proID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.supID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.parts = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.check = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProcurement)).BeginInit();
@@ -108,14 +115,17 @@
             // 
             this.groupBox3.Controls.Add(this.cbParts);
             this.groupBox3.Controls.Add(this.cbcheck);
-            this.groupBox3.Controls.Add(this.cbTax);
+            this.groupBox3.Controls.Add(this.cbsellTax);
+            this.groupBox3.Controls.Add(this.cbunitTax);
             this.groupBox3.Controls.Add(this.cbbSupplierName);
             this.groupBox3.Controls.Add(this.btnAdd);
             this.groupBox3.Controls.Add(this.dgvProcurement);
             this.groupBox3.Controls.Add(this.txtAmount);
-            this.groupBox3.Controls.Add(this.txtPrice);
+            this.groupBox3.Controls.Add(this.txtSellPrice);
+            this.groupBox3.Controls.Add(this.txtunitPrice);
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.label12);
+            this.groupBox3.Controls.Add(this.label14);
             this.groupBox3.Controls.Add(this.txtNumber);
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.label9);
@@ -135,22 +145,42 @@
             // cbParts
             // 
             this.cbParts.AutoSize = true;
-            this.cbParts.Location = new System.Drawing.Point(493, 23);
+            this.cbParts.Location = new System.Drawing.Point(509, 23);
             this.cbParts.Name = "cbParts";
             this.cbParts.Size = new System.Drawing.Size(96, 16);
-            this.cbParts.TabIndex = 22;
+            this.cbParts.TabIndex = 13;
             this.cbParts.Text = "有无配套产品";
             this.cbParts.UseVisualStyleBackColor = true;
             // 
-            // cbTax
+            // cbcheck
             // 
-            this.cbTax.AutoSize = true;
-            this.cbTax.Location = new System.Drawing.Point(419, 23);
-            this.cbTax.Name = "cbTax";
-            this.cbTax.Size = new System.Drawing.Size(72, 16);
-            this.cbTax.TabIndex = 21;
-            this.cbTax.Text = "是否含税";
-            this.cbTax.UseVisualStyleBackColor = true;
+            this.cbcheck.AutoSize = true;
+            this.cbcheck.Location = new System.Drawing.Point(607, 23);
+            this.cbcheck.Name = "cbcheck";
+            this.cbcheck.Size = new System.Drawing.Size(96, 16);
+            this.cbcheck.TabIndex = 14;
+            this.cbcheck.Text = "是否附有发票";
+            this.cbcheck.UseVisualStyleBackColor = true;
+            // 
+            // cbsellTax
+            // 
+            this.cbsellTax.AutoSize = true;
+            this.cbsellTax.Location = new System.Drawing.Point(431, 50);
+            this.cbsellTax.Name = "cbsellTax";
+            this.cbsellTax.Size = new System.Drawing.Size(72, 16);
+            this.cbsellTax.TabIndex = 12;
+            this.cbsellTax.Text = "是否含税";
+            this.cbsellTax.UseVisualStyleBackColor = true;
+            // 
+            // cbunitTax
+            // 
+            this.cbunitTax.AutoSize = true;
+            this.cbunitTax.Location = new System.Drawing.Point(431, 23);
+            this.cbunitTax.Name = "cbunitTax";
+            this.cbunitTax.Size = new System.Drawing.Size(72, 16);
+            this.cbunitTax.TabIndex = 12;
+            this.cbunitTax.Text = "是否含税";
+            this.cbunitTax.UseVisualStyleBackColor = true;
             // 
             // cbbSupplierName
             // 
@@ -159,14 +189,14 @@
             this.cbbSupplierName.Location = new System.Drawing.Point(99, 73);
             this.cbbSupplierName.Name = "cbbSupplierName";
             this.cbbSupplierName.Size = new System.Drawing.Size(121, 20);
-            this.cbbSupplierName.TabIndex = 20;
+            this.cbbSupplierName.TabIndex = 8;
             // 
             // btnAdd
             // 
             this.btnAdd.Location = new System.Drawing.Point(632, 76);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
-            this.btnAdd.TabIndex = 4;
+            this.btnAdd.TabIndex = 15;
             this.btnAdd.Text = "添加";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -181,11 +211,13 @@
             this.Column2,
             this.amount,
             this.Column4,
-            this.Column5,
-            this.price,
-            this.tax,
+            this.discount,
+            this.unitprice,
+            this.unittax,
+            this.sellprice,
+            this.sellTax,
             this.parts,
-            this.check});
+            this.ischeck});
             this.dgvProcurement.Location = new System.Drawing.Point(8, 105);
             this.dgvProcurement.Name = "dgvProcurement";
             this.dgvProcurement.RowTemplate.Height = 23;
@@ -194,25 +226,116 @@
             this.dgvProcurement.TabIndex = 3;
             this.dgvProcurement.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProcurement_CellValueChanged);
             // 
+            // proID
+            // 
+            this.proID.HeaderText = "产品编号";
+            this.proID.Name = "proID";
+            this.proID.ReadOnly = true;
+            this.proID.Visible = false;
+            // 
+            // supID
+            // 
+            this.supID.HeaderText = "供应商编号";
+            this.supID.Name = "supID";
+            this.supID.ReadOnly = true;
+            this.supID.Visible = false;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "产品名称";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 150;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "规格";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
+            // amount
+            // 
+            this.amount.HeaderText = "数量";
+            this.amount.Name = "amount";
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "供应商";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            // 
+            // discount
+            // 
+            this.discount.HeaderText = "折扣";
+            this.discount.Name = "discount";
+            // 
+            // unitprice
+            // 
+            this.unitprice.HeaderText = "采购价格";
+            this.unitprice.Name = "unitprice";
+            // 
+            // unittax
+            // 
+            this.unittax.HeaderText = "采购是否含税";
+            this.unittax.Name = "unittax";
+            this.unittax.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.unittax.Visible = false;
+            // 
+            // sellprice
+            // 
+            this.sellprice.HeaderText = "销售价格";
+            this.sellprice.Name = "sellprice";
+            // 
+            // sellTax
+            // 
+            this.sellTax.HeaderText = "销售是否含税";
+            this.sellTax.Name = "sellTax";
+            this.sellTax.Visible = false;
+            // 
+            // parts
+            // 
+            this.parts.HeaderText = "有无配套产品";
+            this.parts.Name = "parts";
+            this.parts.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.parts.Visible = false;
+            // 
+            // ischeck
+            // 
+            this.ischeck.HeaderText = "是否附带发票";
+            this.ischeck.Name = "ischeck";
+            this.ischeck.Visible = false;
+            // 
             // txtAmount
             // 
             this.txtAmount.Enabled = false;
-            this.txtAmount.Location = new System.Drawing.Point(543, 45);
+            this.txtAmount.Location = new System.Drawing.Point(493, 76);
             this.txtAmount.Name = "txtAmount";
             this.txtAmount.Size = new System.Drawing.Size(121, 21);
             this.txtAmount.TabIndex = 2;
             // 
-            // txtPrice
+            // txtSellPrice
             // 
-            this.txtPrice.Location = new System.Drawing.Point(287, 21);
-            this.txtPrice.Name = "txtPrice";
-            this.txtPrice.Size = new System.Drawing.Size(121, 21);
-            this.txtPrice.TabIndex = 2;
+            this.txtSellPrice.Location = new System.Drawing.Point(299, 47);
+            this.txtSellPrice.Name = "txtSellPrice";
+            this.txtSellPrice.Size = new System.Drawing.Size(121, 21);
+            this.txtSellPrice.TabIndex = 9;
+            this.txtSellPrice.Enter += new System.EventHandler(this.txtSellPrice_Enter);
+            this.txtSellPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NumberKeyPress);
+            this.txtSellPrice.Leave += new System.EventHandler(this.txtSellPrice_Leave);
+            // 
+            // txtunitPrice
+            // 
+            this.txtunitPrice.Location = new System.Drawing.Point(299, 21);
+            this.txtunitPrice.Name = "txtunitPrice";
+            this.txtunitPrice.Size = new System.Drawing.Size(121, 21);
+            this.txtunitPrice.TabIndex = 9;
+            this.txtunitPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NumberKeyPress);
+            this.txtunitPrice.Leave += new System.EventHandler(this.txtSellPrice_Leave);
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(239, 76);
+            this.label10.Location = new System.Drawing.Point(263, 81);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(29, 12);
             this.label10.TabIndex = 0;
@@ -221,33 +344,43 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(484, 48);
+            this.label12.Location = new System.Drawing.Point(434, 79);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(53, 12);
             this.label12.TabIndex = 0;
             this.label12.Text = "总金额：";
             // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(239, 51);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(53, 12);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "销售单价";
+            // 
             // txtNumber
             // 
-            this.txtNumber.Location = new System.Drawing.Point(287, 47);
+            this.txtNumber.Location = new System.Drawing.Point(570, 45);
             this.txtNumber.MaxLength = 100;
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new System.Drawing.Size(121, 21);
-            this.txtNumber.TabIndex = 2;
+            this.txtNumber.TabIndex = 10;
+            this.txtNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NumberKeyPress);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(239, 25);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 12);
+            this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 0;
-            this.label3.Text = "单价";
+            this.label3.Text = "采购单价";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(239, 51);
+            this.label9.Location = new System.Drawing.Point(522, 49);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(29, 12);
             this.label9.TabIndex = 0;
@@ -268,10 +401,10 @@
             "80%",
             "90%",
             "100%"});
-            this.cbbSale.Location = new System.Drawing.Point(287, 73);
+            this.cbbSale.Location = new System.Drawing.Point(299, 76);
             this.cbbSale.Name = "cbbSale";
             this.cbbSale.Size = new System.Drawing.Size(121, 20);
-            this.cbbSale.TabIndex = 1;
+            this.cbbSale.TabIndex = 11;
             // 
             // cbbPNID
             // 
@@ -280,7 +413,7 @@
             this.cbbPNID.Location = new System.Drawing.Point(99, 47);
             this.cbbPNID.Name = "cbbPNID";
             this.cbbPNID.Size = new System.Drawing.Size(121, 20);
-            this.cbbPNID.TabIndex = 1;
+            this.cbbPNID.TabIndex = 7;
             this.cbbPNID.SelectedValueChanged += new System.EventHandler(this.cbbPNID_SelectedValueChanged);
             // 
             // label8
@@ -299,7 +432,7 @@
             this.cbbName.Location = new System.Drawing.Point(99, 21);
             this.cbbName.Name = "cbbName";
             this.cbbName.Size = new System.Drawing.Size(121, 20);
-            this.cbbName.TabIndex = 1;
+            this.cbbName.TabIndex = 6;
             this.cbbName.SelectedValueChanged += new System.EventHandler(this.cbbName_SelectedValueChanged);
             // 
             // label7
@@ -329,8 +462,10 @@
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.UserName);
             this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.txtorderid);
             this.groupBox2.Controls.Add(this.txtPID);
             this.groupBox2.Controls.Add(this.cbbClient);
+            this.groupBox2.Controls.Add(this.label13);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(6, 20);
             this.groupBox2.Name = "groupBox2";
@@ -348,38 +483,28 @@
             this.label11.TabIndex = 19;
             this.label11.Text = "客户名称";
             // 
-            // cbcheck
-            // 
-            this.cbcheck.AutoSize = true;
-            this.cbcheck.Location = new System.Drawing.Point(591, 23);
-            this.cbcheck.Name = "cbcheck";
-            this.cbcheck.Size = new System.Drawing.Size(96, 16);
-            this.cbcheck.TabIndex = 18;
-            this.cbcheck.Text = "是否附有发票";
-            this.cbcheck.UseVisualStyleBackColor = true;
-            // 
             // dtpBuy
             // 
             this.dtpBuy.CustomFormat = "yyyy/MM/dd";
             this.dtpBuy.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpBuy.Location = new System.Drawing.Point(77, 72);
+            this.dtpBuy.Location = new System.Drawing.Point(80, 72);
             this.dtpBuy.Name = "dtpBuy";
             this.dtpBuy.Size = new System.Drawing.Size(129, 21);
-            this.dtpBuy.TabIndex = 16;
+            this.dtpBuy.TabIndex = 3;
             // 
             // dtpArrival
             // 
             this.dtpArrival.CustomFormat = "yyyy/MM/dd";
             this.dtpArrival.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpArrival.Location = new System.Drawing.Point(330, 72);
+            this.dtpArrival.Location = new System.Drawing.Point(328, 72);
             this.dtpArrival.Name = "dtpArrival";
             this.dtpArrival.Size = new System.Drawing.Size(130, 21);
-            this.dtpArrival.TabIndex = 17;
+            this.dtpArrival.TabIndex = 4;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(232, 76);
+            this.label6.Location = new System.Drawing.Point(230, 76);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(77, 12);
             this.label6.TabIndex = 15;
@@ -397,26 +522,35 @@
             // UserName
             // 
             this.UserName.Enabled = false;
-            this.UserName.Location = new System.Drawing.Point(330, 31);
+            this.UserName.Location = new System.Drawing.Point(552, 72);
             this.UserName.Name = "UserName";
-            this.UserName.Size = new System.Drawing.Size(130, 21);
-            this.UserName.TabIndex = 11;
+            this.UserName.Size = new System.Drawing.Size(121, 21);
+            this.UserName.TabIndex = 5;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(268, 35);
+            this.label4.Location = new System.Drawing.Point(479, 76);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 12);
             this.label4.TabIndex = 7;
             this.label4.Text = "采购人";
             // 
+            // txtorderid
+            // 
+            this.txtorderid.Location = new System.Drawing.Point(329, 30);
+            this.txtorderid.Name = "txtorderid";
+            this.txtorderid.Size = new System.Drawing.Size(129, 21);
+            this.txtorderid.TabIndex = 1;
+            this.txtorderid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NaturalKeyPress);
+            // 
             // txtPID
             // 
-            this.txtPID.Location = new System.Drawing.Point(77, 30);
+            this.txtPID.Location = new System.Drawing.Point(80, 30);
             this.txtPID.Name = "txtPID";
             this.txtPID.Size = new System.Drawing.Size(129, 21);
-            this.txtPID.TabIndex = 14;
+            this.txtPID.TabIndex = 0;
+            this.txtPID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NaturalKeyPress);
             // 
             // cbbClient
             // 
@@ -425,8 +559,17 @@
             this.cbbClient.Location = new System.Drawing.Point(552, 30);
             this.cbbClient.Name = "cbbClient";
             this.cbbClient.Size = new System.Drawing.Size(121, 20);
-            this.cbbClient.TabIndex = 1;
+            this.cbbClient.TabIndex = 2;
             this.cbbClient.SelectedValueChanged += new System.EventHandler(this.cbbPNID_SelectedValueChanged);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(239, 34);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(65, 12);
+            this.label13.TabIndex = 10;
+            this.label13.Text = "合同订单号";
             // 
             // label1
             // 
@@ -500,6 +643,7 @@
             // 
             this.tstxtPID.Name = "tstxtPID";
             this.tstxtPID.Size = new System.Drawing.Size(100, 25);
+            this.tstxtPID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tstxtPID_KeyPress);
             // 
             // tsbtnSelect
             // 
@@ -548,74 +692,6 @@
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
             this.toolStripLabel1.Size = new System.Drawing.Size(0, 22);
-            // 
-            // proID
-            // 
-            this.proID.HeaderText = "产品编号";
-            this.proID.Name = "proID";
-            this.proID.ReadOnly = true;
-            this.proID.Visible = false;
-            // 
-            // supID
-            // 
-            this.supID.HeaderText = "供应商编号";
-            this.supID.Name = "supID";
-            this.supID.ReadOnly = true;
-            this.supID.Visible = false;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "产品名称";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Width = 150;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "规格";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
-            // amount
-            // 
-            this.amount.HeaderText = "数量";
-            this.amount.Name = "amount";
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "供应商";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "折扣";
-            this.Column5.Name = "Column5";
-            // 
-            // price
-            // 
-            this.price.HeaderText = "价格";
-            this.price.Name = "price";
-            // 
-            // tax
-            // 
-            this.tax.HeaderText = "是否含税";
-            this.tax.Name = "tax";
-            this.tax.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.tax.Visible = false;
-            // 
-            // parts
-            // 
-            this.parts.HeaderText = "有无配套产品";
-            this.parts.Name = "parts";
-            this.parts.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.parts.Visible = false;
-            // 
-            // check
-            // 
-            this.check.HeaderText = "是否附有发票";
-            this.check.Name = "check";
-            this.check.Visible = false;
             // 
             // frmProcurement
             // 
@@ -674,7 +750,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButton5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.TextBox txtPrice;
+        private System.Windows.Forms.TextBox txtunitPrice;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cbbSale;
@@ -688,17 +764,24 @@
         private System.Windows.Forms.ToolStripTextBox tstxtPID;
         private System.Windows.Forms.ToolStripButton tsbtnSelect;
         private System.Windows.Forms.CheckBox cbParts;
-        private System.Windows.Forms.CheckBox cbTax;
+        private System.Windows.Forms.CheckBox cbunitTax;
+        private System.Windows.Forms.TextBox txtorderid;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.CheckBox cbsellTax;
+        private System.Windows.Forms.TextBox txtSellPrice;
+        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.DataGridViewTextBoxColumn proID;
         private System.Windows.Forms.DataGridViewTextBoxColumn supID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tax;
+        private System.Windows.Forms.DataGridViewTextBoxColumn discount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn unitprice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn unittax;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sellprice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sellTax;
         private System.Windows.Forms.DataGridViewTextBoxColumn parts;
-        private System.Windows.Forms.DataGridViewTextBoxColumn check;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ischeck;
     }
 }

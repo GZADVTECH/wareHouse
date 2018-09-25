@@ -120,7 +120,7 @@ namespace wareHouse
         /// <param name="e"></param>
         private void tsbSuper_Click(object sender, EventArgs e)
         {
-            frmSuper frmSuper = new frmSuper();
+            frmSuper frmSuper = new frmSuper(userName);
             frmSuper.MdiParent = this;
             frmSuper.Show();
         }

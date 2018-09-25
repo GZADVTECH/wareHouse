@@ -51,6 +51,9 @@
             this.Column18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.txtCount = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.Column20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column21 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,9 +72,6 @@
             this.Column34 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column35 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column36 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtCount = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -86,7 +86,7 @@
             this.groupBox1.Size = new System.Drawing.Size(1092, 215);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "授权";
+            this.groupBox1.Text = "审核";
             // 
             // dataGridView1
             // 
@@ -111,11 +111,11 @@
             this.Column17,
             this.Column18,
             this.Column19});
-            this.dataGridView1.Location = new System.Drawing.Point(6, 20);
+            this.dataGridView1.Location = new System.Drawing.Point(6, 13);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1080, 189);
+            this.dataGridView1.Size = new System.Drawing.Size(1080, 196);
             this.dataGridView1.TabIndex = 2;
             // 
             // Column1
@@ -225,6 +225,32 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "库存清单";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(1011, 228);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "打印清单";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // txtCount
+            // 
+            this.txtCount.Enabled = false;
+            this.txtCount.Location = new System.Drawing.Point(64, 228);
+            this.txtCount.Name = "txtCount";
+            this.txtCount.Size = new System.Drawing.Size(137, 21);
+            this.txtCount.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(17, 231);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 12);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "总价值";
             // 
             // dataGridView2
             // 
@@ -338,32 +364,6 @@
             this.Column36.HeaderText = "实际金额";
             this.Column36.Name = "Column36";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 231);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 12);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "总价值";
-            // 
-            // txtCount
-            // 
-            this.txtCount.Enabled = false;
-            this.txtCount.Location = new System.Drawing.Point(64, 228);
-            this.txtCount.Name = "txtCount";
-            this.txtCount.Size = new System.Drawing.Size(137, 21);
-            this.txtCount.TabIndex = 2;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(1011, 228);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "打印清单";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // frmSuper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -374,6 +374,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmSuper";
             this.Text = "超级管理";
+            this.Load += new System.EventHandler(this.frmSuper_Load);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox2.ResumeLayout(false);
