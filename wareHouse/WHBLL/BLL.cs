@@ -357,5 +357,29 @@ namespace WHBLL
             DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_contractOrder", param, CommandType.StoredProcedure);
             return dt;
         }
+
+        public static int InsDelivery(int typeid,params string[] data)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("@typeid",typeid),
+                new SqlParameter("@orderid",data[0]),
+                new SqlParameter("@cid",data[1]),
+                new SqlParameter("@productid",data[2]),
+                new SqlParameter("@count",data[3]),
+                new SqlParameter("@sellingPrice",data[4]),
+                new SqlParameter("@discount",data[5]),
+                new SqlParameter("@deliveryistax",data[6]),
+                new SqlParameter("@discountprice",data[7]),
+                new SqlParameter("@sellingprices",data[8]),
+                new SqlParameter("@trackingid",data[9]),
+                new SqlParameter("@trackingname",data[10]),
+                new SqlParameter("@arrivaldate",data[11]),
+                new SqlParameter("@consignerid",data[12]),
+                new SqlParameter("@remark",data[13])
+            };
+            int feedback = SQLHelper.Execute("SQL", "pro_delivery", param, CommandType.StoredProcedure);
+            return feedback;
+        }
     }
 }

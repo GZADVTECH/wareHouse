@@ -13,10 +13,18 @@ namespace wareHouse
 {
     public partial class frmDelivery : Form
     {
-        int index = 0;//序号
+        bool STATE = false;//是否允许打印送货单
+        private string ID;//ID
+        private string NAME;//NAME
         public frmDelivery()
         {
             InitializeComponent();
+        }
+        public frmDelivery(string id,string name)
+        {
+            InitializeComponent();
+            this.ID = id;
+            this.NAME = name;
         }
         /// <summary>
         /// 打印送货单
@@ -42,9 +50,23 @@ namespace wareHouse
                 cbbClientName.SelectedValue = dt.Rows[0]["clientID"].ToString();
                 foreach (DataRow dr in dt.Rows)
                 {
+                    int index = 0;//序号
+                    dgvPro.Rows.Clear();//清空DataGridView的数据
                     DataGridViewRow dgvr = new DataGridViewRow();
-                    //////////////////////////未完成///////////////////////////////
+                    string[] item = new string[] { (++index).ToString(), dr["productID"].ToString(),dr["productName"].ToString(), dr["PNID"].ToString(), dr["amount"].ToString(), dr["sellPrice"].ToString(), dr["sellisTax"].ToString(), string.IsNullOrEmpty(dr["discount"].ToString()) ? "0" : dr["discount"].ToString(), (Convert.ToDouble(dr["amount"].ToString())* Convert.ToDouble(dr["sellPrice"].ToString())* Convert.ToDouble(string.IsNullOrEmpty(dr["discount"].ToString()) ? "0" : dr["discount"].ToString())).ToString() };
+                    for (int i = 0; i < item.Count()-1; i++)
+                    {
+                        DataGridViewTextBoxCell dgvtbc = new DataGridViewTextBoxCell();
+                        dgvtbc.Value = item[i];
+                        dgvr.Cells.Add(dgvtbc);
+                    }
+                    dgvPro.Rows.Add(dgvr);
                 }
+            }
+            else
+            {
+                MessageBox.Show("查无此合同订单号详细信息，请核对之后重试！", "系统提示");
+                return;
             }
         }
         /// <summary>
@@ -85,7 +107,7 @@ namespace wareHouse
                 float strss=Convert.ToSingle(cbbSale.SelectedValue);
                 //-1：不存在相同数据，添加数据
                 DataGridViewRow dgvr = new DataGridViewRow();
-                string[] items = new string[] { (++index).ToString(),cbbPNID.SelectedValue.ToString(), cbbproName.Text, cbbPNID.Text, txtNumber.Text,txtPrice.Text,cbbSale.SelectedValue.ToString(),(str*strs*strss).ToString() };
+                string[] items = new string[] { (++index).ToString(),cbbPNID.SelectedValue.ToString(), cbbproName.Text, cbbPNID.Text, txtNumber.Text,txtPrice.Text,cbTax.Checked.ToString(),cbbSale.SelectedValue.ToString(),(str*strs*strss).ToString() };
                 for (int i = 0; i < items.Count(); i++)
                 {
                     DataGridViewTextBoxCell txtcell = new DataGridViewTextBoxCell();
@@ -167,8 +189,15 @@ namespace wareHouse
             cbb.DisplayMember = "productName";
             cbb.DataSource = BLL.GetInventory(4, new string[] { "", "", "", "", "", "", "" });
         }
+        /// <summary>
+        /// 默认加载
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void frmDelivery_Load(object sender, EventArgs e)
         {
+            txtName.Text = NAME;//发货人名称
+
             SaleBing(cbbSale);//折扣绑定
             cbbSale.SelectedIndex = 0;
             GetClient(cbbClientName);//客户绑定
@@ -244,7 +273,11 @@ namespace wareHouse
                 //默认操作
             }
         }
-
+        /// <summary>
+        /// 保存操作
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tsbSave_Click(object sender, EventArgs e)
         {
             //验证是否填写完整
@@ -283,7 +316,35 @@ namespace wareHouse
                 MessageBox.Show(message, "系统提示");
                 return;
             }
-
+            else
+            {
+                int error = 0;//错误次数
+                string port = "";//未成功记录的数据
+                foreach (DataRow dr in dgvPro.Rows)
+                {
+                    string[] data = new string[] { txtContract.Text, cbbClientName.SelectedValue.ToString(),dr["proID"].ToString(),dr["amount"].ToString(),dr["sellprice"].ToString(),dr["sale"].ToString()
+                        ,dr["tax"].ToString(),(Convert.ToDouble(dr["sellprice"].ToString())*Convert.ToDouble(dr["sale"].ToString())).ToString(),dr["subtotal"].ToString(),txtCtrackingID.Text,cbbCtrackingName.SelectedText
+                    ,dtpCArriveDate.Value.ToString(),ID,txtRemark.Text}; 
+                    if(BLL.InsDelivery(1, data) > 0)
+                    {
+                        error++;
+                    }
+                    else
+                    {
+                        port += dr["autoid"].ToString()+",";
+                    }
+                }
+                if (error>0)
+                {
+                    MessageBox.Show("提交成功！", "系统提示");
+                }
+                if (port.Length>0)
+                {
+                    port.Remove(port.Length - 1, 1);
+                    MessageBox.Show(string.Format("以下序号：\n{0}\n提交失败！",port), "系统提示");
+                    return;
+                }
+            }
         }
         /// <summary>
         /// 新建清空信息
@@ -294,8 +355,13 @@ namespace wareHouse
         {
             Clear(groupBox2);
             txtNumber.Text = string.Empty;
+            dgvPro.Rows.Clear();
         }
-
+        /// <summary>
+        /// 输入结束验证
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvPro_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewCell dgvc = dgvPro[e.ColumnIndex, e.RowIndex];
@@ -312,6 +378,16 @@ namespace wareHouse
                 double sellprice = Convert.ToDouble(Decimal.Parse(dgvPro["sellprice", e.RowIndex].Value.ToString(),System.Globalization.NumberStyles.Currency));
                 dgvPro["subtotal", e.RowIndex].Value = amount * sale * sellprice;
             }
+        }
+        /// <summary>
+        /// 自动转化为大写
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtContract_Leave(object sender, EventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            tb.Text = tb.Text.ToUpper();
         }
     }
 }

@@ -87,7 +87,7 @@ namespace wareHouse
         /// <param name="e"></param>
         private void tsbDelivery_Click(object sender, EventArgs e)
         {
-            frmDelivery frmdelivery = new frmDelivery();
+            frmDelivery frmdelivery = new frmDelivery(userID,userName);
             frmdelivery.MdiParent = this;
             frmdelivery.Show();
         }

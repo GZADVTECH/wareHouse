@@ -103,7 +103,7 @@ go
 create table delivery_cargo
 (
 	autoID int identity(1,1),--自动编号
-	cOrderID nvarchar(20),--客户订单号
+	cOrderID nvarchar(50),--客户订单号
 	cID nvarchar(20),--客户编号
 	productID nvarchar(50),--产品编号
 	[count] int,--数量
@@ -138,6 +138,8 @@ create table maintenanceTable
 (
 	cID int identity(1,1),--客户编号
 	productID nvarchar(50),--产品编号
+	SNID nvarchar(50),--SNID
+	maintenanceMsg nvarchar(max),--维保原因
 	maintenanceName nvarchar(50),--维保地名称
 	arrivalDate datetime,--收货日期
 	trackingID nvarchar(50),--快递单号
@@ -516,6 +518,52 @@ end
 go
 
 --通过合同订单号查询详细信息
+create proc pro_contractOrder
+@contractorder nvarchar(50)
+as
+begin
+select pro.contractOrder,pro.clientID,client.cName,cargo.productID,inven.productName,inven.PNID,cargo.amount,cargo.unitPrice,cargo.isTax,cargo.sellPrice,cargo.sellisTax,delivery.discount
+from procurement pro
+left join ClientTable client on client.autoID=pro.clientID
+left join procurement_cargo cargo on cargo.pID=pro.pID
+left join inventory_Table inven on inven.productID=cargo.productID
+left join delivery_cargo delivery on delivery.cOrderID=pro.contractOrder
+where pro.contractOrder=@contractorder
+end
+go
+
+--出库表综合操作
+create proc pro_delivery
+@orderid nvarchar(20)='',@cid nvarchar(20)='',@productid nvarchar(50)='',@count int=0,@sellingPrice money='',@discount float='',@deliveryistax bit='',@discountprice money=''
+,@sellingprices money='',@trackingid nvarchar(50)='',@trackingname nvarchar(50)='',@arrivaldate datetime='',@consignerid nvarchar(20)='',@remark nvarchar(max)='',@typeid int
+as
+begin
+--查询
+if(@typeid=0)
+begin
+if(@orderid<>'')
+select * from delivery_cargo
+else
+select * from delivery_cargo where cOrderID=@orderid
+end
+--插入
+else if(@typeid=1)
+begin
+insert into delivery_cargo values(@orderid,@cid,@productid,@count,@sellingPrice,@discount,@deliveryistax,@discountprice,@sellingprices,@trackingid,@trackingname,@arrivaldate,@consignerid,@remark)
+end
+--更新
+else if(@typeid=2)
+begin
+update delivery_cargo set [count]=@count,discount=@discount,discountPrice=@sellingPrice*@discount,sellingPrices=@sellingPrice*@count*@discount,trackingID=@trackingid
+,trackingName=@trackingname,arrivalDate=@arrivaldate,Remark=@remark where cOrderID=@orderid and productID=@productid
+end
+--删除
+else if(@typeid=3)
+begin
+delete delivery_cargo where cOrderID=@orderid and productID=@productid
+end
+end
+go
 -----------------------------测试数据-----------------------------------------
 --插入用户权限表信息
 insert into user_Limit values('超级管理员'),('采购管理员'),('财务管理员'),('仓库管理员'),('其他管理员')

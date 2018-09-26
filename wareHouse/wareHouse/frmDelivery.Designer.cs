@@ -40,8 +40,14 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbbClientName = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cbTax = new System.Windows.Forms.CheckBox();
             this.btnAdd = new System.Windows.Forms.Button();
+            this.cbbSale = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtPrice = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.txtNumber = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.cbbPNID = new System.Windows.Forms.ComboBox();
@@ -62,17 +68,13 @@
             this.label18 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.cbbClientName = new System.Windows.Forms.ComboBox();
-            this.txtPrice = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cbbSale = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.autoid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.proID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.proname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sellprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sale = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.subtotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1.SuspendLayout();
@@ -190,8 +192,17 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "出库信息";
             // 
+            // cbbClientName
+            // 
+            this.cbbClientName.FormattingEnabled = true;
+            this.cbbClientName.Location = new System.Drawing.Point(290, 18);
+            this.cbbClientName.Name = "cbbClientName";
+            this.cbbClientName.Size = new System.Drawing.Size(100, 20);
+            this.cbbClientName.TabIndex = 1;
+            // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.cbTax);
             this.groupBox3.Controls.Add(this.btnAdd);
             this.groupBox3.Controls.Add(this.cbbSale);
             this.groupBox3.Controls.Add(this.label2);
@@ -211,15 +222,61 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "货物信息";
             // 
+            // cbTax
+            // 
+            this.cbTax.AutoSize = true;
+            this.cbTax.Location = new System.Drawing.Point(8, 189);
+            this.cbTax.Name = "cbTax";
+            this.cbTax.Size = new System.Drawing.Size(48, 16);
+            this.cbTax.TabIndex = 20;
+            this.cbTax.Text = "含税";
+            this.cbTax.UseVisualStyleBackColor = true;
+            // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(55, 179);
+            this.btnAdd.Location = new System.Drawing.Point(89, 180);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(80, 26);
-            this.btnAdd.TabIndex = 17;
+            this.btnAdd.TabIndex = 12;
             this.btnAdd.Text = "添加";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // cbbSale
+            // 
+            this.cbbSale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbbSale.FormattingEnabled = true;
+            this.cbbSale.Location = new System.Drawing.Point(71, 140);
+            this.cbbSale.Name = "cbbSale";
+            this.cbbSale.Size = new System.Drawing.Size(98, 20);
+            this.cbbSale.TabIndex = 11;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(30, 143);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 12);
+            this.label2.TabIndex = 19;
+            this.label2.Text = "折扣:";
+            // 
+            // txtPrice
+            // 
+            this.txtPrice.Enabled = false;
+            this.txtPrice.Location = new System.Drawing.Point(71, 113);
+            this.txtPrice.MaxLength = 100;
+            this.txtPrice.Name = "txtPrice";
+            this.txtPrice.Size = new System.Drawing.Size(98, 21);
+            this.txtPrice.TabIndex = 10;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 116);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(59, 12);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "销售单价:";
             // 
             // txtNumber
             // 
@@ -227,7 +284,7 @@
             this.txtNumber.MaxLength = 100;
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new System.Drawing.Size(98, 21);
-            this.txtNumber.TabIndex = 16;
+            this.txtNumber.TabIndex = 9;
             this.txtNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumber_KeyPress);
             // 
             // label20
@@ -246,7 +303,7 @@
             this.cbbPNID.Location = new System.Drawing.Point(71, 49);
             this.cbbPNID.Name = "cbbPNID";
             this.cbbPNID.Size = new System.Drawing.Size(98, 20);
-            this.cbbPNID.TabIndex = 15;
+            this.cbbPNID.TabIndex = 8;
             this.cbbPNID.SelectedValueChanged += new System.EventHandler(this.cbbPNID_SelectedValueChanged);
             // 
             // label21
@@ -265,7 +322,7 @@
             this.cbbproName.Location = new System.Drawing.Point(71, 17);
             this.cbbproName.Name = "cbbproName";
             this.cbbproName.Size = new System.Drawing.Size(98, 20);
-            this.cbbproName.TabIndex = 14;
+            this.cbbproName.TabIndex = 7;
             this.cbbproName.SelectedValueChanged += new System.EventHandler(this.cbbproName_SelectedValueChanged);
             // 
             // label22
@@ -281,12 +338,13 @@
             // 
             this.dgvPro.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPro.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
+            this.autoid,
             this.proID,
-            this.name,
+            this.proname,
             this.pnid,
             this.amount,
             this.sellprice,
+            this.tax,
             this.sale,
             this.subtotal});
             this.dgvPro.Location = new System.Drawing.Point(188, 17);
@@ -334,14 +392,14 @@
             this.cbbCtrackingName.Location = new System.Drawing.Point(700, 18);
             this.cbbCtrackingName.Name = "cbbCtrackingName";
             this.cbbCtrackingName.Size = new System.Drawing.Size(121, 20);
-            this.cbbCtrackingName.TabIndex = 2;
+            this.cbbCtrackingName.TabIndex = 3;
             // 
             // txtRemark
             // 
             this.txtRemark.Location = new System.Drawing.Point(483, 55);
             this.txtRemark.Name = "txtRemark";
             this.txtRemark.Size = new System.Drawing.Size(339, 21);
-            this.txtRemark.TabIndex = 1;
+            this.txtRemark.TabIndex = 6;
             // 
             // txtName
             // 
@@ -349,22 +407,23 @@
             this.txtName.Location = new System.Drawing.Point(290, 55);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(100, 21);
-            this.txtName.TabIndex = 1;
+            this.txtName.TabIndex = 5;
             // 
             // txtCtrackingID
             // 
             this.txtCtrackingID.Location = new System.Drawing.Point(483, 18);
             this.txtCtrackingID.Name = "txtCtrackingID";
             this.txtCtrackingID.Size = new System.Drawing.Size(100, 21);
-            this.txtCtrackingID.TabIndex = 1;
+            this.txtCtrackingID.TabIndex = 2;
+            this.txtCtrackingID.Leave += new System.EventHandler(this.txtContract_Leave);
             // 
             // txtContract
             // 
-            this.txtContract.Enabled = false;
             this.txtContract.Location = new System.Drawing.Point(97, 18);
             this.txtContract.Name = "txtContract";
             this.txtContract.Size = new System.Drawing.Size(100, 21);
-            this.txtContract.TabIndex = 1;
+            this.txtContract.TabIndex = 0;
+            this.txtContract.Leave += new System.EventHandler(this.txtContract_Leave);
             // 
             // label16
             // 
@@ -420,56 +479,11 @@
             this.label13.TabIndex = 0;
             this.label13.Text = "合同订单号";
             // 
-            // cbbClientName
+            // autoid
             // 
-            this.cbbClientName.Enabled = false;
-            this.cbbClientName.FormattingEnabled = true;
-            this.cbbClientName.Location = new System.Drawing.Point(290, 18);
-            this.cbbClientName.Name = "cbbClientName";
-            this.cbbClientName.Size = new System.Drawing.Size(100, 20);
-            this.cbbClientName.TabIndex = 6;
-            // 
-            // txtPrice
-            // 
-            this.txtPrice.Enabled = false;
-            this.txtPrice.Location = new System.Drawing.Point(71, 113);
-            this.txtPrice.MaxLength = 100;
-            this.txtPrice.Name = "txtPrice";
-            this.txtPrice.Size = new System.Drawing.Size(98, 21);
-            this.txtPrice.TabIndex = 18;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 116);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 12);
-            this.label1.TabIndex = 17;
-            this.label1.Text = "销售单价:";
-            // 
-            // cbbSale
-            // 
-            this.cbbSale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbbSale.FormattingEnabled = true;
-            this.cbbSale.Location = new System.Drawing.Point(71, 140);
-            this.cbbSale.Name = "cbbSale";
-            this.cbbSale.Size = new System.Drawing.Size(98, 20);
-            this.cbbSale.TabIndex = 20;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(30, 143);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 12);
-            this.label2.TabIndex = 19;
-            this.label2.Text = "折扣:";
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "序号";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
+            this.autoid.HeaderText = "序号";
+            this.autoid.Name = "autoid";
+            this.autoid.ReadOnly = true;
             // 
             // proID
             // 
@@ -478,12 +492,10 @@
             this.proID.ReadOnly = true;
             this.proID.Visible = false;
             // 
-            // name
+            // proname
             // 
-            this.name.HeaderText = "产品名称";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            this.name.Width = 200;
+            this.proname.HeaderText = "产品名称";
+            this.proname.Name = "proname";
             // 
             // pnid
             // 
@@ -503,11 +515,16 @@
             this.sellprice.Name = "sellprice";
             this.sellprice.ReadOnly = true;
             // 
+            // tax
+            // 
+            this.tax.HeaderText = "是否含税";
+            this.tax.Name = "tax";
+            this.tax.Visible = false;
+            // 
             // sale
             // 
             this.sale.HeaderText = "折扣";
             this.sale.Name = "sale";
-            this.sale.ReadOnly = true;
             // 
             // subtotal
             // 
@@ -578,12 +595,14 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtPrice;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.CheckBox cbTax;
+        private System.Windows.Forms.DataGridViewTextBoxColumn autoid;
         private System.Windows.Forms.DataGridViewTextBoxColumn proID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn proname;
         private System.Windows.Forms.DataGridViewTextBoxColumn pnid;
         private System.Windows.Forms.DataGridViewTextBoxColumn amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn sellprice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tax;
         private System.Windows.Forms.DataGridViewTextBoxColumn sale;
         private System.Windows.Forms.DataGridViewTextBoxColumn subtotal;
     }
