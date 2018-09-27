@@ -124,5 +124,16 @@ namespace wareHouse
             frmSuper.MdiParent = this;
             frmSuper.Show();
         }
+        /// <summary>
+        /// 维修管理窗体
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            frmMaintenance main = new frmMaintenance();
+            main.MdiParent = this;
+            main.Show();
+        }
     }
 }

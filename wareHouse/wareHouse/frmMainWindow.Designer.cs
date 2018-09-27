@@ -37,6 +37,7 @@
             this.tsbFinance = new System.Windows.Forms.ToolStripButton();
             this.tsbInventory = new System.Windows.Forms.ToolStripButton();
             this.tsbSuper = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,6 +50,7 @@
             this.tsbClient,
             this.tsbFinance,
             this.tsbInventory,
+            this.toolStripButton1,
             this.tsbSuper});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -119,6 +121,15 @@
             this.tsbSuper.Text = "超级管理";
             this.tsbSuper.Click += new System.EventHandler(this.tsbSuper_Click);
             // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(76, 22);
+            this.toolStripButton1.Text = "维修管理";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
             // frmMainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -148,5 +159,6 @@
         private System.Windows.Forms.ToolStripButton tsbInventory;
         private System.Windows.Forms.ToolStripButton tsbSuper;
         private System.Windows.Forms.ToolStripButton tsbProcurement;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }

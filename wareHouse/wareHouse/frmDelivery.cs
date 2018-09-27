@@ -53,8 +53,9 @@ namespace wareHouse
                     int index = 0;//序号
                     dgvPro.Rows.Clear();//清空DataGridView的数据
                     DataGridViewRow dgvr = new DataGridViewRow();
-                    string[] item = new string[] { (++index).ToString(), dr["productID"].ToString(),dr["productName"].ToString(), dr["PNID"].ToString(), dr["amount"].ToString(), dr["sellPrice"].ToString(), dr["sellisTax"].ToString(), string.IsNullOrEmpty(dr["discount"].ToString()) ? "0" : dr["discount"].ToString(), (Convert.ToDouble(dr["amount"].ToString())* Convert.ToDouble(dr["sellPrice"].ToString())* Convert.ToDouble(string.IsNullOrEmpty(dr["discount"].ToString()) ? "0" : dr["discount"].ToString())).ToString() };
-                    for (int i = 0; i < item.Count()-1; i++)
+                    string allprice = (Convert.ToDouble(dr["amount"].ToString()) * Convert.ToDouble(dr["sellPrice"].ToString()) * Convert.ToDouble(string.IsNullOrEmpty(dr["discount"].ToString()) ? "1" : dr["discount"].ToString())).ToString();
+                    string[] item = new string[] { (++index).ToString(), dr["productID"].ToString(),dr["productName"].ToString(), dr["PNID"].ToString(), dr["amount"].ToString(), dr["sellPrice"].ToString(), dr["sellisTax"].ToString(), string.IsNullOrEmpty(dr["discount"].ToString()) ? "1" : dr["discount"].ToString(),allprice  };
+                    for (int i = 0; i < item.Count(); i++)
                     {
                         DataGridViewTextBoxCell dgvtbc = new DataGridViewTextBoxCell();
                         dgvtbc.Value = item[i];
@@ -118,17 +119,17 @@ namespace wareHouse
             }
             else
             {
-                int str = Convert.ToInt32(txtNumber.Text);
-                double strs = Convert.ToDouble(Decimal.Parse(txtPrice.Text.ToString(), System.Globalization.NumberStyles.Currency));
-                float strss = Convert.ToSingle(cbbSale.SelectedValue);
-                //如果相同则只需要增加数量或者修改单价
+                //如果相同则只需要增加数量或者修改单价或者修改折扣
                 DataGridViewRow dr = dgvPro.Rows[index];
                 int amount = Convert.ToInt32(dr.Cells["amount"].Value);
                 amount += Convert.ToInt32(txtNumber.Text);
                 dr.Cells["amount"].Value = amount;
-                double subtotal=Convert.ToDouble(dr.Cells["subtotal"].Value);
-                subtotal += (str * strs * strss);
-                dr.Cells["subtotal"].Value = subtotal;
+                dr.Cells["sale"].Value=cbbSale.SelectedValue;
+                int str = Convert.ToInt32(dr.Cells["amount"].Value);
+                double strs = Convert.ToDouble(Decimal.Parse(dr.Cells["sellprice"].Value.ToString(), System.Globalization.NumberStyles.Currency));
+                float strss = Convert.ToSingle(dr.Cells["sale"].Value.ToString());
+                double subtotal = str * strs * strss;
+                dr.Cells["subtotal"].Value = string.Format("{0:N2}", subtotal) ;
             }
         }
         /// <summary>
@@ -302,7 +303,7 @@ namespace wareHouse
             string message="";
             foreach (DataGridViewRow dgvr in dgvPro.Rows)
             {
-                string[] data = new string[] { "", dgvr.Cells["name"].Value.ToString(), dgvr.Cells["pnid"].Value.ToString(), "", "", "", "" };
+                string[] data = new string[] { "", dgvr.Cells["proname"].Value.ToString(), dgvr.Cells["pnid"].Value.ToString(), "", "", "", "" };
                 DataTable dt = BLL.GetInventory(5, data);
                 int quantity = int.Parse(dt.Rows[0]["quantity"].ToString());
                 if (int.Parse(dgvr.Cells["amount"].Value.ToString())>quantity)
@@ -320,10 +321,10 @@ namespace wareHouse
             {
                 int error = 0;//错误次数
                 string port = "";//未成功记录的数据
-                foreach (DataRow dr in dgvPro.Rows)
+                foreach (DataGridViewRow dr in dgvPro.Rows)
                 {
-                    string[] data = new string[] { txtContract.Text, cbbClientName.SelectedValue.ToString(),dr["proID"].ToString(),dr["amount"].ToString(),dr["sellprice"].ToString(),dr["sale"].ToString()
-                        ,dr["tax"].ToString(),(Convert.ToDouble(dr["sellprice"].ToString())*Convert.ToDouble(dr["sale"].ToString())).ToString(),dr["subtotal"].ToString(),txtCtrackingID.Text,cbbCtrackingName.SelectedText
+                    string[] data = new string[] { txtContract.Text, cbbClientName.SelectedValue.ToString(),dr.Cells["proID"].Value.ToString(),dr.Cells["amount"].Value.ToString(),dr.Cells["sellprice"].Value.ToString(),dr.Cells["sale"].Value.ToString()
+                        ,dr.Cells["tax"].Value.ToString(),(Convert.ToDouble(dr.Cells["sellprice"].Value.ToString())*Convert.ToDouble(dr.Cells["sale"].Value.ToString())).ToString(),dr.Cells["subtotal"].Value.ToString(),txtCtrackingID.Text,cbbCtrackingName.SelectedText
                     ,dtpCArriveDate.Value.ToString(),ID,txtRemark.Text}; 
                     if(BLL.InsDelivery(1, data) > 0)
                     {
@@ -331,7 +332,7 @@ namespace wareHouse
                     }
                     else
                     {
-                        port += dr["autoid"].ToString()+",";
+                        port += dr.Cells["autoid"].ToString()+",";
                     }
                 }
                 if (error>0)
@@ -353,9 +354,12 @@ namespace wareHouse
         /// <param name="e"></param>
         private void tsbNew_Click(object sender, EventArgs e)
         {
-            Clear(groupBox2);
-            txtNumber.Text = string.Empty;
-            dgvPro.Rows.Clear();
+            if (MessageBox.Show("是否新建？", "系统提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Clear(groupBox2);
+                txtNumber.Text = string.Empty;
+                dgvPro.Rows.Clear();
+            }
         }
         /// <summary>
         /// 输入结束验证
@@ -365,18 +369,16 @@ namespace wareHouse
         private void dgvPro_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewCell dgvc = dgvPro[e.ColumnIndex, e.RowIndex];
-            string num = dgvc.Value.ToString();
-            if (Convert.ToInt32(dgvc.Value)<=0)
+            if (Convert.ToDouble(dgvc.Value)<=0)
             {
-                MessageBox.Show("数量不允许小于等于零", "系统提示");
-                dgvc.Value = num;
+                MessageBox.Show("数量不允许小于等于零", "系统提示");return;
             }
             else
             {
                 int amount = Convert.ToInt32(dgvPro["amount", e.RowIndex].Value);
                 float sale = Convert.ToSingle(dgvPro["sale", e.RowIndex].Value);
                 double sellprice = Convert.ToDouble(Decimal.Parse(dgvPro["sellprice", e.RowIndex].Value.ToString(),System.Globalization.NumberStyles.Currency));
-                dgvPro["subtotal", e.RowIndex].Value = amount * sale * sellprice;
+                dgvPro["subtotal", e.RowIndex].Value = string.Format("{0:N2}",amount * sale * sellprice);
             }
         }
         /// <summary>

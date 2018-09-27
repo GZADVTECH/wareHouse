@@ -357,7 +357,12 @@ namespace WHBLL
             DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_contractOrder", param, CommandType.StoredProcedure);
             return dt;
         }
-
+        /// <summary>
+        /// 插入出库数据
+        /// </summary>
+        /// <param name="typeid"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static int InsDelivery(int typeid,params string[] data)
         {
             SqlParameter[] param =
@@ -380,6 +385,46 @@ namespace WHBLL
             };
             int feedback = SQLHelper.Execute("SQL", "pro_delivery", param, CommandType.StoredProcedure);
             return feedback;
+        }
+        /// <summary>
+        /// 获取维修表信息
+        /// </summary>
+        /// <param name="typeid"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static int InsMain(int typeid,params string[] data)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("@cid",data[0]),
+                new SqlParameter("@proid",data[1]),
+                new SqlParameter("@snid",data[2]),
+                new SqlParameter("@mainmsg",data[3]),
+                new SqlParameter("@mainname",data[4]),
+                new SqlParameter("@arrivaldate",data[5]),
+                new SqlParameter("@trackingid",data[6]),
+                new SqlParameter("@trackingname",data[7]),
+                new SqlParameter("@contid",data[8]),
+                new SqlParameter("@returnproid",data[9]),
+                new SqlParameter("@returndate",data[10]),
+                new SqlParameter("@returntrackid",data[12]),
+                new SqlParameter("@returntrackname",data[13]),
+                new SqlParameter("@typeid",typeid)
+            };
+            int index = SQLHelper.Execute("SQL", "pro_maintenance", param, CommandType.StoredProcedure);
+            return index;
+        }
+        public static DataTable QueryMain(string[] data)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("@typeid","0"),
+                new SqlParameter("@cid",data[0]),
+                new SqlParameter("@proid",data[1]),
+                new SqlParameter("@snid",data[2])
+            };
+            DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_maintenance", param, CommandType.StoredProcedure);
+            return dt;
         }
     }
 }

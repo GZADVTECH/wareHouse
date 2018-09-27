@@ -136,7 +136,7 @@ go
 --维修表
 create table maintenanceTable
 (
-	cID int identity(1,1),--客户编号
+	cID int,--客户编号
 	productID nvarchar(50),--产品编号
 	SNID nvarchar(50),--SNID
 	maintenanceMsg nvarchar(max),--维保原因
@@ -564,6 +564,44 @@ delete delivery_cargo where cOrderID=@orderid and productID=@productid
 end
 end
 go
+
+--维修表综合操作
+create proc pro_maintenance
+@cid int='',@proid nvarchar(50)='',@snid nvarchar(50)='',@mainmsg nvarchar(max)='',@mainname nvarchar(50)='',@arrivaldate datetime='',@trackingid nvarchar(50)='',@trackingname nvarchar(50)=''
+,@contid nvarchar(20)='',@returnproid nvarchar(50)='',@returndate datetime='',@returntrackid nvarchar(50)='',@returntrackname nvarchar(50)='',@typeid int
+as
+begin
+--查询
+if(@typeid=0)
+begin
+if(@cid='' and @proid='' and @snid='')
+select main.*,inven.productName,inven.PNID,client.cName from maintenanceTable main
+left join inventory_Table inven on inven.productID=main.productID
+left join ClientTable client on client.autoID=main.cID
+else
+select main.*,inven.productName,inven.PNID,client.cName from maintenanceTable main
+left join inventory_Table inven on inven.productID=main.productID
+left join ClientTable client on client.autoID=main.cID
+where cID=@cid and main.productID=@proid and SNID=@snid
+end
+--插入
+if(@typeid=1)
+begin
+insert into maintenanceTable values(@cid,@proid,@snid,@mainmsg,@mainname,@arrivaldate,@trackingid,@trackingname,@contid,@returnproid,@returndate,@returntrackid,@returntrackname)
+end
+--更新
+if(@typeid=2)
+begin
+update maintenanceTable set maintenanceMsg=@mainmsg,@mainname=@mainname,arrivalDate=@arrivaldate,trackingID=@trackingid,trackingName=@trackingname,contactsID=@contid
+,returnproductID=@returnproid,returnDate=@returndate,returntrackingID=@returntrackid,returntrackingName=@returntrackname where cID=@cid and productID=@proid and SNID=@snid
+end
+--删除
+if(@typeid=3)
+begin
+delete maintenanceTable where cID=@cid and productID=@proid and SNID=@snid
+end
+end
+go
 -----------------------------测试数据-----------------------------------------
 --插入用户权限表信息
 insert into user_Limit values('超级管理员'),('采购管理员'),('财务管理员'),('仓库管理员'),('其他管理员')
@@ -660,6 +698,3 @@ left join ClientTable client on client.autoID=pro.clientID
 select * from procurement_cargo cargo
  left join inventory_Table inven on inven.productID=cargo.productID
  left join supplierTable sup on sup.autoID=cargo.supplierID
-
-
-

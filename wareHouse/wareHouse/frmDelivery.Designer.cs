@@ -525,6 +525,7 @@
             // 
             this.sale.HeaderText = "折扣";
             this.sale.Name = "sale";
+            this.sale.ReadOnly = true;
             // 
             // subtotal
             // 
