@@ -41,7 +41,7 @@ namespace wareHouse
                 txtPwd.Focus();
                 return;
             }
-            DataTable i = BLL.GetLogin(txtUid.Text, txtPwd.Text);
+            DataTable i = BLL.VerificationLogin(txtUid.Text, txtPwd.Text);
             if (i.Rows.Count > 0)
             {
                 //将登录成功的用户名登记到文本框中，方便下次输入

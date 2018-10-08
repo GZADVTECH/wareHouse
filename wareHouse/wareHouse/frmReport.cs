@@ -59,11 +59,13 @@ namespace wareHouse
                     Procurement("Stock.rpt");
                     break;
                 case 3:
+                    //送货单
                     Procurement("DeliveryNote.rpt");
                     break;
                 case 4:
                     break;
                 case 5:
+                    //财务报表
                     Procurement("Finance.rpt");
                     if (PID != null)
                     {

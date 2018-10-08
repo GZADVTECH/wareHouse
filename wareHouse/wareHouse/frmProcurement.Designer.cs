@@ -543,6 +543,7 @@
             this.txtorderid.Size = new System.Drawing.Size(129, 21);
             this.txtorderid.TabIndex = 1;
             this.txtorderid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NaturalKeyPress);
+            this.txtorderid.Leave += new System.EventHandler(this.txtPID_Leave);
             // 
             // txtPID
             // 
@@ -551,6 +552,7 @@
             this.txtPID.Size = new System.Drawing.Size(129, 21);
             this.txtPID.TabIndex = 0;
             this.txtPID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NaturalKeyPress);
+            this.txtPID.Leave += new System.EventHandler(this.txtPID_Leave);
             // 
             // cbbClient
             // 

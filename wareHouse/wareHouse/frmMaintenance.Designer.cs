@@ -144,6 +144,7 @@
             this.toolStripButton4.Name = "toolStripButton4";
             this.toolStripButton4.Size = new System.Drawing.Size(88, 22);
             this.toolStripButton4.Text = "打印维修单";
+            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
             // 
             // label1
             // 

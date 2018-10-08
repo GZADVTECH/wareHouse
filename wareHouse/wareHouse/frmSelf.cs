@@ -47,7 +47,7 @@ namespace wareHouse
                 MessageBox.Show("密码不一致");
             }
             //判断旧密码是否正确，如果正确，将进行修改密码操作
-            if ((WHBLL.BLL.GetLogin(txtUid.Text, txtOldPwd.Text).Rows.Count > 0))
+            if ((WHBLL.BLL.VerificationLogin(txtUid.Text, txtOldPwd.Text).Rows.Count > 0))
             {
                 if (WHBLL.BLL.UpdatePwd(txtUid.Text, txtNewPwd.Text) > 0)
                 {

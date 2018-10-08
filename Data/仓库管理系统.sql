@@ -187,7 +187,13 @@ create table supplierTable
 	remark nvarchar(max),--备注
 )
 go
+create table monthly
+(
+	autoID int identity(1,1),--自动编号
+	storageDate datetime,--入库日期
+	materielID nvarchar(50),--物料编码
 
+)
 ------------------------------存储过程----------------------------------------
 --验证账号密码是否存在,如果存在，返回编号，姓名，权限等信息
 create procedure pro_Login
@@ -566,9 +572,9 @@ end
 go
 
 --维修表综合操作
-create proc pro_maintenance
+alter proc pro_maintenance
 @cid int='',@proid nvarchar(50)='',@snid nvarchar(50)='',@mainmsg nvarchar(max)='',@mainname nvarchar(50)='',@arrivaldate datetime='',@trackingid nvarchar(50)='',@trackingname nvarchar(50)=''
-,@contid nvarchar(20)='',@returnproid nvarchar(50)='',@returndate datetime='',@returntrackid nvarchar(50)='',@returntrackname nvarchar(50)='',@typeid int
+,@contid nvarchar(20)='',@returnproid nvarchar(50)='',@returndate datetime='',@returntrackid nvarchar(50)='',@returntrackname nvarchar(50)='',@typeid int,@RETURN_VALUE int=0 output
 as
 begin
 --查询
@@ -588,18 +594,37 @@ end
 if(@typeid=1)
 begin
 insert into maintenanceTable values(@cid,@proid,@snid,@mainmsg,@mainname,@arrivaldate,@trackingid,@trackingname,@contid,@returnproid,@returndate,@returntrackid,@returntrackname)
+set @RETURN_VALUE=@@ROWCOUNT
+return @RETURN_VALUE
 end
 --更新
 if(@typeid=2)
 begin
 update maintenanceTable set maintenanceMsg=@mainmsg,@mainname=@mainname,arrivalDate=@arrivaldate,trackingID=@trackingid,trackingName=@trackingname,contactsID=@contid
 ,returnproductID=@returnproid,returnDate=@returndate,returntrackingID=@returntrackid,returntrackingName=@returntrackname where cID=@cid and productID=@proid and SNID=@snid
+set @RETURN_VALUE=@@ROWCOUNT
+return @RETURN_VALUE
 end
 --删除
 if(@typeid=3)
 begin
 delete maintenanceTable where cID=@cid and productID=@proid and SNID=@snid
+set @RETURN_VALUE=@@ROWCOUNT
+return @RETURN_VALUE
 end
+end
+go
+--未审核详细
+alter proc pro_cargo_pro
+as
+begin
+select pro.*,cargo.*,inven.productName,inven.PNID,client.cName,userm.userName 
+from procurement pro
+left join procurement_cargo cargo on cargo.pID=pro.pID
+left join inventory_Table inven on inven.productID=cargo.productID
+left join ClientTable client on client.autoID=pro.clientID
+left join user_Message userm on userm.userID=pro.userID
+where pro.[check]=0
 end
 go
 -----------------------------测试数据-----------------------------------------

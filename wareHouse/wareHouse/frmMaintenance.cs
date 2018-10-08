@@ -132,14 +132,25 @@ namespace wareHouse
             cbb.DataSource = BLL.GetUser(0);
         }
         /// <summary>
-        /// 获取维修表详细信息
+        /// 插入维修表详细信息
         /// </summary>
         /// <param name="sender"></param>
         private int InsMain(object sender)
         {
             string[] data = new string[] {cbbcname.SelectedValue.ToString(),cbbpnid.SelectedValue.ToString(),txtsnid.Text,txtmainmsg.Text,txtmainname.Text,dtparrivaldate.Value.ToString()
             ,txttrackingid.Text,txttrackingname.Text,cbbcontactsid.SelectedValue.ToString(),txtnewsnid.Text,dtpreturndate.Value.ToString(),txtreturntrackingid.Text,txtreturntrackingname.Text};
-            int dt = BLL.InsMain(0,data);
+            int dt = BLL.InsMain(data);
+            return dt;
+        }
+        /// <summary>
+        /// 更新维修表详细信息
+        /// </summary>
+        /// <param name="sender"></param>
+        private int UpdateMain(object sender)
+        {
+            string[] data = new string[] {cbbcname.SelectedValue.ToString(),cbbpnid.SelectedValue.ToString(),txtsnid.Text,txtmainmsg.Text,txtmainname.Text,dtparrivaldate.Value.ToString()
+            ,txttrackingid.Text,txttrackingname.Text,cbbcontactsid.SelectedValue.ToString(),txtnewsnid.Text,dtpreturndate.Value.ToString(),txtreturntrackingid.Text,txtreturntrackingname.Text};
+            int dt = BLL.UpdateMain(data);
             return dt;
         }
         /// <summary>
@@ -151,12 +162,20 @@ namespace wareHouse
         {
             if(MessageBox.Show("是否保存？", "系统提示",MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
+                foreach (Control group in groupBox1.Controls)
+                {
+                    if (string.IsNullOrEmpty(group.Text.Trim()))
+                    {
+                        MessageBox.Show("请将基础数据填写完整！", "系统提示");
+                        return;
+                    }
+                }
                 int index = 0;
                 foreach (DataGridViewRow row in dgvMain.Rows)
                 {
-                    if (cbbcname.SelectedValue == row.Cells["cid"].Value)
+                    if (cbbcname.SelectedValue.ToString() == row.Cells["cid"].Value.ToString())
                     {
-                        if (cbbpnid.SelectedValue == row.Cells["proID"].Value)
+                        if (cbbpnid.SelectedValue.ToString() == row.Cells["proID"].Value.ToString())
                         {
                             if (txtsnid.Text == row.Cells["snid"].Value.ToString())
                             {
@@ -168,6 +187,15 @@ namespace wareHouse
                 if (index>0)
                 {
                     //更新
+                    if (UpdateMain(sender) > 0)
+                    {
+                        MessageBox.Show("更新成功！", "系统提示");
+                        Clear(groupBox1);
+                        Clear(groupBox2);
+                        Clear(groupBox3);
+                        string[] data = new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+                        dgvMain.DataSource = BLL.QueryMain(data);
+                    }
                 }
                 else
                 {
@@ -178,6 +206,8 @@ namespace wareHouse
                         Clear(groupBox1);
                         Clear(groupBox2);
                         Clear(groupBox3);
+                        string[] data = new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+                        dgvMain.DataSource = BLL.QueryMain(data);
                     }
                 }
             }
@@ -209,6 +239,12 @@ namespace wareHouse
                     txtnewsnid.Text = dgvMain["returnsnid", e.RowIndex].Value.ToString();//校准归还S/N号
                 }
             }
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            frmReport report = new frmReport();
+            report.ShowDialog();
         }
     }
 }

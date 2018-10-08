@@ -238,7 +238,11 @@ namespace WHDAL
 
                         if (count <= 0)
                             if (cmdType == CommandType.StoredProcedure)
+                            {
+                                cmd.Parameters["@RETURN_VALUE"].Direction = ParameterDirection.Output;
+                                count = cmd.ExecuteNonQuery();
                                 count = (int)cmd.Parameters["@RETURN_VALUE"].Value;
+                            }
                     }
                 }
             }

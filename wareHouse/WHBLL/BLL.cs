@@ -17,14 +17,14 @@ namespace WHBLL
     /// <param name="uid">用户账号</param>
     /// <param name="pwd">登录密码</param>
     /// <returns></returns>
-        public static DataTable GetLogin(string uid,string pwd)
+        public static DataTable VerificationLogin(string uid,string pwd)
         {
             SqlParameter[] param =
             {
                 new SqlParameter("@uid",uid),
                 new SqlParameter("@pwd",pwd)
             };
-            DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_Login", param, CommandType.StoredProcedure);
+            DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_search_userinfo", param, CommandType.StoredProcedure);
             return dt;
         }
         /// <summary>
@@ -386,13 +386,7 @@ namespace WHBLL
             int feedback = SQLHelper.Execute("SQL", "pro_delivery", param, CommandType.StoredProcedure);
             return feedback;
         }
-        /// <summary>
-        /// 获取维修表信息
-        /// </summary>
-        /// <param name="typeid"></param>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public static int InsMain(int typeid,params string[] data)
+        public static int InsMain(params string[] data)
         {
             SqlParameter[] param =
             {
@@ -407,13 +401,45 @@ namespace WHBLL
                 new SqlParameter("@contid",data[8]),
                 new SqlParameter("@returnproid",data[9]),
                 new SqlParameter("@returndate",data[10]),
-                new SqlParameter("@returntrackid",data[12]),
-                new SqlParameter("@returntrackname",data[13]),
-                new SqlParameter("@typeid",typeid)
+                new SqlParameter("@returntrackid",data[11]),
+                new SqlParameter("@returntrackname",data[12])
             };
-            int index = SQLHelper.Execute("SQL", "pro_maintenance", param, CommandType.StoredProcedure);
+            int index = SQLHelper.Execute("SQL", "insert into maintenanceTable values(@cid,@proid,@snid,@mainmsg,@mainname,@arrivaldate,@trackingid,@trackingname,@contid,@returnproid,@returndate,@returntrackid,@returntrackname)", param, CommandType.Text);
             return index;
         }
+        /// <summary>
+                 /// 更新维修表信息
+                 /// </summary>
+                 /// <param name="typeid"></param>
+                 /// <param name="data"></param>
+                 /// <returns></returns>
+        public static int UpdateMain(params string[] data)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("@cid",data[0]),
+                new SqlParameter("@proid",data[1]),
+                new SqlParameter("@snid",data[2]),
+                new SqlParameter("@mainmsg",data[3]),
+                new SqlParameter("@mainname",data[4]),
+                new SqlParameter("@arrivaldate",data[5]),
+                new SqlParameter("@trackingid",data[6]),
+                new SqlParameter("@trackingname",data[7]),
+                new SqlParameter("@contid",data[8]),
+                new SqlParameter("@returnproid",data[9]),
+                new SqlParameter("@returndate",data[10]),
+                new SqlParameter("@returntrackid",data[11]),
+                new SqlParameter("@returntrackname",data[12])
+            };
+            int index = SQLHelper.Execute("SQL", "update maintenanceTable set maintenanceMsg=@mainmsg,@mainname=@mainname,arrivalDate=@arrivaldate,trackingID=@trackingid,trackingName=@trackingname,contactsID=@contid, returnproductID = @returnproid, returnDate = @returndate, returntrackingID = @returntrackid, returntrackingName = @returntrackname where cID = @cid and productID = @proid and SNID = @snid", param, CommandType.Text);
+            return index;
+        }
+        /// <summary>
+        /// 获取维修表信息
+        /// </summary>
+        /// <param name="typeid"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static DataTable QueryMain(string[] data)
         {
             SqlParameter[] param =
@@ -424,6 +450,36 @@ namespace WHBLL
                 new SqlParameter("@snid",data[2])
             };
             DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_maintenance", param, CommandType.StoredProcedure);
+            return dt;
+        }
+        /// <summary>
+        /// 未审核的详细订单资料
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable QueryProCargo()
+        {
+            DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_cargo_pro", null, CommandType.StoredProcedure);
+            return dt;
+        }
+        /// <summary>
+        /// 更新审核
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <param name="check"></param>
+        /// <returns></returns>
+        public static int UpdatePro(string pid,int check)
+        {
+            SqlParameter[] param = { new SqlParameter("@check", check),new SqlParameter("@pID",pid) };
+            int feedback = SQLHelper.Execute("SQL", "update procurement set [check]=@check where pID=@pID", param, CommandType.Text);
+            return feedback;
+        }
+        /// <summary>
+        /// 获取采购订单
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable QueryPro()
+        {
+            DataTable dt = SQLHelper.QueryDataTable("SQL", "select * from procurement where [check]=0", null, CommandType.Text);
             return dt;
         }
     }

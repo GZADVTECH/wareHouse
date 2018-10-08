@@ -293,6 +293,7 @@ namespace wareHouse
                 }
                 dgvProcurement.Rows.Add(dgvr);
                 setAmount();
+                txtNumber.Text = string.Empty;
             }
             else
             {
@@ -301,6 +302,7 @@ namespace wareHouse
                 int amount = Convert.ToInt32(dr.Cells["amount"].Value);
                 amount+= Convert.ToInt32(txtNumber.Text);
                 dr.Cells["amount"].Value = amount;
+                txtNumber.Text = string.Empty;
             }
         }
         /// <summary>
@@ -502,6 +504,12 @@ namespace wareHouse
             {
                 tb.Text = "0";
             }
+        }
+
+        private void txtPID_Leave(object sender, EventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            tb.Text = tb.Text.Trim().ToUpper();
         }
     }
 }
