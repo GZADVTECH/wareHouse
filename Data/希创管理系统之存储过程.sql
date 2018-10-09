@@ -244,7 +244,7 @@ create procedure pro_execute_userinfo
 @loginPwd nvarchar(max),			 --用户密码
 @userRights int=1,					 --用户权限
 @userStatus bit=1,					 --用户状态
-@userOperatorID nvarchar(20),		 --操作员编号
+@userOperatorID nvarchar(20)='',	 --操作员编号
 @type int							 --类型
 as
 begin
@@ -256,7 +256,7 @@ end
 --更新
 if(@type=2)
 begin
-update userinfo set loginPwd=@loginPwd,userRights=@userRights,userStatus=@userStatus where loginNumber=@loginNumber
+update userinfo set loginPwd=@loginPwd,userStatus=@userStatus where loginNumber=@loginNumber
 end
 --删除
 if(@type=3)
@@ -520,6 +520,8 @@ end
 go
 ---------------------------------------------------------------------
 --关于采购订单及采购货物详细查询存储过程
+drop procedure pro_search_purchaseOrder
+go
 create procedure pro_search_purchaseOrder
 @internalOrderNumber nvarchar(30)='',@officialOrderNumber nvarchar(50)='',@beginTime datetime=null,@endTime datetime=null,@type int
 as
@@ -546,6 +548,8 @@ end
 go
 
 --关于入库详细查询存储过程
+drop procedure pro_search_warehousing
+go
 create procedure pro_search_warehousing
 @purchaseID int=0,@internalOrderNumber nvarchar(30)='',@productID nvarchar(30)='',@type int
 as
@@ -563,6 +567,8 @@ end
 go
 
 --关于序列号详细查询存储过程
+drop procedure pro_search_serial
+go
 create procedure pro_search_serial
 @serialNumber int=0,@productID nvarchar(30)='',@SNCode nvarchar(30)='',@type int
 as
@@ -583,6 +589,8 @@ end
 go
 
 --关于库存详细查询存储过程
+drop procedure pro_search_stock
+go
 create procedure pro_search_stock
 @inventoryNumber nvarchar(30)='',@productID nvarchar(30)='',@productName nvarchar(20)='',@model nvarchar(50)='',@type int
 as
@@ -603,6 +611,8 @@ end
 go
 
 --关于财务详细查询存储过程
+drop procedure pro_search_finance
+go
 create procedure pro_search_finance
 @internalOrderNumber nvarchar(20),@type int
 as
@@ -632,6 +642,8 @@ end
 go
 
 --关于出库详细查询存储过程
+drop procedure pro_search_outgoing
+go
 create proc pro_search_outgoing
 @officialOrderNumber nvarchar(50)
 as
@@ -649,20 +661,27 @@ end
 go
 
 --关于用户信息详细查询存储过程
+drop procedure pro_search_userinfo
+go
 create procedure pro_search_userinfo
 @userNumber int=0,@loginNumber nvarchar(20)='',@loginPwd nvarchar(max)='',@type int
 as
 begin
 --查询全部
 if(@type=1)
-select loginNumber,userRights,userOperatorID,userStatus from userinfo
+select loginNumber,userRights,userOperatorID,userStatus,privacy.userName from userinfo uinfo
+left join userprivacy privacy on uinfo.userNumber=privacy.userNumber
 --查询是否存在
 else if(@type=2)
-select loginNumber,userRights,userOperatorID from userinfo where loginNumber=@loginNumber and loginpwd=@loginPwd and userStatus=1
+select loginNumber,userRights,privacy.userName from userinfo uinfo
+left join userprivacy privacy on uinfo.userNumber=privacy.userNumber 
+where loginNumber=@loginNumber and loginpwd=@loginPwd and userStatus=1
 end
 go
 
 --关于客户信息详细查询存储过程
+drop procedure pro_search_customerinfo
+go
 create procedure pro_search_customerinfo
 @customerNumber int,@type int
 as
@@ -674,6 +693,8 @@ end
 go
 
 --关于供应商详细查询存储过程
+drop procedure pro_search_supplier
+go
 create procedure pro_search_supplier
 @supplierNumber int='',@type int
 as
@@ -684,6 +705,8 @@ select * from supplier where supplierStatus=1
 end
 go
 --关于维修详细查询存储过程
+drop procedure pro_search_repair
+go
 create procedure pro_search_repair
 @repairCustomernumber int=0,@repairProductID nvarchar(30)='',@repairSNCode nvarchar(30)='',@type int
 as
@@ -706,17 +729,4 @@ go
 --关于月结详细查询存储过程
 
 ---------------------------------------------------------------------
---验证账号密码，正确返回详细信息
-create procedure pro_userinfo_login
-@loginNumber nvarchar(20),@loginPwd nvarchar(max)
-as
-begin
-declare @count int
-select @count=(select Count(*) from userinfo where loginNumber=@loginNumber and loginPwd=@loginPwd and userStatus=1)
-if @count>0
-begin
-select loginNumber,userRights from userinfo where loginNumber=@loginNumber
-end
-end
-go
 

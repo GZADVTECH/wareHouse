@@ -179,7 +179,7 @@ namespace wareHouse
             ComboBox cbb = (ComboBox)sender;
             cbb.DisplayMember = "cName";
             cbb.ValueMember = "autoID";
-            cbb.DataSource = BLL.GetClient(0, "", "", "");
+            cbb.DataSource = BLL.GetCustomer(0, "", "", "");
         }
         /// <summary>
         /// 产品名称获取

@@ -24,7 +24,7 @@ namespace wareHouse
 
         private void ClientData()
         {
-            dgvClient.DataSource = WHBLL.BLL.GetClient(0, "", "", "");
+            dgvClient.DataSource = WHBLL.BLL.GetCustomer(0, "", "", "");
             dgvClient.AutoGenerateColumns = false;//不自动生成列
             dgvClient.AllowUserToAddRows = false;//最后一行不添加空白行
             //dgvClient.SelectionMode = DataGridViewSelectionMode.FullColumnSelect;//选中全行
@@ -68,7 +68,7 @@ namespace wareHouse
         /// <param name="e"></param>
         private void btnSC_Click(object sender, EventArgs e)
         {
-            DataTable dt = WHBLL.BLL.GetClient(0, txtSCName.Text, "", "");
+            DataTable dt = WHBLL.BLL.GetCustomer(0, txtSCName.Text, "", "");
             if (dt.Rows.Count == 0)
             {
                 MessageBox.Show("该客户不存在");
@@ -110,7 +110,7 @@ namespace wareHouse
                 id = Convert.ToInt32(txtID.Text);
             if (MessageBox.Show("是否提交？", "系统提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
-                DataTable dt = WHBLL.BLL.GetClient(id, txtCName.Text, txtCWay.Text, rtbAddress.Text);
+                DataTable dt = WHBLL.BLL.GetCustomer(id, txtCName.Text, txtCWay.Text, rtbAddress.Text);
                 if (dt != null)
                 {
                     MessageBox.Show("操作成功!");

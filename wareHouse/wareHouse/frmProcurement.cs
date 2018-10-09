@@ -65,7 +65,7 @@ namespace wareHouse
         {
             cbbClient.DisplayMember = "cName";
             cbbClient.ValueMember = "autoID";
-            cbbClient.DataSource = BLL.GetClient(0, "", "", "");
+            cbbClient.DataSource = BLL.GetCustomer(0, "", "", "");
         }
         /// <summary>
         /// 新建按钮

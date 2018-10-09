@@ -54,7 +54,7 @@ namespace wareHouse
             ComboBox cbb = (ComboBox)sender;
             cbb.DisplayMember = "cName";
             cbb.ValueMember = "autoID";
-            cbb.DataSource = BLL.GetClient(0, "", "", "");
+            cbb.DataSource = BLL.GetCustomer(0, "", "", "");
         }
         /// <summary>
         /// 选择产品名称更新规格型号

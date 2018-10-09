@@ -41,7 +41,11 @@ namespace wareHouse
                 txtPwd.Focus();
                 return;
             }
-            DataTable i = BLL.VerificationLogin(txtUid.Text, txtPwd.Text);
+            Dictionary<string, object> dictionary = new Dictionary<string, object>();
+            dictionary.Add("", txtUid.Text);
+            dictionary.Add("", txtPwd.Text);
+            dictionary.Add("type", 2);
+            DataTable i = BLL.VerificationLogin(dictionary);
             if (i.Rows.Count > 0)
             {
                 //将登录成功的用户名登记到文本框中，方便下次输入
@@ -62,9 +66,9 @@ namespace wareHouse
                 }
                 //存储ID，姓名及权限
                 userMessage um = new userMessage();
-                um.userID = i.Rows[0]["userID"].ToString();
+                um.userID = i.Rows[0]["loginNumber"].ToString();
                 um.userName = i.Rows[0]["userName"].ToString();
-                um.userLimit = Convert.ToInt32(i.Rows[0]["userLimit"]);
+                um.userLimit = Convert.ToInt32(i.Rows[0]["userRights"]);
                 //进入主页面
                 frmMainWindow mw = new frmMainWindow(um);
                 mw.Show();
