@@ -227,6 +227,7 @@ create table repair
 	repairReturnTime datetime,					  --归还日期
 	repairReturnExpressNumber nvarchar(50),		  --归还快递单号
 	repairReturnExpressCompany nvarchar(20),	  --归还快递公司名称
+	repairReturnSNCode nvarchar(30),			  --新S/N码
 	repairOperatorID nvarchar(20),				  --操作人编号
 	repairStatus bit,							  --完成状态
 )

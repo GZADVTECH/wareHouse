@@ -13,9 +13,11 @@ namespace wareHouse
     public partial class frmFinance : Form
     {
         private bool STATE = false;
-        public frmFinance()
+        private string USERID;
+        public frmFinance(string userid)
         {
             InitializeComponent();
+            this.USERID = userid;
         }
         /// <summary>
         /// 默认操作
@@ -47,16 +49,19 @@ namespace wareHouse
         {
             dgv.Rows.Clear();
             int index = 0;
-            DataTable dt = WHBLL.BLL.QueryFinace(pid);
+            Dictionary<string, object> dictionary = new Dictionary<string, object>();
+            //dictionary.Add("internalOrderNumber",);
+            dictionary.Add("type", 1);
+            DataTable dt = WHBLL.BLL.QueryFinace(dictionary);
             foreach (DataRow dr in dt.Rows)
             {
                 string[] item =
                 {
-                    (++index).ToString(),dr["autoID"].ToString(),dr["pID"].ToString(),dr["buyDate"].ToString(),dr["supperName"].ToString(),dr["totalPrices"].ToString()+"("+
-                    (Convert.ToBoolean(dr["isTax"])?"是":"否")+")",dr["arrivalDate"].ToString(),(Convert.ToBoolean(dr["check"])?"已审核":"未审核").ToString(),dr["productName"].ToString(),
-                    dr["unitPrice"].ToString(),dr["amount"].ToString(),dr["cName"].ToString(),dr["deliveryDate"].ToString(),
-                    dr["actualAmount"].ToString(),dr["invoiceID"].ToString(),dr["cOrderID"].ToString(),dr["sellingPrices"].ToString()+"("+
-                    ((dr["deliveryIsTax"].ToString()=="true")?"是":"否").ToString()+")",dr["remark"].ToString(),dr["payDate"].ToString(),dr["paySum"].ToString(),
+                    (++index).ToString(),dr["purchaseID"].ToString(),dr["internalOrderNumber"].ToString(),dr["creationTime"].ToString(),dr["supplierName"].ToString(),(Convert.ToDouble(dr["purchasePrice"])*Convert.ToDouble(dr["purchaseQuantity"])).ToString()+"("+
+                    (Convert.ToBoolean(dr["purchaseincludeTax"])?"是":"否")+")",dr["paymentDate"].ToString(),(Convert.ToBoolean(dr["auditStatus"])?"已审核":"未审核").ToString(),dr["productName"].ToString(),
+                    dr["purchaseQuantity"].ToString(),dr["customerName"].ToString(),dr["storageDate"].ToString(),
+                    dr["CollectionQuantity"].ToString(),dr["invoiceNumber"].ToString(),dr["supplierRelevantNumber"].ToString(),dr["salesPrice"].ToString()+"("+
+                    ((dr["salesincludeTax"].ToString()=="true")?"是":"否").ToString()+")",dr["paymentRemark"].ToString(),dr["paymentDate"].ToString(),dr["paymentAmount"].ToString(),
                 };
                 DataGridViewRow dgvr = new DataGridViewRow();
                 dgvr.CreateCells(dgv);//通过dgv创建模板
@@ -100,14 +105,16 @@ namespace wareHouse
             }
             foreach (DataGridViewRow dr in dgvFinace.Rows)
             {
-                string[] item = new string[5];
-                item[0] = dr.Cells["pID"].Value.ToString();
-                item[1] = dr.Cells["autoID"].Value.ToString();
-                item[2] = dr.Cells["payDate"].Value.ToString();
-                item[3] = dr.Cells["paySum"].Value.ToString();
-                item[4] = dr.Cells["remark"].Value.ToString();
+                Dictionary<string, object> dictionary = new Dictionary<string, object>();
+                dictionary.Add("financialNumber", dr.Cells["autoID"].Value);
+                dictionary.Add("internalOrderNumber", dr.Cells["pID"].Value);
+                dictionary.Add("paymentDate", dr.Cells["payDate"].Value);
+                dictionary.Add("paymentAmount", dr.Cells["paySum"].Value);
+                dictionary.Add("paymentRemark", dr.Cells["remark"].Value);
+                dictionary.Add("financeOperatorID",USERID);
+                dictionary.Add("type",2);
                 //更新操作
-                WHBLL.BLL.InsFinance(1, item);
+                WHBLL.BLL.InsFinance(dictionary);
             }
             GetFinace("", dgvFinace);
         }

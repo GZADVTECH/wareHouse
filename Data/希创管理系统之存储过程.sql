@@ -169,11 +169,11 @@ go
 drop procedure pro_execute_finance
 go
 create procedure pro_execute_finance
-@financialNumber nvarchar(30),		  --财务编号
-@internalOrderNumber nvarchar(30),	  --内部订单号
-@paymentDate datetime,				  --财务付款日期
-@paymentAmount money,				  --付款金额
-@paymentRemark nvarchar(100),		  --备注
+@financialNumber nvarchar(30)='',		  --财务编号
+@internalOrderNumber nvarchar(30)='',	  --内部订单号
+@paymentDate datetime=null,				  --财务付款日期
+@paymentAmount money=null,				  --付款金额
+@paymentRemark nvarchar(100)='',		  --备注
 @financeOperatorID nvarchar(20),	  --操作员编号
 @type int							  --类型
 as
@@ -212,7 +212,7 @@ create procedure pro_execute_outgoing
 @deliveryTime datetime,						  --发货时间
 @outgoingOperatorID nvarchar(20),			  --操作员编号
 @outgoingRemark nvarchar(100),				  --备注
-@outgoingState bit,							  --完成状态
+@outgoingState bit=0,						  --完成状态
 @type int									  --类型
 as
 begin
@@ -242,6 +242,7 @@ go
 create procedure pro_execute_userinfo
 @loginNumber nvarchar(20),			 --登录账号
 @loginPwd nvarchar(max),			 --用户密码
+@userName nvarchar(20)='',			 --用户姓名
 @userRights int=1,					 --用户权限
 @userStatus bit=1,					 --用户状态
 @userOperatorID nvarchar(20)='',	 --操作员编号
@@ -251,7 +252,17 @@ begin
 --插入
 if(@type=1)
 begin
+begin try
+begin transaction
 insert into userinfo values(@loginNumber,@loginPwd,@userRights,@userStatus,@userOperatorID)
+declare @usernumber int
+select @usernumber=userNumber from userinfo where loginNumber=@loginNumber
+exec pro_execute_userprivacy @usernumber,@userName,@type=1
+commit tran
+end try
+begin catch
+rollback tran
+end catch
 end
 --更新
 if(@type=2)
@@ -272,17 +283,17 @@ go
 create procedure pro_execute_userprivacy
 @userNumber int,						   --用户编号
 @userName nvarchar(20),					   --用户姓名
-@userNativeplace nvarchar(20),			   --籍贯
+@userNativeplace nvarchar(20)='',		   --籍贯
 @userGender bit=0,						   --性别
 @userMarriage bit=0,					   --婚姻
-@userNation nvarchar(20),				   --民族
-@userBirth datetime,					   --出生日期
-@userPolitical nvarchar(20),			   --政治面貌
-@userFamilysituation nvarchar(200),		   --家庭情况
-@userHomeaddress nvarchar(200),			   --家庭住址
-@userContactinfo nvarchar(50),			   --联系方式
-@userPhotoURL nvarchar(max),			   --个人头像URL
-@userMonologue nvarchar(max),			   --个人独白
+@userNation nvarchar(20)='',			   --民族
+@userBirth datetime=null,				   --出生日期
+@userPolitical nvarchar(20)='',			   --政治面貌
+@userFamilysituation nvarchar(200)='',	   --家庭情况
+@userHomeaddress nvarchar(200)='',		   --家庭住址
+@userContactinfo nvarchar(50)='',		   --联系方式
+@userPhotoURL nvarchar(max)='',			   --个人头像URL
+@userMonologue nvarchar(max)='',		   --个人独白
 @type int								   --类型
 as
 begin
@@ -414,6 +425,7 @@ create procedure pro_execute_repair
 @repairReturnTime datetime=null,				  --归还日期
 @repairReturnExpressNumber nvarchar(50)='',		  --归还快递单号
 @repairReturnExpressCompany nvarchar(20)='',	  --归还快递公司名称
+@repairReturnSNCode nvarchar(30)='',			  --新S/N码
 @repairOperatorID nvarchar(20),					  --操作人编号
 @repairStatus bit=0,							  --完成状态
 @type int										  --类型
@@ -425,7 +437,7 @@ begin
 insert into repair values(@repairCustomernumber,@repairProductID,@repairSNCode
 ,@repairMeg,@repairName,@repairArrivalTime,@repairExpressNumber,@repairExpressCompany
 ,@repairContacts,@repairContactinfo,@repairContactAddress,@repairReturnTime,@repairReturnExpressNumber
-,@repairReturnExpressCompany,@repairOperatorID,@repairStatus)
+,@repairReturnExpressCompany,@repairReturnSNCode,@repairOperatorID,@repairStatus)
 end
 --更新
 if(@type=2)
@@ -436,7 +448,7 @@ update repair set repairArrivalTime=@repairArrivalTime,repairExpressNumber=@repa
 end
 else if(@repairReturnExpressNumber is not null)
 begin
-update repair set repairReturnTime=@repairReturnTime,repairReturnExpressNumber=@repairReturnExpressNumber,repairReturnExpressCompany=@repairReturnExpressCompany where repairCustomernumber=@repairCustomernumber and repairProductID=@repairProductID
+update repair set repairReturnTime=@repairReturnTime,repairReturnExpressNumber=@repairReturnExpressNumber,repairReturnExpressCompany=@repairReturnExpressCompany,repairReturnSNCode=@repairReturnSNCode where repairCustomernumber=@repairCustomernumber and repairProductID=@repairProductID
 end
 else
 begin
@@ -531,19 +543,44 @@ if(@type=1)
 select * from purchaseOrder orde left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber
 --查询某个时间段
 else if(@type=2)
-select * from purchaseOrder orde left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber where creationTime between @beginTime and @endTime
+select orde.*,good.*,sup.supplierName ,stoc.*
+from purchaseOrder orde 
+left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber
+left join supplier sup on sup.supplierNumber=good.supplierNumber
+left join stock stoc on stoc.productID=good.productID
+where creationTime between @beginTime and @endTime
 --通过内部订单号查询详细内容
 else if(@type=3)
-select * from purchaseOrder orde left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber where orde.internalOrderNumber=@internalOrderNumber and auditStatus=1
+select orde.*,good.*,sup.supplierName,stoc.*
+from purchaseOrder orde 
+left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber 
+left join supplier sup on sup.supplierNumber=good.supplierNumber
+left join stock stoc on stoc.productID=good.productID
+where orde.internalOrderNumber=@internalOrderNumber and auditStatus=1
 --通过正式订单号查询详细内容
 else if(@type=4)
-select * from purchaseOrder orde left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber where officialOrderNumber=@officialOrderNumber and auditStatus=1
+select orde.*,good.*,sup.supplierName,stoc.* 
+from purchaseOrder orde 
+left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber 
+left join supplier sup on sup.supplierNumber=good.supplierNumber
+left join stock stoc on stoc.productID=good.productID
+where officialOrderNumber=@officialOrderNumber and auditStatus=1
 --查询尚未审核的订单详细
 else if(@type=5)
-select * from purchaseOrder orde left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber where auditStatus=0
+select orde.*,good.*,sup.supplierName,stoc.*
+from purchaseOrder orde 
+left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber 
+left join supplier sup on sup.supplierNumber=good.supplierNumber
+left join stock stoc on stoc.productID=good.productID
+where auditStatus=0
 --查询订单未完成的订单详细
 else if(@type=6)
-select * from purchaseOrder orde left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber where completeState=0
+select orde.*,good.*,sup.supplierName,stoc.*
+from purchaseOrder orde 
+left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber 
+left join supplier sup on sup.supplierNumber=good.supplierNumber
+left join stock stoc on stoc.productID=good.productID
+where completeState=0
 end
 go
 
@@ -607,6 +644,8 @@ select * from stock where productID=@productID
 --通过产品名称和规格型号查询
 else if(@type=4)
 select * from stock where productName=@productName and model=@model
+else if(@type=5)
+select productID,productName,model from stock
 end
 go
 
@@ -614,12 +653,24 @@ go
 drop procedure pro_search_finance
 go
 create procedure pro_search_finance
-@internalOrderNumber nvarchar(20),@type int
+@internalOrderNumber nvarchar(20)='',@type int
 as
 begin
 --查询全部
 if(@type=1)
-select * from finance
+select good.purchaseID,orde.internalOrderNumber,orde.creationTime,sup.supplierName
+,stoc.purchasePrice,good.purchaseQuantity,stoc.purchaseincludeTax,finance.paymentDate
+,orde.auditStatus,stoc.productName,stoc.unit,good.purchaseQuantity,customer.customerName
+,ware.storageDate,ware.CollectionQuantity,ware.invoiceNumber,ware.supplierRelevantNumber
+,stoc.salesPrice,stoc.salesincludeTax,finance.paymentRemark,finance.paymentDate,finance.paymentAmount
+from purchaseOrder orde
+left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber
+left join stock stoc on stoc.productID=good.productID
+left join warehousing ware on ware.purchaseID=good.purchaseID
+left join supplier sup on sup.supplierNumber=good.supplierNumber
+left join customerinfo customer on customer.customerNumber=orde.customerID
+left join finance finance on finance.financialNumber=good.internalOrderNumber
+left join outgoing outgo on outgo.officialOrderNumber=orde.officialOrderNumber
 --查询财务总结详细
 if(@type=2)
 begin
@@ -683,12 +734,15 @@ go
 drop procedure pro_search_customerinfo
 go
 create procedure pro_search_customerinfo
-@customerNumber int,@type int
+@customerNumber int=0,@type int
 as
 begin
 --查询全部
 if(@type=1)
 select * from customerinfo where customerStatus=1
+--查询指定客户详细
+if(@type=2)
+select * from customerinfo where customerNumber=@customerNumber and customerStatus=1
 end
 go
 

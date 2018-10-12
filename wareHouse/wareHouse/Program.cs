@@ -16,7 +16,7 @@ namespace wareHouse
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmSuper());
+            Application.Run(new frmLogin());
         }
     }
 }

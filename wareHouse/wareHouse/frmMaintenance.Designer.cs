@@ -43,23 +43,12 @@
             this.cbbproname = new System.Windows.Forms.ComboBox();
             this.txtmainname = new System.Windows.Forms.TextBox();
             this.dtpreturndate = new System.Windows.Forms.DateTimePicker();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.cbbcontactsid = new System.Windows.Forms.ComboBox();
-            this.dtparrivaldate = new System.Windows.Forms.DateTimePicker();
-            this.txttrackingname = new System.Windows.Forms.ComboBox();
-            this.txttrackingid = new System.Windows.Forms.TextBox();
             this.txtreturntrackingid = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.txtsnid = new System.Windows.Forms.TextBox();
             this.txtmainmsg = new System.Windows.Forms.TextBox();
-            this.cbbpnid = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -85,9 +74,20 @@
             this.returndate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.returntrackingid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.returntrackingname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtAddress = new System.Windows.Forms.TextBox();
+            this.txtContactinfo = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.cbbcontactsid = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txttrackingname = new System.Windows.Forms.ComboBox();
+            this.txttrackingid = new System.Windows.Forms.TextBox();
+            this.dtparrivaldate = new System.Windows.Forms.DateTimePicker();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).BeginInit();
             this.SuspendLayout();
@@ -179,27 +179,26 @@
             this.cbbcname.FormattingEnabled = true;
             this.cbbcname.Location = new System.Drawing.Point(65, 27);
             this.cbbcname.Name = "cbbcname";
-            this.cbbcname.Size = new System.Drawing.Size(116, 20);
+            this.cbbcname.Size = new System.Drawing.Size(115, 20);
             this.cbbcname.TabIndex = 0;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1, 71);
+            this.label4.Location = new System.Drawing.Point(7, 71);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 12);
+            this.label4.Size = new System.Drawing.Size(113, 12);
             this.label4.TabIndex = 1;
-            this.label4.Text = "产品名称";
+            this.label4.Text = "产品名称(规格型号)";
             // 
             // cbbproname
             // 
             this.cbbproname.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbproname.FormattingEnabled = true;
-            this.cbbproname.Location = new System.Drawing.Point(65, 67);
+            this.cbbproname.Location = new System.Drawing.Point(131, 67);
             this.cbbproname.Name = "cbbproname";
-            this.cbbproname.Size = new System.Drawing.Size(117, 20);
+            this.cbbproname.Size = new System.Drawing.Size(244, 20);
             this.cbbproname.TabIndex = 3;
-            this.cbbproname.SelectedValueChanged += new System.EventHandler(this.cbbproname_SelectedValueChanged);
             // 
             // txtmainname
             // 
@@ -217,89 +216,6 @@
             this.dtpreturndate.Size = new System.Drawing.Size(116, 21);
             this.dtpreturndate.TabIndex = 9;
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(4, 34);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 12);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "收货日期";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(198, 35);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(53, 12);
-            this.label7.TabIndex = 4;
-            this.label7.Text = "快递单号";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(383, 35);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(77, 12);
-            this.label8.TabIndex = 4;
-            this.label8.Text = "快递公司名称";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(10, 72);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(41, 12);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "联系人";
-            // 
-            // cbbcontactsid
-            // 
-            this.cbbcontactsid.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbbcontactsid.FormattingEnabled = true;
-            this.cbbcontactsid.Location = new System.Drawing.Point(65, 68);
-            this.cbbcontactsid.Name = "cbbcontactsid";
-            this.cbbcontactsid.Size = new System.Drawing.Size(116, 20);
-            this.cbbcontactsid.TabIndex = 12;
-            // 
-            // dtparrivaldate
-            // 
-            this.dtparrivaldate.Cursor = System.Windows.Forms.Cursors.Default;
-            this.dtparrivaldate.CustomFormat = "yyyy/MM/dd";
-            this.dtparrivaldate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtparrivaldate.Location = new System.Drawing.Point(65, 30);
-            this.dtparrivaldate.Name = "dtparrivaldate";
-            this.dtparrivaldate.Size = new System.Drawing.Size(117, 21);
-            this.dtparrivaldate.TabIndex = 6;
-            // 
-            // txttrackingname
-            // 
-            this.txttrackingname.FormattingEnabled = true;
-            this.txttrackingname.Items.AddRange(new object[] {
-            "申通",
-            "EMS",
-            "顺丰",
-            "圆通",
-            "中通",
-            "韵达",
-            "天天",
-            "汇通",
-            "全峰",
-            "德邦",
-            "如风达",
-            "宅急送"});
-            this.txttrackingname.Location = new System.Drawing.Point(461, 31);
-            this.txttrackingname.Name = "txttrackingname";
-            this.txttrackingname.Size = new System.Drawing.Size(121, 20);
-            this.txttrackingname.TabIndex = 8;
-            // 
-            // txttrackingid
-            // 
-            this.txttrackingid.Location = new System.Drawing.Point(260, 31);
-            this.txttrackingid.Name = "txttrackingid";
-            this.txttrackingid.Size = new System.Drawing.Size(115, 21);
-            this.txttrackingid.TabIndex = 7;
-            // 
             // txtreturntrackingid
             // 
             this.txtreturntrackingid.Location = new System.Drawing.Point(260, 24);
@@ -309,21 +225,31 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtAddress);
+            this.groupBox1.Controls.Add(this.txtContactinfo);
+            this.groupBox1.Controls.Add(this.label16);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.cbbcontactsid);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.txttrackingname);
+            this.groupBox1.Controls.Add(this.txttrackingid);
+            this.groupBox1.Controls.Add(this.dtparrivaldate);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label17);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtsnid);
             this.groupBox1.Controls.Add(this.txtmainmsg);
             this.groupBox1.Controls.Add(this.txtmainname);
-            this.groupBox1.Controls.Add(this.cbbpnid);
             this.groupBox1.Controls.Add(this.cbbproname);
             this.groupBox1.Controls.Add(this.cbbcname);
             this.groupBox1.Location = new System.Drawing.Point(12, 28);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(607, 111);
+            this.groupBox1.Size = new System.Drawing.Size(607, 215);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "基础信息";
@@ -346,15 +272,6 @@
             this.label17.TabIndex = 1;
             this.label17.Text = "维保原因";
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(198, 70);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(53, 12);
-            this.label10.TabIndex = 1;
-            this.label10.Text = "规格型号";
-            // 
             // txtsnid
             // 
             this.txtsnid.Location = new System.Drawing.Point(461, 68);
@@ -369,46 +286,20 @@
             this.txtmainmsg.Size = new System.Drawing.Size(115, 21);
             this.txtmainmsg.TabIndex = 1;
             // 
-            // cbbpnid
-            // 
-            this.cbbpnid.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbbpnid.FormattingEnabled = true;
-            this.cbbpnid.Location = new System.Drawing.Point(260, 67);
-            this.cbbpnid.Name = "cbbpnid";
-            this.cbbpnid.Size = new System.Drawing.Size(115, 20);
-            this.cbbpnid.TabIndex = 4;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.txttrackingname);
-            this.groupBox2.Controls.Add(this.txttrackingid);
-            this.groupBox2.Controls.Add(this.dtparrivaldate);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Location = new System.Drawing.Point(12, 145);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(607, 81);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "收货信息";
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.txtreturntrackingid);
             this.groupBox3.Controls.Add(this.label15);
-            this.groupBox3.Controls.Add(this.cbbcontactsid);
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.dtpreturndate);
             this.groupBox3.Controls.Add(this.label14);
             this.groupBox3.Controls.Add(this.txtnewsnid);
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Controls.Add(this.label12);
-            this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.txtreturntrackingname);
-            this.groupBox3.Location = new System.Drawing.Point(12, 232);
+            this.groupBox3.Location = new System.Drawing.Point(12, 249);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(607, 112);
+            this.groupBox3.Size = new System.Drawing.Size(607, 93);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "发货信息";
@@ -416,7 +307,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(211, 73);
+            this.label15.Location = new System.Drawing.Point(16, 63);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(35, 12);
             this.label15.TabIndex = 1;
@@ -441,7 +332,7 @@
             // 
             // txtnewsnid
             // 
-            this.txtnewsnid.Location = new System.Drawing.Point(260, 69);
+            this.txtnewsnid.Location = new System.Drawing.Point(65, 59);
             this.txtnewsnid.Name = "txtnewsnid";
             this.txtnewsnid.Size = new System.Drawing.Size(115, 21);
             this.txtnewsnid.TabIndex = 13;
@@ -458,7 +349,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(189, 28);
+            this.label12.Location = new System.Drawing.Point(193, 28);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(53, 12);
             this.label12.TabIndex = 4;
@@ -513,7 +404,7 @@
             this.dgvMain.ReadOnly = true;
             this.dgvMain.RowTemplate.Height = 23;
             this.dgvMain.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMain.Size = new System.Drawing.Size(374, 315);
+            this.dgvMain.Size = new System.Drawing.Size(374, 313);
             this.dgvMain.TabIndex = 9;
             this.dgvMain.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvMain_CellMouseDown);
             // 
@@ -640,14 +531,129 @@
             this.returntrackingname.ReadOnly = true;
             this.returntrackingname.Visible = false;
             // 
+            // txtAddress
+            // 
+            this.txtAddress.Location = new System.Drawing.Point(71, 178);
+            this.txtAddress.Name = "txtAddress";
+            this.txtAddress.Size = new System.Drawing.Size(513, 21);
+            this.txtAddress.TabIndex = 32;
+            this.txtAddress.Text = "广东省广州市天河区壬丰大厦22楼2211A室";
+            // 
+            // txtContactinfo
+            // 
+            this.txtContactinfo.Location = new System.Drawing.Point(260, 139);
+            this.txtContactinfo.Name = "txtContactinfo";
+            this.txtContactinfo.Size = new System.Drawing.Size(115, 21);
+            this.txtContactinfo.TabIndex = 33;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(10, 181);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(53, 12);
+            this.label16.TabIndex = 30;
+            this.label16.Text = "联系地址";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(198, 143);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 12);
+            this.label10.TabIndex = 31;
+            this.label10.Text = "联系方式";
+            // 
+            // cbbcontactsid
+            // 
+            this.cbbcontactsid.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbbcontactsid.FormattingEnabled = true;
+            this.cbbcontactsid.Location = new System.Drawing.Point(65, 139);
+            this.cbbcontactsid.Name = "cbbcontactsid";
+            this.cbbcontactsid.Size = new System.Drawing.Size(116, 20);
+            this.cbbcontactsid.TabIndex = 29;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(16, 143);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(41, 12);
+            this.label9.TabIndex = 28;
+            this.label9.Text = "联系人";
+            // 
+            // txttrackingname
+            // 
+            this.txttrackingname.FormattingEnabled = true;
+            this.txttrackingname.Items.AddRange(new object[] {
+            "申通",
+            "EMS",
+            "顺丰",
+            "圆通",
+            "中通",
+            "韵达",
+            "天天",
+            "汇通",
+            "全峰",
+            "德邦",
+            "如风达",
+            "宅急送"});
+            this.txttrackingname.Location = new System.Drawing.Point(461, 105);
+            this.txttrackingname.Name = "txttrackingname";
+            this.txttrackingname.Size = new System.Drawing.Size(121, 20);
+            this.txttrackingname.TabIndex = 27;
+            // 
+            // txttrackingid
+            // 
+            this.txttrackingid.Location = new System.Drawing.Point(260, 105);
+            this.txttrackingid.Name = "txttrackingid";
+            this.txttrackingid.Size = new System.Drawing.Size(115, 21);
+            this.txttrackingid.TabIndex = 26;
+            // 
+            // dtparrivaldate
+            // 
+            this.dtparrivaldate.Cursor = System.Windows.Forms.Cursors.Default;
+            this.dtparrivaldate.CustomFormat = "yyyy/MM/dd";
+            this.dtparrivaldate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtparrivaldate.Location = new System.Drawing.Point(65, 105);
+            this.dtparrivaldate.Name = "dtparrivaldate";
+            this.dtparrivaldate.Size = new System.Drawing.Size(115, 21);
+            this.dtparrivaldate.TabIndex = 25;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(4, 109);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "收货日期";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(198, 109);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 12);
+            this.label7.TabIndex = 23;
+            this.label7.Text = "快递单号";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(383, 109);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(77, 12);
+            this.label8.TabIndex = 24;
+            this.label8.Text = "快递公司名称";
+            // 
             // frmMaintenance
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1011, 356);
+            this.ClientSize = new System.Drawing.Size(1011, 358);
             this.Controls.Add(this.dgvMain);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.toolStrip1);
@@ -659,8 +665,6 @@
             this.toolStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).EndInit();
@@ -685,17 +689,8 @@
         private System.Windows.Forms.ComboBox cbbproname;
         private System.Windows.Forms.TextBox txtmainname;
         private System.Windows.Forms.DateTimePicker dtpreturndate;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox cbbcontactsid;
-        private System.Windows.Forms.DateTimePicker dtparrivaldate;
-        private System.Windows.Forms.ComboBox txttrackingname;
-        private System.Windows.Forms.TextBox txttrackingid;
         private System.Windows.Forms.TextBox txtreturntrackingid;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label14;
@@ -704,10 +699,8 @@
         private System.Windows.Forms.ComboBox txtreturntrackingname;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtsnid;
         private System.Windows.Forms.TextBox txtmainmsg;
-        private System.Windows.Forms.ComboBox cbbpnid;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox txtnewsnid;
         private System.Windows.Forms.DataGridView dgvMain;
@@ -727,5 +720,17 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn returndate;
         private System.Windows.Forms.DataGridViewTextBoxColumn returntrackingid;
         private System.Windows.Forms.DataGridViewTextBoxColumn returntrackingname;
+        private System.Windows.Forms.TextBox txtAddress;
+        private System.Windows.Forms.TextBox txtContactinfo;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox cbbcontactsid;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox txttrackingname;
+        private System.Windows.Forms.TextBox txttrackingid;
+        private System.Windows.Forms.DateTimePicker dtparrivaldate;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
     }
 }

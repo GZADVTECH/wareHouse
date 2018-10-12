@@ -42,8 +42,8 @@ namespace wareHouse
                 return;
             }
             Dictionary<string, object> dictionary = new Dictionary<string, object>();
-            dictionary.Add("", txtUid.Text);
-            dictionary.Add("", txtPwd.Text);
+            dictionary.Add("loginPwd", txtPwd.Text);
+            dictionary.Add("loginNumber", txtUid.Text);
             dictionary.Add("type", 2);
             DataTable i = BLL.VerificationLogin(dictionary);
             if (i.Rows.Count > 0)
@@ -76,8 +76,8 @@ namespace wareHouse
             }
             else
             {
-                txtPwd.SelectAll();
                 MessageBox.Show("登录失败！");
+                txtPwd.SelectAll();
             }
         }
         /// <summary>

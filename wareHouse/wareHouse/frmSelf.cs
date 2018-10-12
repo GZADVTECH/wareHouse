@@ -42,14 +42,22 @@ namespace wareHouse
                 }
             }
             //判断新密码与重复新密码是否一致
-            if (txtNewPwd.Text!=txtRePwd.Text)
+            if (txtNewPwd.Text != txtRePwd.Text)
             {
                 MessageBox.Show("密码不一致");
             }
             //判断旧密码是否正确，如果正确，将进行修改密码操作
-            if ((WHBLL.BLL.VerificationLogin(txtUid.Text, txtOldPwd.Text).Rows.Count > 0))
+            Dictionary<string, object> dictionary = new Dictionary<string, object>();
+            dictionary.Add("@loginNumber", txtUid.Text);
+            dictionary.Add("@loginPwd", txtOldPwd.Text);
+            dictionary.Add("type", 2);
+            if ((WHBLL.BLL.VerificationLogin(dictionary).Rows.Count > 0))
             {
-                if (WHBLL.BLL.UpdatePwd(txtUid.Text, txtNewPwd.Text) > 0)
+                dictionary = new Dictionary<string, object>();
+                dictionary.Add("@loginNumber", txtUid.Text);
+                dictionary.Add("@loginPwd", txtNewPwd.Text);
+                dictionary.Add("type", 2);
+                if (WHBLL.BLL.UpdatePwd(dictionary) > 0)
                 {
                     MessageBox.Show("修改成功！");
                     this.Close();

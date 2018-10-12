@@ -54,7 +54,7 @@ namespace wareHouse
         /// <param name="e"></param>
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            frmClient frmclient = new frmClient();
+            frmClient frmclient = new frmClient(userID,userName);
             frmclient.MdiParent = this;
             frmclient.Show();
         }
@@ -76,7 +76,7 @@ namespace wareHouse
         /// <param name="e"></param>
         private void tsbStorage_Click(object sender, EventArgs e)
         {
-            frmStorage frmstorage = new frmStorage();
+            frmStorage frmstorage = new frmStorage(userID);
             frmstorage.MdiParent = this;
             frmstorage.Show();
         }
@@ -98,7 +98,7 @@ namespace wareHouse
         /// <param name="e"></param>
         private void tsbFinance_Click(object sender, EventArgs e)
         {
-            frmFinance frmfinance = new frmFinance();
+            frmFinance frmfinance = new frmFinance(userID);
             frmfinance.MdiParent = this;
             frmfinance.Show();
         }
@@ -109,7 +109,7 @@ namespace wareHouse
         /// <param name="e"></param>
         private void tsbInventory_Click(object sender, EventArgs e)
         {
-            frmInventory frmInentory = new frmInventory();
+            frmInventory frmInentory = new frmInventory(userID);
             frmInentory.MdiParent = this;
             frmInentory.Show();
         }
@@ -131,7 +131,7 @@ namespace wareHouse
         /// <param name="e"></param>
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            frmMaintenance main = new frmMaintenance();
+            frmMaintenance main = new frmMaintenance(userID);
             main.MdiParent = this;
             main.Show();
         }

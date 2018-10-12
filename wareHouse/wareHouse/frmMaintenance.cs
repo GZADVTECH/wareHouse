@@ -13,10 +13,13 @@ namespace wareHouse
 {
     public partial class frmMaintenance : Form
     {
-        public frmMaintenance()
+        private string USERID;
+        public frmMaintenance(string userid)
         {
             InitializeComponent();
+            this.USERID = userid;
         }
+        Dictionary<string, object> dictionary;
         /// <summary>
         /// 默认操作
         /// </summary>
@@ -25,7 +28,6 @@ namespace wareHouse
         private void frmMaintenance_Load(object sender, EventArgs e)
         {
             Inventory(cbbproname);//产品名称绑定
-            cbbpnid.SelectedIndex = 0;
             GetClient(cbbcname);//客户绑定
             cbbcname.SelectedIndex = 0;
             GetUser(cbbcontactsid);//用户绑定
@@ -34,8 +36,12 @@ namespace wareHouse
             txttrackingname.SelectedIndex = 0;
             txtreturntrackingname.SelectedIndex = 0;
             //绑定DataGridView
-            string[] data = new string[] { "", "", "", "", "", "", "", "", "", "", "","","","" };
-            dgvMain.DataSource = BLL.QueryMain(data);
+            dictionary = new Dictionary<string, object>();
+            //dictionary.Add("repairCustomernumber",);
+            //dictionary.Add("repairProductID",);
+            //dictionary.Add("repairSNCode",);
+            dictionary.Add("type",1);
+            dgvMain.DataSource = BLL.QueryMain(dictionary);
         }        
         /// <summary>
         /// 产品名称获取
@@ -43,8 +49,21 @@ namespace wareHouse
         private void Inventory(object sender)
         {
             ComboBox cbb = (ComboBox)sender;
-            cbb.DisplayMember = "productName";
-            cbb.DataSource = BLL.GetInventory(4, new string[] { "", "", "", "", "", "", "" });
+            dictionary = new Dictionary<string, object>();
+            //dictionary.Add("inventoryNumber");
+            //dictionary.Add("productID");
+            //dictionary.Add("productName");
+            //dictionary.Add("model");
+            dictionary.Add("type",5);
+            DataTable dt = BLL.GetStock(dictionary);
+            Dictionary<string,string> modeldictionary = new Dictionary<string, string>();
+            foreach (DataRow item in dt.Rows)
+            {
+                dictionary.Add(item["productID"].ToString(), string.Format(item["productName"].ToString() + "(" + item["model"].ToString() + ")"));
+            }
+            cbb.DisplayMember = "Value";
+            cbb.ValueMember = "Key";
+            cbb.DataSource = modeldictionary;
         }
         /// <summary>
         /// 获取客户信息
@@ -52,21 +71,12 @@ namespace wareHouse
         private void GetClient(object sender)
         {
             ComboBox cbb = (ComboBox)sender;
-            cbb.DisplayMember = "cName";
-            cbb.ValueMember = "autoID";
-            cbb.DataSource = BLL.GetCustomer(0, "", "", "");
-        }
-        /// <summary>
-        /// 选择产品名称更新规格型号
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cbbproname_SelectedValueChanged(object sender, EventArgs e)
-        {
-            cbbpnid.DisplayMember = "PNID";
-            cbbpnid.ValueMember = "productID";
-            string[] data = new string[] { "", cbbproname.Text, "", "", "", "", "" };
-            cbbpnid.DataSource = BLL.GetInventory(0, data);
+            cbb.DisplayMember = "customerName";
+            cbb.ValueMember = "customerNumber";
+            dictionary = new Dictionary<string, object>();
+            //dictionary.Add("customerNumber",);
+            dictionary.Add("type",1);
+            cbb.DataSource = BLL.GetCustomer(dictionary);
         }
         /// <summary>
         /// 清空信息
@@ -77,6 +87,7 @@ namespace wareHouse
             {
                 if (item is TextBox)
                 {
+                    if (item.Name == "txtAddress") continue;
                     item.Text = string.Empty;
                 }
                 if (item is CheckBox)
@@ -116,7 +127,6 @@ namespace wareHouse
             if (MessageBox.Show("是否新建？", "系统提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 Clear(groupBox1);
-                Clear(groupBox2);
                 Clear(groupBox3);
             }
         }
@@ -127,9 +137,11 @@ namespace wareHouse
         private void GetUser(object sender)
         {
             ComboBox cbb = sender as ComboBox;
-            cbb.ValueMember = "userID";
+            cbb.ValueMember = "loginNumber";
             cbb.DisplayMember = "userName";
-            cbb.DataSource = BLL.GetUser(0);
+            dictionary = new Dictionary<string, object>();
+            dictionary.Add("type",1);
+            cbb.DataSource = BLL.GetUser(dictionary);
         }
         /// <summary>
         /// 插入维修表详细信息
@@ -137,9 +149,25 @@ namespace wareHouse
         /// <param name="sender"></param>
         private int InsMain(object sender)
         {
-            string[] data = new string[] {cbbcname.SelectedValue.ToString(),cbbpnid.SelectedValue.ToString(),txtsnid.Text,txtmainmsg.Text,txtmainname.Text,dtparrivaldate.Value.ToString()
-            ,txttrackingid.Text,txttrackingname.Text,cbbcontactsid.SelectedValue.ToString(),txtnewsnid.Text,dtpreturndate.Value.ToString(),txtreturntrackingid.Text,txtreturntrackingname.Text};
-            int dt = BLL.InsMain(data);
+            dictionary = new Dictionary<string, object>();
+            dictionary.Add("repairCustomernumber", cbbcname.SelectedValue.ToString());
+            dictionary.Add("repairProductID",cbbproname.SelectedValue.ToString());
+            dictionary.Add("repairSNCode", txtsnid.Text);
+            dictionary.Add("repairMeg", txtmainmsg.Text);
+            dictionary.Add("repairName", txtmainname.Text);
+            dictionary.Add("repairArrivalTime", dtparrivaldate.Value.ToString());
+            dictionary.Add("repairExpressNumber", txttrackingid.Text);
+            dictionary.Add("repairExpressCompany", txttrackingname.Text);
+            dictionary.Add("repairContacts", cbbcontactsid.SelectedValue.ToString());
+            dictionary.Add("repairContactinfo", txtContactinfo.Text);
+            dictionary.Add("repairContactAddress",txtAddress.Text );
+            dictionary.Add("repairReturnTime", dtpreturndate.Value.ToString());
+            dictionary.Add("repairReturnExpressNumber", txtreturntrackingid.Text);
+            dictionary.Add("repairReturnExpressCompany", txtreturntrackingname.Text);
+            dictionary.Add("repairOperatorID",USERID);
+            dictionary.Add("repairStatus",0);
+            dictionary.Add("type",1);
+            int dt = BLL.ExecuteMain(dictionary);
             return dt;
         }
         /// <summary>
@@ -148,10 +176,39 @@ namespace wareHouse
         /// <param name="sender"></param>
         private int UpdateMain(object sender)
         {
-            string[] data = new string[] {cbbcname.SelectedValue.ToString(),cbbpnid.SelectedValue.ToString(),txtsnid.Text,txtmainmsg.Text,txtmainname.Text,dtparrivaldate.Value.ToString()
-            ,txttrackingid.Text,txttrackingname.Text,cbbcontactsid.SelectedValue.ToString(),txtnewsnid.Text,dtpreturndate.Value.ToString(),txtreturntrackingid.Text,txtreturntrackingname.Text};
-            int dt = BLL.UpdateMain(data);
-            return dt;
+            if (!string.IsNullOrEmpty(txttrackingid.Text.Trim()))
+            {
+                dictionary = new Dictionary<string, object>();
+                dictionary.Add("repairCustomernumber", cbbcname.SelectedValue.ToString());
+                dictionary.Add("repairProductID", cbbproname.SelectedValue.ToString());
+                dictionary.Add("repairSNCode", txtsnid.Text);
+                dictionary.Add("repairMeg", txtmainmsg.Text);
+                dictionary.Add("repairName", txtmainname.Text);
+                dictionary.Add("repairArrivalTime", dtparrivaldate.Value.ToString());
+                dictionary.Add("repairExpressNumber", txttrackingid.Text);
+                dictionary.Add("repairExpressCompany", txttrackingname.Text);
+                dictionary.Add("repairContacts", cbbcontactsid.SelectedValue.ToString());
+                dictionary.Add("repairContactinfo", txtContactinfo.Text);
+                dictionary.Add("repairContactAddress", txtAddress.Text);
+                dictionary.Add("type", 2);
+                int returnvalue = BLL.ExecuteMain(dictionary);
+                return returnvalue;
+            }
+            else
+            {
+                dictionary = new Dictionary<string, object>();
+                dictionary.Add("repairCustomernumber", cbbcname.SelectedValue.ToString());
+                dictionary.Add("repairProductID", cbbproname.SelectedValue.ToString());
+                dictionary.Add("repairSNCode", txtsnid.Text);
+                dictionary.Add("repairReturnTime", dtpreturndate.Value.ToString());
+                dictionary.Add("repairReturnExpressNumber", txtreturntrackingid.Text);
+                dictionary.Add("repairReturnExpressCompany", txtreturntrackingname.Text);
+                dictionary.Add("repairOperatorID", USERID);
+                dictionary.Add("repairStatus", 0);
+                dictionary.Add("type", 2);
+                int returnvalue = BLL.ExecuteMain(dictionary);
+                return returnvalue;
+            }
         }
         /// <summary>
         /// 保存操作
@@ -173,14 +230,11 @@ namespace wareHouse
                 int index = 0;
                 foreach (DataGridViewRow row in dgvMain.Rows)
                 {
-                    if (cbbcname.SelectedValue.ToString() == row.Cells["cid"].Value.ToString())
+                    if (cbbcname.SelectedValue.ToString() == row.Cells["proID"].Value.ToString())
                     {
-                        if (cbbpnid.SelectedValue.ToString() == row.Cells["proID"].Value.ToString())
+                        if (txtsnid.Text == row.Cells["snid"].Value.ToString())
                         {
-                            if (txtsnid.Text == row.Cells["snid"].Value.ToString())
-                            {
-                                index++;
-                            }
+                            index++;
                         }
                     }
                 }
@@ -191,10 +245,13 @@ namespace wareHouse
                     {
                         MessageBox.Show("更新成功！", "系统提示");
                         Clear(groupBox1);
-                        Clear(groupBox2);
                         Clear(groupBox3);
-                        string[] data = new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
-                        dgvMain.DataSource = BLL.QueryMain(data);
+                        dictionary = new Dictionary<string, object>();
+                        //dictionary.Add("repairCustomernumber",);
+                        //dictionary.Add("repairProductID",);
+                        //dictionary.Add("repairSNCode",);
+                        dictionary.Add("type", 1);
+                        dgvMain.DataSource = BLL.QueryMain(dictionary);
                     }
                 }
                 else
@@ -204,10 +261,13 @@ namespace wareHouse
                     {
                         MessageBox.Show("保存成功！", "系统提示");
                         Clear(groupBox1);
-                        Clear(groupBox2);
                         Clear(groupBox3);
-                        string[] data = new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
-                        dgvMain.DataSource = BLL.QueryMain(data);
+                        dictionary = new Dictionary<string, object>();
+                        //dictionary.Add("repairCustomernumber",);
+                        //dictionary.Add("repairProductID",);
+                        //dictionary.Add("repairSNCode",);
+                        dictionary.Add("type", 1);
+                        dgvMain.DataSource = BLL.QueryMain(dictionary);
                     }
                 }
             }
@@ -224,8 +284,7 @@ namespace wareHouse
                 if (e.RowIndex>=0)
                 {
                     cbbcname.SelectedValue = dgvMain["cid", e.RowIndex].Value;//校准客户名称
-                    cbbproname.Text = dgvMain["proName", e.RowIndex].Value.ToString();//校准产品名称
-                    cbbpnid.SelectedValue = dgvMain["proID", e.RowIndex].Value;//校准规格型号
+                    cbbproname.Text = string.Format(dgvMain["proName", e.RowIndex].Value.ToString()+"("+ dgvMain["pnid", e.RowIndex].Value.ToString() + ")");//校准产品名称
                     txtmainmsg.Text = dgvMain["mainMsg", e.RowIndex].Value.ToString();//校准维保原因
                     txtmainname.Text = dgvMain["mainName", e.RowIndex].Value.ToString();//校准维保地
                     txtsnid.Text= dgvMain["snid", e.RowIndex].Value.ToString();//校准S/N号
@@ -245,6 +304,16 @@ namespace wareHouse
         {
             frmReport report = new frmReport();
             report.ShowDialog();
+        }
+        /// <summary>
+        /// 点击选中全部内容
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBox2_Enter(object sender, EventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            tb.SelectAll();
         }
     }
 }

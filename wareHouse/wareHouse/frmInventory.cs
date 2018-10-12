@@ -13,9 +13,12 @@ namespace wareHouse
 {
     public partial class frmInventory : Form
     {
-        public frmInventory()
+        Dictionary<string, object> dictionary;
+        private string USERID;
+        public frmInventory(string userid)
         {
             InitializeComponent();
+            this.USERID = userid;
         }
         /// <summary>
         /// 双击单元格，将单元格行中的数据传递到产品信息操作框中进行操作
@@ -26,12 +29,16 @@ namespace wareHouse
         {
             //对应框绑定对应值
             DataGridViewRow dgvr = dgvInventory.SelectedRows[0];
-            txtPID.Text = dgvr.Cells["pid"].Value.ToString() ;
-            txtPName.Text = dgvr.Cells["pname"].Value.ToString();
-            txtPNID.Text = dgvr.Cells["ppnid"].Value.ToString();
-            txtPrice.Text = dgvr.Cells["pprice"].Value.ToString();
-            txtNum.Text = dgvr.Cells["pNum"].Value.ToString();
-            cbbUnit.Text = dgvr.Cells["pUnit"].Value.ToString();
+            txtinventoryNumber.Text = dgvr.Cells["inventoryNumber"].Value.ToString();
+            txtPID.Text = dgvr.Cells["productID"].Value.ToString() ;
+            txtPName.Text = dgvr.Cells["productName"].Value.ToString();
+            txtPNID.Text = dgvr.Cells["model"].Value.ToString();
+            txtPrice.Text = dgvr.Cells["purchasePrice"].Value.ToString();
+            cbpurchase.Checked = Convert.ToBoolean(dgvr.Cells["purchaseincludeTax"].Value);
+            txtSalePrice.Text = dgvr.Cells["salesPrice"].Value.ToString();
+            cbsale.Checked = Convert.ToBoolean(dgvr.Cells["salesincludeTax"].Value);
+            txtNum.Text = dgvr.Cells["inventoryQuantity"].Value.ToString();
+            cbbUnit.Text = dgvr.Cells["unit"].Value.ToString();
         }
         /// <summary>
         /// 新建时清空输入的数据
@@ -96,8 +103,13 @@ namespace wareHouse
         /// </summary>
         private void GetInventory()
         {
-            string[] data = new string[] { "", "", "", "", "", "" };
-            DataTable dt = BLL.GetInventory(0, data);
+            dictionary = new Dictionary<string, object>();
+            dictionary.Add("inventoryNumber", null);
+            dictionary.Add("productID", null);
+            dictionary.Add("productName", null);
+            dictionary.Add("model", null);
+            dictionary.Add("type", 1);
+            DataTable dt = BLL.GetStock(dictionary);
             dgvInventory.AutoGenerateColumns = false;
             dgvInventory.DataSource = dt;
         }
@@ -126,7 +138,7 @@ namespace wareHouse
                 //判断产品编号是否存在
                 foreach (DataGridViewRow row in dgvInventory.Rows)
                 {
-                    if (row.Cells["pid"].Value.ToString().Trim()==txtPID.Text.Trim().ToString())
+                    if (row.Cells["inventoryNumber"].Value.ToString().Trim()==txtPID.Text.Trim().ToString())
                     {
                         exist++;
                         selectedindex = row.Index;
@@ -135,16 +147,30 @@ namespace wareHouse
                 if (exist > 0)
                 {
                     //确认后更新数据
-                    string[] updatedata = new string[] { txtPID.Text, txtPName.Text, txtPNID.Text, txtPrice.Text, cbbUnit.Text, txtNum.Text };
-                    int updateindex = BLL.InsInventory(2, updatedata);
+                    dictionary = new Dictionary<string, object>();
+                    dictionary.Add("inventoryNumber",txtinventoryNumber.Text);
+                    dictionary.Add("productID",txtPID.Text);
+                    dictionary.Add("productName",txtPName.Text);
+                    dictionary.Add("model",txtPNID.Text);
+                    dictionary.Add("purchasePrice",txtPrice.Text);
+                    dictionary.Add("purchaseincludeTax",cbpurchase.Checked);
+                    dictionary.Add("salesPrice",txtSalePrice.Text);
+                    dictionary.Add("salesincludeTax",cbsale.Checked);
+                    dictionary.Add("unit",cbbUnit.Text);
+                    dictionary.Add("inventoryQuantity",txtNum.Text);
+                    dictionary.Add("lastWarehousing",DateTime.Now);
+                    dictionary.Add("stockOperatorID",USERID);
+                    dictionary.Add("type",2);
+                    int updateindex = BLL.ExecuteStock(dictionary);
                     if (updateindex > 0)
                     {
                         MessageBox.Show("修改成功！", "系统提示");
                         DataGridViewRow dgvr = dgvInventory.Rows[selectedindex];
+                        string[] item = new string[] { "inventoryNumber", "productID", "productName", "model", "purchasePrice", "purchaseincludeTax", "salesPrice", "salesincludeTax", "unit", "inventoryQuantity" };
                         for (int i = 0; i < dgvr.Cells.Count; i++)
                         {
-                            DataGridViewTextBoxCell dgtbc = (DataGridViewTextBoxCell)dgvr.Cells[i];
-                            dgtbc.Value = updatedata[i];
+                            DataGridViewTextBoxCell dgtb = (DataGridViewTextBoxCell)dgvr.Cells[i];
+                            dgtb.Value = dictionary[item[i]].ToString();
                         }
                     }
                     //清空产品信息操作框信息
@@ -153,17 +179,31 @@ namespace wareHouse
                 else
                 {
                     //确认后添加数据
-                    string[] data = new string[] { txtPID.Text, txtPName.Text, txtPNID.Text, txtPrice.Text, cbbUnit.Text, txtNum.Text };
-                    int index = BLL.InsInventory(1, data);
+                    dictionary = new Dictionary<string, object>();
+                    dictionary.Add("inventoryNumber", txtinventoryNumber.Text);
+                    dictionary.Add("productID", txtPID.Text);
+                    dictionary.Add("productName", txtPName.Text);
+                    dictionary.Add("model", txtPNID.Text);
+                    dictionary.Add("purchasePrice", txtPrice.Text);
+                    dictionary.Add("purchaseincludeTax", cbpurchase.Checked);
+                    dictionary.Add("salesPrice", txtSalePrice.Text);
+                    dictionary.Add("salesincludeTax", cbsale.Checked);
+                    dictionary.Add("unit", cbbUnit.Text);
+                    dictionary.Add("inventoryQuantity", txtNum.Text);
+                    dictionary.Add("lastWarehousing", DateTime.Now);
+                    dictionary.Add("stockOperatorID", USERID);
+                    dictionary.Add("type", 1);
+                    int index = BLL.InsInventory(dictionary);
                     if (index > 0)
                     {
                         MessageBox.Show("添加成功！", "系统提示");
                         //将添加成功的数据显示到DataGridView中
                         DataGridViewRow dgvr = new DataGridViewRow();
-                        for (int i = 0; i < data.Count(); i++)
+                        string[] item = new string[] { "inventoryNumber", "productID", "productName", "model", "purchasePrice", "purchaseincludeTax", "salesPrice", "salesincludeTax", "unit", "inventoryQuantity" };
+                        for (int i = 0; i < dictionary.Count(); i++)
                         {
                             DataGridViewTextBoxCell dgvc = new DataGridViewTextBoxCell();
-                            dgvc.Value = data[i];
+                            dgvc.Value = dictionary[item[i]];
                             dgvr.Cells.Add(dgvc);
                         }
                         dgvInventory.Rows.Add(dgvr);
@@ -187,7 +227,7 @@ namespace wareHouse
             //判断产品编号是否存在
             foreach (DataGridViewRow row in dgvInventory.Rows)
             {
-                if (row.Cells["pid"].Value.ToString().Trim() == ttxtID.Text.Trim().ToString())
+                if (row.Cells["productID"].Value.ToString().Trim() == ttxtID.Text.Trim().ToString())
                 {
                     exist++;
                     selectedindex = row.Index;
@@ -197,13 +237,16 @@ namespace wareHouse
             {
                 //存在则将详细的信息添加到产品信息中
                 DataGridViewRow dgvr = dgvInventory.Rows[selectedindex];
-                string[] data = new string[] {dgvr.Cells["pid"].Value.ToString(), dgvr.Cells["pname"].Value.ToString(), dgvr.Cells["ppnid"].Value.ToString(), dgvr.Cells["pprice"].Value.ToString(), dgvr.Cells["punit"].Value.ToString(), dgvr.Cells["pnum"].Value.ToString(), };
-                txtPID.Text = data[0];
-                txtPName.Text = data[1];
-                txtPNID.Text = data[2];
-                txtPrice.Text = data[3];
-                cbbUnit.Text = data[4];
-                txtNum.Text = data[5];
+                txtinventoryNumber.Text = dgvr.Cells["inventoryNumber"].Value.ToString();
+                txtPID.Text = dgvr.Cells["productID"].Value.ToString();
+                txtPName.Text = dgvr.Cells["productName"].Value.ToString();
+                txtPNID.Text = dgvr.Cells["model"].Value.ToString();
+                txtPrice.Text = dgvr.Cells["purchasePrice"].Value.ToString();
+                cbpurchase.Checked = Convert.ToBoolean(dgvr.Cells["purchaseincludeTax"].Value);
+                txtSalePrice.Text = dgvr.Cells["salesPrice"].Value.ToString();
+                cbsale.Checked = Convert.ToBoolean(dgvr.Cells["salesincludeTax"].Value);
+                txtNum.Text = dgvr.Cells["inventoryQuantity"].Value.ToString();
+                cbbUnit.Text = dgvr.Cells["unit"].Value.ToString();
             }
         }
 
@@ -245,6 +288,18 @@ namespace wareHouse
                 MessageBox.Show("输入不正确！", "系统提示");
                 tb.Text = string.Empty;
                 return;
+            }
+        }
+        /// <summary>
+        /// 输入内容快捷查询
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ttxtID_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar==13)
+            {
+                toolStripButton2_Click(sender, e);
             }
         }
     }

@@ -13,6 +13,7 @@ namespace wareHouse
     public partial class frmSuper : Form
     {
         private static string UNAME;
+        Dictionary<string, object> dictionary;
         public frmSuper()
         {
             InitializeComponent();
@@ -66,7 +67,17 @@ namespace wareHouse
         {
             if (MessageBox.Show("是否确认通过？","系统提示",MessageBoxButtons.YesNo)==DialogResult.Yes)
             {
-                int feedback = WHBLL.BLL.UpdatePro(lbPro.SelectedValue.ToString(), 1);
+                dictionary = new Dictionary<string, object>();
+                dictionary.Add("internalOrderNumber", lbPro.SelectedValue.ToString());
+                //dictionary.Add("officialOrderNumber", );
+                //dictionary.Add("operatorID", );
+                //dictionary.Add("customerID", );
+                //dictionary.Add("arrivalTime", );
+                //dictionary.Add("creationTime", );
+                dictionary.Add("auditStatus", 1);
+                //dictionary.Add("completeState",0);
+                dictionary.Add("type", 2);
+                int feedback = WHBLL.BLL.ExecuteProcurement(dictionary);
                 if (feedback>0)
                 {
                     MessageBox.Show("审核成功！", "系统提示");
@@ -80,7 +91,17 @@ namespace wareHouse
         {
             if (MessageBox.Show("是否确认驳回？","系统提示",MessageBoxButtons.YesNo)==DialogResult.Yes)
             {
-                int feedback = WHBLL.BLL.UpdatePro(lbPro.SelectedValue.ToString(), 0);
+                dictionary = new Dictionary<string, object>();
+                dictionary.Add("internalOrderNumber", lbPro.SelectedValue.ToString());
+                //dictionary.Add("officialOrderNumber", );
+                //dictionary.Add("operatorID", );
+                //dictionary.Add("customerID", );
+                //dictionary.Add("arrivalTime", );
+                //dictionary.Add("creationTime", );
+                //dictionary.Add("auditStatus", 0);
+                dictionary.Add("completeState", 1);
+                dictionary.Add("type", 2);
+                int feedback = WHBLL.BLL.ExecuteProcurement(dictionary);
                 if (feedback > 0)
                 {
                     MessageBox.Show("成功驳回！", "系统提示");

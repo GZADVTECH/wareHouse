@@ -44,6 +44,29 @@ namespace WHBLL
             return dt;
         }
         /// <summary>
+        /// 客户信息执行操作
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <returns></returns>
+        public static int ExecuteCustomer(Dictionary<string,object> dictionary)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("@customerNumber",dictionary["customerNumber"]),
+                new SqlParameter("@customerName",dictionary["customerName"]),
+                new SqlParameter("@customerGender",dictionary["customerGender"]),
+                new SqlParameter("@customerCompany",dictionary["customerCompany"]),
+                new SqlParameter("@customerContactinfo",dictionary["customerContactinfo"]),
+                new SqlParameter("@customerContactAddress",dictionary["customerContactAddress"]),
+                new SqlParameter("@customerRemark",dictionary["customerRemark"]),
+                new SqlParameter("@customerStatus",dictionary["customerStatus"]),
+                new SqlParameter("@customerOperatorID",dictionary["customerOperatorID"]),
+                new SqlParameter("@type",dictionary["type"])
+            };
+            int returnvalue = SQLHelper.Execute("SQL", "pro_execute_customerinfo",param,CommandType.StoredProcedure);
+            return returnvalue;
+        }
+        /// <summary>
         /// 修改密码
         /// </summary>
         /// <param name="id">用户账号</param>
@@ -71,12 +94,12 @@ namespace WHBLL
             SqlParameter[] param =
             {
                 new SqlParameter("@supplierNumber",dictionary["supplierNumber"]),
-                new SqlParameter("@typeid",dictionary["type"])
+                new SqlParameter("@type",dictionary["type"])
             };
             DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_search_supplier", param, CommandType.StoredProcedure);
             return dt;
         }
-       /// <summary>
+        /// <summary>
        /// 添加采购订单
        /// </summary>
        /// <param name="pid"></param>
@@ -86,7 +109,7 @@ namespace WHBLL
        /// <param name="isinvoice"></param>
        /// <param name="typeid"></param>
        /// <returns></returns>
-        public static int InsProcurement(Dictionary<string, object> dictionary)
+        public static int ExecuteProcurement(Dictionary<string, object> dictionary)
         {
             SqlParameter[] param = 
             {
@@ -119,7 +142,7 @@ namespace WHBLL
             SqlParameter[] param =
             {
                 new SqlParameter("@internalOrderNumber",dictionary["internalOrderNumber"]),
-                new SqlParameter("@productID",dictionary["supplierNumber"]),
+                new SqlParameter("@productID",dictionary["productID"]),
                 new SqlParameter("@supportingProducts",dictionary["supportingProducts"]),
                 new SqlParameter("@supplierNumber",dictionary["supplierNumber"]),
                 new SqlParameter("@purchaseQuantity",dictionary["purchaseQuantity"]),
@@ -130,14 +153,14 @@ namespace WHBLL
             int i = SQLHelper.Execute("SQL", "pro_execute_purchaseGoods", param, CommandType.StoredProcedure);
             return i;
         }
-      /// <summary>
+        /// <summary>
       /// 库存表操作
       /// </summary>
       /// <param name="name"></param>
       /// <param name="pnid"></param>
       /// <param name="typeid"></param>
       /// <returns></returns>
-        public static DataTable GetInventory(Dictionary<string, object> dictionary)
+        public static int ExecuteStock(Dictionary<string, object> dictionary)
         {
             SqlParameter[] param=
             {
@@ -153,11 +176,30 @@ namespace WHBLL
                 new SqlParameter("@inventoryQuantity",dictionary["inventoryQuantity"]),
                 new SqlParameter("@lastWarehousing",dictionary["lastWarehousing"]),
                 new SqlParameter("@stockOperatorID",dictionary["stockOperatorID"]),
-                new SqlParameter("@typeid",dictionary["type"])
+                new SqlParameter("@type",dictionary["type"])
             };
-            DataTable dt=SQLHelper.QueryDataTable("SQL", "pro_execute_stock", param, CommandType.StoredProcedure);
+            int dt=SQLHelper.Execute("SQL", "pro_execute_stock", param, CommandType.StoredProcedure);
             return dt;
         }
+        /// <summary>
+        /// 查询库存
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <returns></returns>
+        public static DataTable GetStock(Dictionary<string,object> dictionary)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("@inventoryNumber",dictionary["inventoryNumber"]),
+                new SqlParameter("@productID",dictionary["productID"]),
+                new SqlParameter("@productName",dictionary["productName"]),
+                new SqlParameter("@model",dictionary["model"]),
+                new SqlParameter("@type",dictionary["type"])
+            };
+            DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_search_stock", param, CommandType.StoredProcedure);
+            return dt;
+        }
+
         /// <summary>
         /// 库存表插入修改数据
         /// </summary>
@@ -168,13 +210,19 @@ namespace WHBLL
         {
             SqlParameter[] param =
             {
+                new SqlParameter("@inventoryNumber",dictionary["inventoryNumber"]),
+                new SqlParameter("@productID",dictionary["productID"]),
+                new SqlParameter("@productName",dictionary["productName"]),
+                new SqlParameter("@model",dictionary["model"]),
                 new SqlParameter("@purchasePrice",dictionary["purchasePrice"]),
                 new SqlParameter("@purchaseincludeTax",dictionary["purchaseincludeTax"]),
                 new SqlParameter("@salesPrice",dictionary["salesPrice"]),
                 new SqlParameter("@salesincludeTax",dictionary["salesincludeTax"]),
+                new SqlParameter("@unit",dictionary["unit"]),
                 new SqlParameter("@inventoryQuantity",dictionary["inventoryQuantity"]),
                 new SqlParameter("@lastWarehousing",dictionary["lastWarehousing"]),
-                new SqlParameter("@typeid",dictionary["type"])
+                new SqlParameter("@stockOperatorID",dictionary["stockOperatorID"]),
+                new SqlParameter("@type",dictionary["type"])
             };
             int index= SQLHelper.Execute("SQL", "pro_execute_stock", param, CommandType.StoredProcedure);
             return index;
@@ -232,7 +280,7 @@ namespace WHBLL
                 new SqlParameter("@wareState",dictionary["wareState"]),
                 new SqlParameter("@type",dictionary["type"]),
             };
-            int index = SQLHelper.Execute("SQL", "pro_cargo", param, CommandType.StoredProcedure);
+            int index = SQLHelper.Execute("SQL", "pro_execute_warehousing", param, CommandType.StoredProcedure);
             return index;
         }
         /// <summary>
@@ -326,7 +374,8 @@ namespace WHBLL
         {
             SqlParameter[] param =
             {
-                new SqlParameter("@internalOrderNumber",dictionary["internalOrderNumber"])
+                new SqlParameter("@internalOrderNumber",dictionary["internalOrderNumber"]),
+                new SqlParameter("@type",dictionary["type"])
             };
             DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_search_finance", param, CommandType.StoredProcedure);
             return dt;
@@ -372,7 +421,7 @@ namespace WHBLL
         /// <param name="typeid"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static int InsDelivery(Dictionary<string, object> dictionary)
+        public static int ExecuteDelivery(Dictionary<string, object> dictionary)
         {
             SqlParameter[] param =
             {
@@ -399,7 +448,7 @@ namespace WHBLL
         /// </summary>
         /// <param name="dictionary"></param>
         /// <returns></returns>
-        public static int InsMain(Dictionary<string, object> dictionary)
+        public static int ExecuteMain(Dictionary<string, object> dictionary)
         {
             SqlParameter[] param =
             {
@@ -417,6 +466,7 @@ namespace WHBLL
                 new SqlParameter("@repairReturnTime",dictionary["repairReturnTime"]),
                 new SqlParameter("@repairReturnExpressNumber",dictionary["repairReturnExpressNumber"]),
                 new SqlParameter("@repairReturnExpressCompany",dictionary["repairReturnExpressCompany"]),
+                new SqlParameter("@repairReturnSNCode",dictionary["repairReturnSNCode"]),
                 new SqlParameter("@repairOperatorID",dictionary["repairOperatorID"]),
                 new SqlParameter("@repairStatus",dictionary["repairStatus"]),
                 new SqlParameter("@type",dictionary["type"]),

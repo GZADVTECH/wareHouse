@@ -23,6 +23,7 @@ namespace wareHouse
         /// 是否保存成功
         /// </summary>
         bool Status = false;
+        Dictionary<string, object> dictionary;
         public frmProcurement()
         {
             InitializeComponent();
@@ -42,7 +43,7 @@ namespace wareHouse
         private void frmProcurement_Load(object sender, EventArgs e)
         {
             UserName.Text = USERNAME;
-            txtAmount.Text = "0";//总金额默认为0
+            //txtAmount.Text = "0";//总金额默认为0
             dgvProcurement.AllowUserToAddRows = false;
             Getsupplier();//获取供应商
             Inventory();//获取产品
@@ -54,18 +55,24 @@ namespace wareHouse
         /// </summary>
         private void Getsupplier()
         {
-            cbbSupplierName.DataSource = BLL.GetSupplier("", 0);
-            cbbSupplierName.DisplayMember = "supperName";
-            cbbSupplierName.ValueMember = "autoID";
+            dictionary = new Dictionary<string, object>();
+            dictionary.Add("supplierNumber",0);
+            dictionary.Add("type", 1);
+            cbbSupplierName.DataSource = BLL.GetSupplier(dictionary);
+            cbbSupplierName.DisplayMember = "supplierName";
+            cbbSupplierName.ValueMember = "supplierNumber";
         }
         /// <summary>
         /// 获取客户信息
         /// </summary>
         private void GetClient()
         {
-            cbbClient.DisplayMember = "cName";
-            cbbClient.ValueMember = "autoID";
-            cbbClient.DataSource = BLL.GetCustomer(0, "", "", "");
+            cbbClient.DisplayMember = "customerName";
+            cbbClient.ValueMember = "customerNumber";
+            dictionary = new Dictionary<string, object>();
+            dictionary.Add("customerNumber",null);
+            dictionary.Add("type", 1);
+            cbbClient.DataSource = BLL.GetCustomer(dictionary);
         }
         /// <summary>
         /// 新建按钮
@@ -147,16 +154,37 @@ namespace wareHouse
             }
             if (dgvProcurement.Rows.Count > 0)
             {
-                if (BLL.QueryPID(txtPID.Text) <= 0)
+                dictionary = new Dictionary<string, object>();
+                dictionary.Add("internalOrderNumber", txtPID.Text);
+                if (BLL.QueryPID(dictionary) <= 0)
                 {
                     //插入数据
-                    int procurement = BLL.InsProcurement(txtPID.Text,txtorderid.Text, USERID, dtpBuy.Value, dtpArrival.Value, cbbClient.SelectedValue.ToString(), 1);
+                    dictionary = new Dictionary<string, object>();
+                    dictionary.Add("internalOrderNumber", txtPID.Text);
+                    dictionary.Add("officialOrderNumber", txtorderid.Text);
+                    dictionary.Add("operatorID", USERID);
+                    dictionary.Add("customerID", dtpBuy.Value);
+                    dictionary.Add("arrivalTime", dtpArrival.Value);
+                    dictionary.Add("creationTime", cbbClient.SelectedValue.ToString());
+                    //dictionary.Add("auditStatus",0);
+                    //dictionary.Add("completeState",0);
+                    dictionary.Add("type",1);
+                    int procurement = BLL.ExecuteProcurement(dictionary);
                     if (procurement > 0)
                     {
                         for (int i = 0; i < dgvProcurement.Rows.Count; i++)
                         {
                             DataGridViewRow dgvr = dgvProcurement.Rows[i];
-                            int procargo = BLL.InsProcargo(txtPID.Text, dgvr.Cells["proID"].Value.ToString(), Convert.ToBoolean(dgvr.Cells["parts"].Value), Convert.ToInt32(dgvr.Cells["supID"].Value.ToString()), Convert.ToInt32(dgvr.Cells["amount"].Value.ToString()), Decimal.Parse(dgvr.Cells["unitprice"].Value.ToString(), System.Globalization.NumberStyles.Currency), Convert.ToBoolean(dgvr.Cells["unittax"].Value), Convert.ToDouble(dgvr.Cells["discount"].Value.ToString()), Convert.ToBoolean(dgvr.Cells["ischeck"].Value), 3, Convert.ToBoolean(dgvr.Cells["sellTax"].Value), Decimal.Parse(dgvr.Cells["sellprice"].Value.ToString(), System.Globalization.NumberStyles.Currency));
+                            dictionary = new Dictionary<string, object>();
+                            dictionary.Add("internalOrderNumber", txtPID.Text);
+                            dictionary.Add("productID", dgvr.Cells["proID"].Value.ToString());
+                            dictionary.Add("supportingProducts",Convert.ToBoolean(dgvr.Cells["parts"].Value));
+                            dictionary.Add("supplierNumber",Convert.ToInt32(dgvr.Cells["supID"].Value.ToString()));
+                            dictionary.Add("purchaseQuantity",Convert.ToInt32(dgvr.Cells["amount"].Value.ToString()));
+                            dictionary.Add("invoice", Convert.ToBoolean(dgvr.Cells["ischeck"].Value));
+                            dictionary.Add("purchaseRemark", rtbRemark.Text);
+                            dictionary.Add("type",1);
+                            int procargo = BLL.InsProcargo(dictionary);
                         }
                         MessageBox.Show("操作成功！请等待审核。。。", "系统提示");
                         PID = txtPID.Text;
@@ -194,39 +222,23 @@ namespace wareHouse
         /// </summary>
         private void Inventory()
         {
-            cbbName.DisplayMember = "productName";
-            cbbName.DataSource = BLL.GetInventory(4,new string[] { "", "", "", "", "", "", "" });
-        }
-        /// <summary>
-        /// 根据产品名称获得相关的型号以及价格
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cbbName_SelectedValueChanged(object sender, EventArgs e)
-        {
-            cbbPNID.DisplayMember = "PNID";
-            cbbPNID.ValueMember = "productID";
-            string[] data = new string[] { "", cbbName.Text, "", "", "", "", "" };
-            cbbPNID.DataSource = BLL.GetInventory(0, data);
-        }
-        /// <summary>
-        /// 规格改变时单价随之改变
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cbbPNID_SelectedValueChanged(object sender, EventArgs e)
-        {
-            try
+            dictionary = new Dictionary<string, object>();
+            dictionary.Add("inventoryNumber",null);
+            dictionary.Add("productID", null);
+            dictionary.Add("productName", null);
+            dictionary.Add("model", null);
+            dictionary.Add("type", 5);
+            DataTable dt = BLL.GetStock(dictionary);
+            Dictionary<string, string> modeldictionary = new Dictionary<string, string>();
+            foreach (DataRow item in dt.Rows)
             {
-                string[] data = new string[] { "", cbbName.Text, cbbPNID.Text, "", "", "", "" };
-                txtunitPrice.Text = string.Format("{0:C2}", Convert.ToDecimal(BLL.GetInventory(5, data).Rows[0]["unitPrice"].ToString()));
-                txtSellPrice.Text = string.Format("{0:C2}", Convert.ToDecimal(BLL.GetInventory(5, data).Rows[0]["sellPrice"].ToString()));
+                modeldictionary.Add(item["productID"].ToString(), string.Format(item["productName"].ToString() + "(" + item["model"].ToString() + ")"));
             }
-            catch (Exception)
-            {
-                txtunitPrice.Text = "0";
-                txtSellPrice.Text = "0";
-            }
+            cbbName.DisplayMember = "Value";
+            cbbName.ValueMember = "Key";
+            BindingSource bs = new BindingSource();
+            bs.DataSource = modeldictionary;
+            cbbName.DataSource = bs;
         }
         /// <summary>
         /// 折扣率
@@ -274,7 +286,7 @@ namespace wareHouse
             int index = -1;
             foreach (DataGridViewRow item in dgvProcurement.Rows)
             {
-                if (item.Cells["proID"].Value.ToString()==cbbPNID.SelectedValue.ToString())
+                if (item.Cells["proID"].Value.ToString()==cbbName.SelectedValue.ToString())
                 {
                     index = item.Index;
                     break;
@@ -284,7 +296,7 @@ namespace wareHouse
             {
                 //-1：不存在相同数据，添加数据
                 DataGridViewRow dgvr = new DataGridViewRow();
-                string[] items = new string[] { cbbPNID.SelectedValue.ToString(), cbbSupplierName.SelectedValue.ToString(), cbbName.Text, cbbPNID.Text, txtNumber.Text, cbbSupplierName.Text, cbbSale.SelectedValue.ToString(), txtunitPrice.Text,cbunitTax.Checked.ToString(),txtSellPrice.Text,cbsellTax.Checked.ToString(),cbParts.Checked.ToString(),cbcheck.Checked.ToString() };
+                string[] items = new string[] { cbbName.SelectedValue.ToString(), cbbSupplierName.SelectedValue.ToString(), cbbName.Text, txtNumber.Text, cbbSupplierName.Text, cbbSale.SelectedValue.ToString(),cbParts.Checked.ToString(),cbcheck.Checked.ToString(),rtbRemark.Text };
                 for (int i = 0; i < items.Count(); i++)
                 {
                     DataGridViewTextBoxCell txtcell = new DataGridViewTextBoxCell();
@@ -292,7 +304,6 @@ namespace wareHouse
                     dgvr.Cells.Add(txtcell);
                 }
                 dgvProcurement.Rows.Add(dgvr);
-                setAmount();
                 txtNumber.Text = string.Empty;
             }
             else
@@ -328,37 +339,37 @@ namespace wareHouse
                 return;
             }
         }
-        /// <summary>
-        /// 返回总金额
-        /// </summary>
-        private void setAmount()
-        {
-            double allamount = 0;
-            for (int i = 0; i < dgvProcurement.Rows.Count; i++)
-            {
-                double money = Convert.ToDouble(Decimal.Parse(dgvProcurement.Rows[i].Cells["unitprice"].Value.ToString(), System.Globalization.NumberStyles.Currency));
-                int amount = Convert.ToInt32(dgvProcurement.Rows[i].Cells["amount"].Value);
-                double discount = Convert.ToDouble(dgvProcurement.Rows[i].Cells["discount"].Value);
-                allamount += (money * amount * discount);
-            }
-            txtAmount.Text = string.Format("{0:C2}",Decimal.Parse(allamount.ToString()));
-        }
-        /// <summary>
-        /// 单元格内容发生改变时，重新计算总金额
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void dgvProcurement_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                setAmount();
-            }
-            catch (Exception)
-            {
-                return;
-            }
-        }
+        ///// <summary>
+        ///// 返回总金额
+        ///// </summary>
+        //private void setAmount()
+        //{
+        //    double allamount = 0;
+        //    for (int i = 0; i < dgvProcurement.Rows.Count; i++)
+        //    {
+        //        double money = Convert.ToDouble(Decimal.Parse(dgvProcurement.Rows[i].Cells["unitprice"].Value.ToString(), System.Globalization.NumberStyles.Currency));
+        //        int amount = Convert.ToInt32(dgvProcurement.Rows[i].Cells["amount"].Value);
+        //        double discount = Convert.ToDouble(dgvProcurement.Rows[i].Cells["discount"].Value);
+        //        allamount += (money * amount * discount);
+        //    }
+        //    txtAmount.Text = string.Format("{0:C2}",Decimal.Parse(allamount.ToString()));
+        //}
+        ///// <summary>
+        ///// 单元格内容发生改变时，重新计算总金额
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void dgvProcurement_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    try
+        //    {
+        //        setAmount();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return;
+        //    }
+        //}
         /// <summary>
         /// 通过编号查询详细信息
         /// </summary>
@@ -372,17 +383,20 @@ namespace wareHouse
                 MessageBox.Show("请输入查询编号", "系统提示");
                 return;
             }
-            DataTable dt = BLL.QueryProcurement(tstxtPID.Text);
+            dictionary = new Dictionary<string, object>();
+            dictionary.Add("internalOrderNumber", tstxtPID.Text);
+            dictionary.Add("type", 3);
+            DataTable dt = BLL.QueryProcurement(dictionary);
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                CHECK = dr["check"].ToString();
-                txtPID.Text = dr["pID"].ToString();
-                txtorderid.Text = dr["contractOrder"].ToString();
-                UserName.Text = dr["userName"].ToString();
-                cbbClient.Text = dr["cName"].ToString();
-                dtpBuy.Value = Convert.ToDateTime(dr["buyDate"]);
-                dtpArrival.Value = Convert.ToDateTime(dr["arrivalDate"]);
+                CHECK = dr["auditStatus"].ToString();
+                txtPID.Text = dr["internalOrderNumber"].ToString();
+                txtorderid.Text = dr["officialOrderNumber"].ToString();
+                UserName.Text = dr["operatorID"].ToString();
+                cbbClient.Text = dr["customerID"].ToString();
+                dtpBuy.Value = Convert.ToDateTime(dr["creationTime"]);
+                dtpArrival.Value = Convert.ToDateTime(dr["arrivalTime"]);
                 //将数据添加到DataGridView中
                 //清空DataGridView中的数据
                 dgvProcurement.Rows.Clear();
@@ -390,7 +404,8 @@ namespace wareHouse
                 {
                     dr = dt.Rows[j];
                     DataGridViewRow selectdgvr = new DataGridViewRow();
-                    string[] items = new string[] { dr["productID"].ToString(), dr["autoID"].ToString(), dr["productName"].ToString(), dr["PNID"].ToString(), dr["amount"].ToString(), dr["supperName"].ToString(), dr["discount"].ToString(), dr["unitPrice"].ToString(), dr["isTax"].ToString(),dr["sellPrice"].ToString(), dr["sellisTax"].ToString(), dr["isParts"].ToString(), (dr["isInvoice"]).ToString() } ;
+                    string[] items = new string[] { dr["productID"].ToString(), dr["supplierNumber"].ToString(), dr["productName"].ToString()+"("+ dr["PNID"].ToString()+")"
+                        , dr["supplierName"].ToString(), dr["discount"].ToString(), dr["isParts"].ToString(), (dr["isInvoice"]).ToString(),dr["purchaseRemark"].ToString() } ;
                     for (int i = 0; i < items.Count(); i++)
                     {
                         DataGridViewTextBoxCell txtcell = new DataGridViewTextBoxCell();
@@ -398,7 +413,6 @@ namespace wareHouse
                         selectdgvr.Cells.Add(txtcell);
                     }
                     dgvProcurement.Rows.Add(selectdgvr);
-                    setAmount();
                 }
                 //不允许保存
                 toolStripButton2.Enabled = false;

@@ -19,9 +19,12 @@ namespace wareHouse
         int actalamount = 0;
         //产品应收数量
         int receivable = 0;
-        public frmStorage()
+        Dictionary<string, object> dictionary;
+        private string USERID;
+        public frmStorage(string userid)
         {
             InitializeComponent();
+            this.USERID = userid;
         }
         /// <summary>
         /// 新建按钮
@@ -117,7 +120,15 @@ namespace wareHouse
                             return;
                         }
                         //添加数据到数据库
-                        if (BLL.InsSNID(txtPID.Text, groupBox2.Tag.ToString(), txtSN.Text) > 0)
+                        dictionary = new Dictionary<string, object>();
+                        dictionary.Add("productID", txtPID.Text);
+                        dictionary.Add("SNCode", txtSN.Text);
+                        //dictionary.Add("sell",);
+                        dictionary.Add("entryTime",DateTime.Now);
+                        //dictionary.Add("sellingTime",);
+                        dictionary.Add("serielOperatorID",USERID);
+                        dictionary.Add("type",1);
+                        if (BLL.InsSNID(dictionary) > 0)
                         {
                             count++;
                             //将数据添加到listview中
@@ -150,36 +161,42 @@ namespace wareHouse
             Clear(groupBox2);
             lvSN.Items.Clear();
             //查询数据
-            DataTable dt = BLL.QueryProcurement(tstxtPID.Text);
-            DataTable storageDt = BLL.QueryStorage(0, tstxtPID.Text);
+            dictionary = new Dictionary<string, object>();
+            dictionary.Add("internalOrderNumber", tstxtPID.Text);
+            dictionary.Add("type", 3);
+            DataTable dt = BLL.QueryProcurement(dictionary);
+            DataTable storageDt = BLL.QueryStorage(dictionary);
             if (storageDt.Rows.Count > 0)
             {
-                if (Convert.ToBoolean(dt.Rows[0]["check"].ToString()) == false)
+                if (Convert.ToBoolean(dt.Rows[0]["auditStatus"].ToString()) == false)
                 {
                     MessageBox.Show("该订单尚未审核。。。", "系统提示");
                     return;
                 }
-                txtPID.Text = storageDt.Rows[0]["pID"].ToString();
-                txtorderID.Text = storageDt.Rows[0]["contractOrder"].ToString();
-                dtparrive.Text = dt.Rows[0]["arrivalDate"].ToString();
-                cbbLocation.DisplayMember = storageDt.Rows[0]["location"].ToString();
-                txtCourier.Text = storageDt.Rows[0]["trackingID"].ToString();
-                cbbCourier.Text = storageDt.Rows[0]["trackingName"].ToString();
-                txtSupplierID.Text = storageDt.Rows[0]["supplierOrderID"].ToString();
-                rtbRemark.Text = storageDt.Rows[0]["remark"].ToString();
+                txtPID.Text = storageDt.Rows[0]["internalOrderNumber"].ToString();
+                txtorderID.Text = dt.Rows[0]["officialOrderNumber"].ToString();
+                dtpDeliveryDate.Text = dt.Rows[0]["storageDate"].ToString();
+                cbbLocation.DisplayMember = storageDt.Rows[0]["productionPosition"].ToString();
+                txtCourier.Text = storageDt.Rows[0]["receiptExpressNumber"].ToString();
+                cbbCourier.Text = storageDt.Rows[0]["receiptExpressCompany"].ToString();
+                txtSupplierID.Text = storageDt.Rows[0]["supplierRelevantNumber"].ToString();
+                rtbRemark.Text = storageDt.Rows[0]["wareRemark"].ToString();
 
                     int index = 1;
 
-                //收货人绑定数据
-                consigneeID.ValueMember = "userID";
-                consigneeID.DisplayMember = "userName";
-                consigneeID.DataSource = BLL.GetUser(0);
-                //ComboBox默认显示
-                //consigneeID.DefaultCellStyle.NullValue = ((System.Data.DataRowView)consigneeID.Items[0])[consigneeID.DisplayMember].ToString();
-                //收发票人绑定数据
-                checktaker.ValueMember = "userID";
-                checktaker.DisplayMember = "userName";
-                checktaker.DataSource = BLL.GetUser(0);
+                ////收货人绑定数据
+                //consigneeID.ValueMember = "loginNumber";
+                //consigneeID.DisplayMember = "userName";
+                //dictionary = new Dictionary<string, object>();
+                //dictionary.Add("type", 1);
+                //consigneeID.DataSource = BLL.GetUser(dictionary);
+                ////ComboBox默认显示
+                ////consigneeID.DefaultCellStyle.NullValue = ((System.Data.DataRowView)consigneeID.Items[0])[consigneeID.DisplayMember].ToString();
+                ////收发票人绑定数据
+                //checktaker.ValueMember = "loginNumber";
+                //checktaker.DisplayMember = "userName";
+                //checktaker.DataSource = BLL.GetUser(dictionary);
+
                 //ComboBox默认显示
                 //checktaker.DefaultCellStyle.NullValue = ((System.Data.DataRowView)checktaker.Items[0])[consigneeID.DisplayMember].ToString();
                 //显示datagridview数据
@@ -190,10 +207,10 @@ namespace wareHouse
                     DataRow dr = dt.Rows[i];//获取综合数据
                     string[] data = new string[]
                     {
-                        index++.ToString(),dr["productID"].ToString(),dr["productName"].ToString(),dr["PNID"].ToString()
-                        ,dr["supperName"].ToString(),storageDt.Rows[i]["actualAmount"].ToString(),dr["amount"].ToString()
-                        ,Convert.ToBoolean(dr["isTax"])==true?"是":"否",storageDt.Rows[i]["invoiceID"].ToString(),storageDt.Rows[i]["consigneeID"].ToString()
-                        ,storageDt.Rows[i]["checkTaker"].ToString(),dr["cargoautoID"].ToString()
+                        dr["purchaseID"].ToString(),dr["productID"].ToString(),dr["productName"].ToString(),dr["model"].ToString()
+                        ,dr["supplierName"].ToString(),storageDt.Rows[i]["CollectionQuantity"].ToString(),dr["purchaseQuantity"].ToString()
+                        ,Convert.ToBoolean(dr["invoice"])==true?"是":"否",storageDt.Rows[i]["invoiceNumber"].ToString(),storageDt.Rows[i]["wareOperatorID"].ToString()
+                        ,storageDt.Rows[i]["wareOperatorID"].ToString(),dr["purchaseID"].ToString()
                     };
                     int[] count = new int[] { 0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12,13 };
                     int order = 0;
@@ -215,20 +232,20 @@ namespace wareHouse
                     }
                     txtPID.Text = dt.Rows[0]["pID"].ToString();
                     txtorderID.Text = dt.Rows[0]["contractOrder"].ToString();
-                    dtparrive.Text = dt.Rows[0]["arrivalDate"].ToString();
+                    dtpDeliveryDate.Text = dt.Rows[0]["storageDate"].ToString();
 
                     int index = 1;
 
-                    //收货人绑定数据
-                    consigneeID.ValueMember = "userID";
-                    consigneeID.DisplayMember = "userName";
-                    consigneeID.DataSource = BLL.GetUser(0);
-                    //ComboBox默认显示
-                    //consigneeID.DefaultCellStyle.NullValue = ((System.Data.DataRowView)consigneeID.Items[0])[consigneeID.DisplayMember].ToString();
-                    //收发票人绑定数据
-                    checktaker.ValueMember = "userID";
-                    checktaker.DisplayMember = "userName";
-                    checktaker.DataSource = BLL.GetUser(0);
+                    ////收货人绑定数据
+                    //consigneeID.ValueMember = "loginNumber";
+                    //consigneeID.DisplayMember = "userName";
+                    //consigneeID.DataSource = BLL.GetUser(dictionary);
+                    ////ComboBox默认显示
+                    ////consigneeID.DefaultCellStyle.NullValue = ((System.Data.DataRowView)consigneeID.Items[0])[consigneeID.DisplayMember].ToString();
+                    ////收发票人绑定数据
+                    //checktaker.ValueMember = "loginNumber";
+                    //checktaker.DisplayMember = "userName";
+                    //checktaker.DataSource = BLL.GetUser(dictionary);
                     //ComboBox默认显示
                     //checktaker.DefaultCellStyle.NullValue = ((System.Data.DataRowView)checktaker.Items[0])[consigneeID.DisplayMember].ToString();
                     foreach (DataRow item in dt.Rows)
@@ -237,8 +254,11 @@ namespace wareHouse
                         dgvr.CreateCells(dgvPro);//根据dgvPro创建模板
                         string[] data = new string[]
                         {
-                        index++.ToString(),item["productID"].ToString(),item["productName"].ToString(),item["PNID"].ToString(),item["supperName"].ToString(),"0",item["amount"].ToString(),Convert.ToBoolean(item["isTax"])==true?"是":"否",item["cargoautoID"].ToString()
+                            index++.ToString(),item["productID"].ToString(),item["productName"].ToString(),item["model"].ToString()
+                        ,item["supplierName"].ToString(),item["CollectionQuantity"].ToString(),item["purchaseQuantity"].ToString()
+                        ,Convert.ToBoolean(item["invoice"])==true?"是":"否",item["purchaseID"].ToString()
                         };
+
                         int[] count = new int[] { 0, 1, 4, 5, 6, 7, 8, 9,13 };
                         int order = 0;
                         foreach (int number in count)
@@ -331,7 +351,12 @@ namespace wareHouse
                     txtSNSNID.Text = dgvPro.Rows[index].Cells["pnid"].Value.ToString();//获取规格型号
                     //将已经输入的SN显示到ListView中
                     lvSN.Items.Clear();
-                    DataTable dt = BLL.QuerySNID(txtPID.Text, groupBox2.Tag.ToString());
+                    dictionary = new Dictionary<string, object>();
+                    //dictionary.Add("serialNumber",);
+                    dictionary.Add("productID",txtPID.Text);
+                    dictionary.Add("SNCode",groupBox2.Tag.ToString());
+                    dictionary.Add("type",1);
+                    DataTable dt = BLL.QuerySNID(dictionary);
                     foreach (DataRow item in dt.Rows)
                     {
                         ListViewItem lvi = new ListViewItem(item["productName"].ToString());
@@ -376,7 +401,11 @@ namespace wareHouse
                     MessageBox.Show("快递公司不允许为空！", "系统提示");
                     return;
                 }
-                if (BLL.QueryStorage(0, tstxtPID.Text).Rows.Count > 0)
+
+                dictionary = new Dictionary<string, object>();
+                dictionary.Add("internalOrderNumber", tstxtPID.Text);
+                dictionary.Add("type", 3);
+                if (BLL.QueryStorage(dictionary).Rows.Count > 0)
                 {
                     cargoOperation(2);
                     return;
@@ -408,12 +437,21 @@ namespace wareHouse
                 {
                     invoiceid = dgvr.Cells["invoiceID"].Value.ToString();
                 }
-                string[] data = new string[] {
-                    txtCourier.Text,cbbCourier.Text,cbbLocation.Text, txtSupplierID.Text
-                    , dtpDeliveryDate.Text, dgvr.Cells["productID"].Value.ToString()
-                    , dgvr.Cells["Num"].Value.ToString() , dgvr.Cells["consigneeID"].Value.ToString(),invoiceid
-                    ,checktaker , rtbRemark.Text,dgvr.Cells["cargoautoID"].Value.ToString() };
-                int index = BLL.InsStorage(typeid, txtPID.Text, data);
+                dictionary = new Dictionary<string, object>();
+                dictionary.Add("purchaseID", dgvr.Cells["ID"].Value.ToString());
+                dictionary.Add("internalOrderNumber", txtPID.Text);
+                dictionary.Add("receiptExpressNumber",txtCourier.Text);
+                dictionary.Add("receiptExpressCompany",cbbCourier.Text);
+                dictionary.Add("productionPosition", cbbLocation.Text);
+                dictionary.Add("supplierRelevantNumber",txtSupplierID.Text);
+                dictionary.Add("storageDate",dtpDeliveryDate.Text);
+                dictionary.Add("CollectionQuantity", dgvr.Cells["Num"].Value.ToString());
+                dictionary.Add("wareOperatorID",USERID);
+                dictionary.Add("invoiceNumber", invoiceid);
+                dictionary.Add("wareRemark", rtbRemark.Text);
+                dictionary.Add("wareState",0);
+                dictionary.Add("type",typeid);
+                int index = BLL.InsStorage(dictionary);
                 allindex += index;
             }
             if (allindex == dgvPro.Rows.Count)
@@ -504,7 +542,15 @@ namespace wareHouse
                 return;
             }
             //添加数据到数据库
-            if (BLL.InsSNID(txtPID.Text, groupBox2.Tag.ToString(), txtSN.Text) > 0)
+            dictionary = new Dictionary<string, object>();
+            dictionary.Add("productID", txtPID.Text);
+            dictionary.Add("SNCode", txtSN.Text);
+            //dictionary.Add("sell",);
+            dictionary.Add("entryTime", DateTime.Now);
+            //dictionary.Add("sellingTime",);
+            dictionary.Add("serielOperatorID", USERID);
+            dictionary.Add("type", 1);
+            if (BLL.InsSNID(dictionary) > 0)
             {
                 //将数据添加到listview中
                 ListViewItem lvi = new ListViewItem(txtSNName.Text);

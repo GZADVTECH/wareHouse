@@ -33,10 +33,11 @@
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.txtPID = new System.Windows.Forms.ToolStripTextBox();
             this.tsbSelect = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.dgvFinace = new System.Windows.Forms.DataGridView();
-            this.tsbSave = new System.Windows.Forms.ToolStripButton();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.autoID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -57,7 +58,6 @@
             this.remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.payDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.paySum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFinace)).BeginInit();
             this.SuspendLayout();
@@ -102,6 +102,20 @@
             this.tsbSelect.Size = new System.Drawing.Size(23, 22);
             this.tsbSelect.Text = "toolStripButton2";
             this.tsbSelect.Click += new System.EventHandler(this.tsbSelect_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsbSave
+            // 
+            this.tsbSave.Image = ((System.Drawing.Image)(resources.GetObject("tsbSave.Image")));
+            this.tsbSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSave.Name = "tsbSave";
+            this.tsbSave.Size = new System.Drawing.Size(52, 22);
+            this.tsbSave.Text = "保存";
+            this.tsbSave.Click += new System.EventHandler(this.tsbSave_Click);
             // 
             // toolStripSeparator1
             // 
@@ -152,15 +166,6 @@
             this.dgvFinace.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFinace_CellClick);
             this.dgvFinace.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFinace_CellEndEdit);
             // 
-            // tsbSave
-            // 
-            this.tsbSave.Image = ((System.Drawing.Image)(resources.GetObject("tsbSave.Image")));
-            this.tsbSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbSave.Name = "tsbSave";
-            this.tsbSave.Size = new System.Drawing.Size(52, 22);
-            this.tsbSave.Text = "保存";
-            this.tsbSave.Click += new System.EventHandler(this.tsbSave_Click);
-            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.FillWeight = 96.03568F;
@@ -170,7 +175,7 @@
             // 
             // autoID
             // 
-            this.autoID.HeaderText = "自动编号";
+            this.autoID.HeaderText = "财务编号";
             this.autoID.Name = "autoID";
             this.autoID.Visible = false;
             // 
@@ -297,11 +302,6 @@
             this.paySum.HeaderText = "付款金额";
             this.paySum.Name = "paySum";
             // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
             // frmFinance
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -331,6 +331,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.DataGridView dgvFinace;
         private System.Windows.Forms.ToolStripButton tsbSave;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn autoID;
         private System.Windows.Forms.DataGridViewTextBoxColumn pID;
@@ -351,6 +352,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn remark;
         private System.Windows.Forms.DataGridViewTextBoxColumn payDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn paySum;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
