@@ -194,6 +194,7 @@ namespace wareHouse
         private void Inventory(object sender)
         {
             ComboBox cbb = (ComboBox)sender;
+            dictionary = new Dictionary<string, object>();
             dictionary.Add("inventoryNumber",null);
             dictionary.Add("productID",null);
             dictionary.Add("productName",null);
@@ -203,7 +204,7 @@ namespace wareHouse
             Dictionary<string, string> modeldictionary = new Dictionary<string, string>();
             foreach (DataRow item in dt.Rows)
             {
-                dictionary.Add(item["productID"].ToString(), string.Format(item["productName"].ToString() + "(" + item["model"].ToString() + ")"));
+                modeldictionary.Add(item["productID"].ToString(), string.Format(item["productName"].ToString() + "(" + item["model"].ToString() + ")"));
             }
             BindingSource bs = new BindingSource();
             bs.DataSource = modeldictionary;
@@ -294,10 +295,10 @@ namespace wareHouse
             foreach (DataGridViewRow dgvr in dgvPro.Rows)
             {
                 dictionary = new Dictionary<string, object>();
-                //dictionary.Add("inventoryNumber",);
+                dictionary.Add("inventoryNumber",null);
                 dictionary.Add("productID",dgvr.Cells["proID"].Value.ToString());
-                //dictionary.Add("productName",);
-                //dictionary.Add("model",);
+                dictionary.Add("productName", null);
+                dictionary.Add("model", null);
                 dictionary.Add("type",3);
                 DataTable dt = BLL.GetStock(dictionary);
                 int quantity = int.Parse(dt.Rows[0]["quantity"].ToString());

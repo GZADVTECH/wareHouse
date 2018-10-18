@@ -38,6 +38,16 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.dgvInventory = new System.Windows.Forms.DataGridView();
+            this.inventoryNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.model = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.purchasePrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.purchaseincludeTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.salesPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.salesincludeTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.inventoryQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbsale = new System.Windows.Forms.CheckBox();
             this.cbpurchase = new System.Windows.Forms.CheckBox();
@@ -59,16 +69,6 @@
             this.txtPID = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.inventoryNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.productID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.productName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.model = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.purchasePrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.purchaseincludeTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.salesPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.salesincludeTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.inventoryQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -169,6 +169,82 @@
             this.dgvInventory.TabIndex = 1;
             this.dgvInventory.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInventory_CellDoubleClick);
             // 
+            // inventoryNumber
+            // 
+            this.inventoryNumber.DataPropertyName = "inventoryNumber";
+            this.inventoryNumber.HeaderText = "库存编号";
+            this.inventoryNumber.Name = "inventoryNumber";
+            this.inventoryNumber.ReadOnly = true;
+            this.inventoryNumber.Visible = false;
+            // 
+            // productID
+            // 
+            this.productID.DataPropertyName = "productID";
+            this.productID.HeaderText = "产品编号";
+            this.productID.Name = "productID";
+            this.productID.ReadOnly = true;
+            // 
+            // productName
+            // 
+            this.productName.DataPropertyName = "productName";
+            this.productName.HeaderText = "产品名称";
+            this.productName.Name = "productName";
+            this.productName.ReadOnly = true;
+            this.productName.Width = 180;
+            // 
+            // model
+            // 
+            this.model.DataPropertyName = "model";
+            this.model.HeaderText = "规格型号";
+            this.model.Name = "model";
+            this.model.ReadOnly = true;
+            this.model.Width = 200;
+            // 
+            // purchasePrice
+            // 
+            this.purchasePrice.DataPropertyName = "purchasePrice";
+            this.purchasePrice.HeaderText = "采购单价";
+            this.purchasePrice.Name = "purchasePrice";
+            this.purchasePrice.ReadOnly = true;
+            // 
+            // purchaseincludeTax
+            // 
+            this.purchaseincludeTax.DataPropertyName = "purchaseincludeTax";
+            this.purchaseincludeTax.HeaderText = "采购单价是否含税";
+            this.purchaseincludeTax.Name = "purchaseincludeTax";
+            this.purchaseincludeTax.ReadOnly = true;
+            this.purchaseincludeTax.Visible = false;
+            // 
+            // salesPrice
+            // 
+            this.salesPrice.DataPropertyName = "salesPrice";
+            this.salesPrice.HeaderText = "销售单价";
+            this.salesPrice.Name = "salesPrice";
+            this.salesPrice.ReadOnly = true;
+            // 
+            // salesincludeTax
+            // 
+            this.salesincludeTax.DataPropertyName = "salesincludeTax";
+            this.salesincludeTax.HeaderText = "销售单价是否含税";
+            this.salesincludeTax.Name = "salesincludeTax";
+            this.salesincludeTax.ReadOnly = true;
+            this.salesincludeTax.Visible = false;
+            // 
+            // unit
+            // 
+            this.unit.DataPropertyName = "unit";
+            this.unit.HeaderText = "单位";
+            this.unit.Name = "unit";
+            this.unit.ReadOnly = true;
+            this.unit.Width = 80;
+            // 
+            // inventoryQuantity
+            // 
+            this.inventoryQuantity.DataPropertyName = "inventoryQuantity";
+            this.inventoryQuantity.HeaderText = "库存数量";
+            this.inventoryQuantity.Name = "inventoryQuantity";
+            this.inventoryQuantity.ReadOnly = true;
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.cbsale);
@@ -204,7 +280,7 @@
             this.cbsale.Location = new System.Drawing.Point(428, 54);
             this.cbsale.Name = "cbsale";
             this.cbsale.Size = new System.Drawing.Size(48, 16);
-            this.cbsale.TabIndex = 7;
+            this.cbsale.TabIndex = 6;
             this.cbsale.Text = "含税";
             this.cbsale.UseVisualStyleBackColor = true;
             // 
@@ -214,7 +290,7 @@
             this.cbpurchase.Location = new System.Drawing.Point(428, 22);
             this.cbpurchase.Name = "cbpurchase";
             this.cbpurchase.Size = new System.Drawing.Size(48, 16);
-            this.cbpurchase.TabIndex = 7;
+            this.cbpurchase.TabIndex = 4;
             this.cbpurchase.Text = "含税";
             this.cbpurchase.UseVisualStyleBackColor = true;
             // 
@@ -223,7 +299,7 @@
             this.btnClear.Location = new System.Drawing.Point(702, 61);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(82, 33);
-            this.btnClear.TabIndex = 6;
+            this.btnClear.TabIndex = 11;
             this.btnClear.Text = "清空";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnSave_Click);
@@ -233,7 +309,7 @@
             this.btnSave.Location = new System.Drawing.Point(702, 20);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(82, 33);
-            this.btnSave.TabIndex = 6;
+            this.btnSave.TabIndex = 10;
             this.btnSave.Text = "提交";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -251,7 +327,7 @@
             this.cbbUnit.Location = new System.Drawing.Point(568, 47);
             this.cbbUnit.Name = "cbbUnit";
             this.cbbUnit.Size = new System.Drawing.Size(71, 20);
-            this.cbbUnit.TabIndex = 2;
+            this.cbbUnit.TabIndex = 9;
             // 
             // txtNum
             // 
@@ -259,7 +335,7 @@
             this.txtNum.MaxLength = 5;
             this.txtNum.Name = "txtNum";
             this.txtNum.Size = new System.Drawing.Size(71, 21);
-            this.txtNum.TabIndex = 5;
+            this.txtNum.TabIndex = 8;
             this.txtNum.Text = "0";
             this.txtNum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNum_KeyPress);
             // 
@@ -286,7 +362,7 @@
             this.txtSalePrice.Location = new System.Drawing.Point(305, 49);
             this.txtSalePrice.Name = "txtSalePrice";
             this.txtSalePrice.Size = new System.Drawing.Size(116, 21);
-            this.txtSalePrice.TabIndex = 3;
+            this.txtSalePrice.TabIndex = 5;
             this.txtSalePrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPrice_KeyPress);
             this.txtSalePrice.Leave += new System.EventHandler(this.txtPrice_Leave);
             // 
@@ -322,7 +398,7 @@
             this.txtPNID.Location = new System.Drawing.Point(305, 76);
             this.txtPNID.Name = "txtPNID";
             this.txtPNID.Size = new System.Drawing.Size(334, 21);
-            this.txtPNID.TabIndex = 4;
+            this.txtPNID.TabIndex = 7;
             // 
             // label3
             // 
@@ -338,7 +414,7 @@
             this.txtPName.Location = new System.Drawing.Point(86, 73);
             this.txtPName.Name = "txtPName";
             this.txtPName.Size = new System.Drawing.Size(136, 21);
-            this.txtPName.TabIndex = 1;
+            this.txtPName.TabIndex = 2;
             // 
             // label2
             // 
@@ -361,7 +437,7 @@
             this.txtPID.Location = new System.Drawing.Point(86, 45);
             this.txtPID.Name = "txtPID";
             this.txtPID.Size = new System.Drawing.Size(136, 21);
-            this.txtPID.TabIndex = 0;
+            this.txtPID.TabIndex = 1;
             // 
             // label7
             // 
@@ -380,72 +456,6 @@
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 0;
             this.label1.Text = "产品编号";
-            // 
-            // inventoryNumber
-            // 
-            this.inventoryNumber.DataPropertyName = "inventoryNumber";
-            this.inventoryNumber.HeaderText = "库存编号";
-            this.inventoryNumber.Name = "inventoryNumber";
-            this.inventoryNumber.Visible = false;
-            // 
-            // productID
-            // 
-            this.productID.DataPropertyName = "productID";
-            this.productID.HeaderText = "产品编号";
-            this.productID.Name = "productID";
-            // 
-            // productName
-            // 
-            this.productName.DataPropertyName = "productName";
-            this.productName.HeaderText = "产品名称";
-            this.productName.Name = "productName";
-            this.productName.Width = 180;
-            // 
-            // model
-            // 
-            this.model.DataPropertyName = "model";
-            this.model.HeaderText = "规格型号";
-            this.model.Name = "model";
-            this.model.Width = 200;
-            // 
-            // purchasePrice
-            // 
-            this.purchasePrice.DataPropertyName = "purchasePrice";
-            this.purchasePrice.HeaderText = "采购单价";
-            this.purchasePrice.Name = "purchasePrice";
-            // 
-            // purchaseincludeTax
-            // 
-            this.purchaseincludeTax.DataPropertyName = "purchaseincludeTax";
-            this.purchaseincludeTax.HeaderText = "采购单价是否含税";
-            this.purchaseincludeTax.Name = "purchaseincludeTax";
-            this.purchaseincludeTax.Visible = false;
-            // 
-            // salesPrice
-            // 
-            this.salesPrice.DataPropertyName = "salesPrice";
-            this.salesPrice.HeaderText = "销售单价";
-            this.salesPrice.Name = "salesPrice";
-            // 
-            // salesincludeTax
-            // 
-            this.salesincludeTax.DataPropertyName = "salesincludeTax";
-            this.salesincludeTax.HeaderText = "销售单价是否含税";
-            this.salesincludeTax.Name = "salesincludeTax";
-            this.salesincludeTax.Visible = false;
-            // 
-            // unit
-            // 
-            this.unit.DataPropertyName = "unit";
-            this.unit.HeaderText = "单位";
-            this.unit.Name = "unit";
-            this.unit.Width = 80;
-            // 
-            // inventoryQuantity
-            // 
-            this.inventoryQuantity.DataPropertyName = "inventoryQuantity";
-            this.inventoryQuantity.HeaderText = "库存数量";
-            this.inventoryQuantity.Name = "inventoryQuantity";
             // 
             // frmInventory
             // 

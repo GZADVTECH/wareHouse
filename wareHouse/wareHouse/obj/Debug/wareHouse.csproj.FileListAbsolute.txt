@@ -56,3 +56,5 @@ F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\bin\Debug\CrystalDecisi
 F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\bin\Debug\FlashControlV71.dll
 F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\bin\Debug\ShockwaveFlashObjects.dll
 F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\obj\Debug\wareHouse.frmReport.resources
+F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\obj\Debug\wareHouse.frmSupplier.resources
+F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\obj\Debug\wareHouse.csproj.ResolveComReference.cache

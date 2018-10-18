@@ -130,7 +130,7 @@ create table outgoing
 	outgoingState bit,							  --完成状态
 )
 go
-
+select * from userinfo
 --用户信息表
 drop table userinfo
 go

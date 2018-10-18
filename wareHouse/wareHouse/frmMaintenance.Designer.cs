@@ -45,6 +45,18 @@
             this.dtpreturndate = new System.Windows.Forms.DateTimePicker();
             this.txtreturntrackingid = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtAddress = new System.Windows.Forms.TextBox();
+            this.txtContactinfo = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.cbbcontactsid = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txttrackingname = new System.Windows.Forms.ComboBox();
+            this.txttrackingid = new System.Windows.Forms.TextBox();
+            this.dtparrivaldate = new System.Windows.Forms.DateTimePicker();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.txtsnid = new System.Windows.Forms.TextBox();
@@ -74,18 +86,8 @@
             this.returndate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.returntrackingid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.returntrackingname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtAddress = new System.Windows.Forms.TextBox();
-            this.txtContactinfo = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.cbbcontactsid = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txttrackingname = new System.Windows.Forms.ComboBox();
-            this.txttrackingid = new System.Windows.Forms.TextBox();
-            this.dtparrivaldate = new System.Windows.Forms.DateTimePicker();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.repairContactinfo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.repairContactAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -254,6 +256,122 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "基础信息";
             // 
+            // txtAddress
+            // 
+            this.txtAddress.Location = new System.Drawing.Point(71, 178);
+            this.txtAddress.Name = "txtAddress";
+            this.txtAddress.Size = new System.Drawing.Size(513, 21);
+            this.txtAddress.TabIndex = 32;
+            this.txtAddress.Text = "广东省广州市天河区壬丰大厦22楼2211A室";
+            // 
+            // txtContactinfo
+            // 
+            this.txtContactinfo.Location = new System.Drawing.Point(260, 139);
+            this.txtContactinfo.Name = "txtContactinfo";
+            this.txtContactinfo.Size = new System.Drawing.Size(115, 21);
+            this.txtContactinfo.TabIndex = 33;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(10, 181);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(53, 12);
+            this.label16.TabIndex = 30;
+            this.label16.Text = "联系地址";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(198, 143);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 12);
+            this.label10.TabIndex = 31;
+            this.label10.Text = "联系方式";
+            // 
+            // cbbcontactsid
+            // 
+            this.cbbcontactsid.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbbcontactsid.FormattingEnabled = true;
+            this.cbbcontactsid.Location = new System.Drawing.Point(65, 139);
+            this.cbbcontactsid.Name = "cbbcontactsid";
+            this.cbbcontactsid.Size = new System.Drawing.Size(116, 20);
+            this.cbbcontactsid.TabIndex = 29;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(16, 143);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(41, 12);
+            this.label9.TabIndex = 28;
+            this.label9.Text = "联系人";
+            // 
+            // txttrackingname
+            // 
+            this.txttrackingname.FormattingEnabled = true;
+            this.txttrackingname.Items.AddRange(new object[] {
+            "申通",
+            "EMS",
+            "顺丰",
+            "圆通",
+            "中通",
+            "韵达",
+            "天天",
+            "汇通",
+            "全峰",
+            "德邦",
+            "如风达",
+            "宅急送"});
+            this.txttrackingname.Location = new System.Drawing.Point(461, 105);
+            this.txttrackingname.Name = "txttrackingname";
+            this.txttrackingname.Size = new System.Drawing.Size(121, 20);
+            this.txttrackingname.TabIndex = 27;
+            // 
+            // txttrackingid
+            // 
+            this.txttrackingid.Location = new System.Drawing.Point(260, 105);
+            this.txttrackingid.Name = "txttrackingid";
+            this.txttrackingid.Size = new System.Drawing.Size(115, 21);
+            this.txttrackingid.TabIndex = 26;
+            // 
+            // dtparrivaldate
+            // 
+            this.dtparrivaldate.Cursor = System.Windows.Forms.Cursors.Default;
+            this.dtparrivaldate.CustomFormat = "yyyy/MM/dd";
+            this.dtparrivaldate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtparrivaldate.Location = new System.Drawing.Point(65, 105);
+            this.dtparrivaldate.Name = "dtparrivaldate";
+            this.dtparrivaldate.Size = new System.Drawing.Size(115, 21);
+            this.dtparrivaldate.TabIndex = 25;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(4, 109);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "收货日期";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(198, 109);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 12);
+            this.label7.TabIndex = 23;
+            this.label7.Text = "快递单号";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(383, 109);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(77, 12);
+            this.label8.TabIndex = 24;
+            this.label8.Text = "快递公司名称";
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -397,7 +515,9 @@
             this.returnsnid,
             this.returndate,
             this.returntrackingid,
-            this.returntrackingname});
+            this.returntrackingname,
+            this.repairContactinfo,
+            this.repairContactAddress});
             this.dgvMain.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgvMain.Location = new System.Drawing.Point(625, 29);
             this.dgvMain.Name = "dgvMain";
@@ -410,7 +530,7 @@
             // 
             // cid
             // 
-            this.cid.DataPropertyName = "cID";
+            this.cid.DataPropertyName = "repairCustomernumber";
             this.cid.HeaderText = "客户编号";
             this.cid.Name = "cid";
             this.cid.ReadOnly = true;
@@ -418,14 +538,14 @@
             // 
             // cName
             // 
-            this.cName.DataPropertyName = "cName";
+            this.cName.DataPropertyName = "customerName";
             this.cName.HeaderText = "客户名称";
             this.cName.Name = "cName";
             this.cName.ReadOnly = true;
             // 
             // proID
             // 
-            this.proID.DataPropertyName = "productID";
+            this.proID.DataPropertyName = "repairProductID";
             this.proID.HeaderText = "产品编号";
             this.proID.Name = "proID";
             this.proID.ReadOnly = true;
@@ -440,14 +560,14 @@
             // 
             // pnid
             // 
-            this.pnid.DataPropertyName = "PNID";
+            this.pnid.DataPropertyName = "model";
             this.pnid.HeaderText = "规格型号";
             this.pnid.Name = "pnid";
             this.pnid.ReadOnly = true;
             // 
             // snid
             // 
-            this.snid.DataPropertyName = "SNID";
+            this.snid.DataPropertyName = "repairSNCode";
             this.snid.HeaderText = "S/N号";
             this.snid.Name = "snid";
             this.snid.ReadOnly = true;
@@ -455,21 +575,21 @@
             // 
             // mainMsg
             // 
-            this.mainMsg.DataPropertyName = "maintenanceMsg";
+            this.mainMsg.DataPropertyName = "repairMeg";
             this.mainMsg.HeaderText = "维保原因";
             this.mainMsg.Name = "mainMsg";
             this.mainMsg.ReadOnly = true;
             // 
             // mainName
             // 
-            this.mainName.DataPropertyName = "maintenanceName";
+            this.mainName.DataPropertyName = "repairName";
             this.mainName.HeaderText = "维保地";
             this.mainName.Name = "mainName";
             this.mainName.ReadOnly = true;
             // 
             // arrivatedate
             // 
-            this.arrivatedate.DataPropertyName = "arrivalDate";
+            this.arrivatedate.DataPropertyName = "repairArrivalTime";
             this.arrivatedate.HeaderText = "收货时间";
             this.arrivatedate.Name = "arrivatedate";
             this.arrivatedate.ReadOnly = true;
@@ -477,7 +597,7 @@
             // 
             // trackingID
             // 
-            this.trackingID.DataPropertyName = "trackingID";
+            this.trackingID.DataPropertyName = "repairExpressNumber";
             this.trackingID.HeaderText = "快递单号";
             this.trackingID.Name = "trackingID";
             this.trackingID.ReadOnly = true;
@@ -485,7 +605,7 @@
             // 
             // trackingname
             // 
-            this.trackingname.DataPropertyName = "trackingName";
+            this.trackingname.DataPropertyName = "repairExpressCompany";
             this.trackingname.HeaderText = "快递公司名称";
             this.trackingname.Name = "trackingname";
             this.trackingname.ReadOnly = true;
@@ -493,15 +613,15 @@
             // 
             // contactsid
             // 
-            this.contactsid.DataPropertyName = "contactsID";
-            this.contactsid.HeaderText = "联系人编号";
+            this.contactsid.DataPropertyName = "repairContacts";
+            this.contactsid.HeaderText = "联系人名称";
             this.contactsid.Name = "contactsid";
             this.contactsid.ReadOnly = true;
             this.contactsid.Visible = false;
             // 
             // returnsnid
             // 
-            this.returnsnid.DataPropertyName = "returnproductID";
+            this.returnsnid.DataPropertyName = "repairReturnSNCode";
             this.returnsnid.HeaderText = "归还新S/N号";
             this.returnsnid.Name = "returnsnid";
             this.returnsnid.ReadOnly = true;
@@ -509,7 +629,7 @@
             // 
             // returndate
             // 
-            this.returndate.DataPropertyName = "returnDate";
+            this.returndate.DataPropertyName = "repairReturnTime";
             this.returndate.HeaderText = "归还日期";
             this.returndate.Name = "returndate";
             this.returndate.ReadOnly = true;
@@ -517,7 +637,7 @@
             // 
             // returntrackingid
             // 
-            this.returntrackingid.DataPropertyName = "returntrackingID";
+            this.returntrackingid.DataPropertyName = "repairReturnExpressNumber";
             this.returntrackingid.HeaderText = "归还快递单号";
             this.returntrackingid.Name = "returntrackingid";
             this.returntrackingid.ReadOnly = true;
@@ -525,127 +645,27 @@
             // 
             // returntrackingname
             // 
-            this.returntrackingname.DataPropertyName = "returntrackingName";
+            this.returntrackingname.DataPropertyName = "repairReturnExpressCompany";
             this.returntrackingname.HeaderText = "归还快递公司名称";
             this.returntrackingname.Name = "returntrackingname";
             this.returntrackingname.ReadOnly = true;
             this.returntrackingname.Visible = false;
             // 
-            // txtAddress
+            // repairContactinfo
             // 
-            this.txtAddress.Location = new System.Drawing.Point(71, 178);
-            this.txtAddress.Name = "txtAddress";
-            this.txtAddress.Size = new System.Drawing.Size(513, 21);
-            this.txtAddress.TabIndex = 32;
-            this.txtAddress.Text = "广东省广州市天河区壬丰大厦22楼2211A室";
+            this.repairContactinfo.DataPropertyName = "repairContactinfo";
+            this.repairContactinfo.HeaderText = "联系方式";
+            this.repairContactinfo.Name = "repairContactinfo";
+            this.repairContactinfo.ReadOnly = true;
+            this.repairContactinfo.Visible = false;
             // 
-            // txtContactinfo
+            // repairContactAddress
             // 
-            this.txtContactinfo.Location = new System.Drawing.Point(260, 139);
-            this.txtContactinfo.Name = "txtContactinfo";
-            this.txtContactinfo.Size = new System.Drawing.Size(115, 21);
-            this.txtContactinfo.TabIndex = 33;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(10, 181);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(53, 12);
-            this.label16.TabIndex = 30;
-            this.label16.Text = "联系地址";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(198, 143);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(53, 12);
-            this.label10.TabIndex = 31;
-            this.label10.Text = "联系方式";
-            // 
-            // cbbcontactsid
-            // 
-            this.cbbcontactsid.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbbcontactsid.FormattingEnabled = true;
-            this.cbbcontactsid.Location = new System.Drawing.Point(65, 139);
-            this.cbbcontactsid.Name = "cbbcontactsid";
-            this.cbbcontactsid.Size = new System.Drawing.Size(116, 20);
-            this.cbbcontactsid.TabIndex = 29;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(16, 143);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(41, 12);
-            this.label9.TabIndex = 28;
-            this.label9.Text = "联系人";
-            // 
-            // txttrackingname
-            // 
-            this.txttrackingname.FormattingEnabled = true;
-            this.txttrackingname.Items.AddRange(new object[] {
-            "申通",
-            "EMS",
-            "顺丰",
-            "圆通",
-            "中通",
-            "韵达",
-            "天天",
-            "汇通",
-            "全峰",
-            "德邦",
-            "如风达",
-            "宅急送"});
-            this.txttrackingname.Location = new System.Drawing.Point(461, 105);
-            this.txttrackingname.Name = "txttrackingname";
-            this.txttrackingname.Size = new System.Drawing.Size(121, 20);
-            this.txttrackingname.TabIndex = 27;
-            // 
-            // txttrackingid
-            // 
-            this.txttrackingid.Location = new System.Drawing.Point(260, 105);
-            this.txttrackingid.Name = "txttrackingid";
-            this.txttrackingid.Size = new System.Drawing.Size(115, 21);
-            this.txttrackingid.TabIndex = 26;
-            // 
-            // dtparrivaldate
-            // 
-            this.dtparrivaldate.Cursor = System.Windows.Forms.Cursors.Default;
-            this.dtparrivaldate.CustomFormat = "yyyy/MM/dd";
-            this.dtparrivaldate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtparrivaldate.Location = new System.Drawing.Point(65, 105);
-            this.dtparrivaldate.Name = "dtparrivaldate";
-            this.dtparrivaldate.Size = new System.Drawing.Size(115, 21);
-            this.dtparrivaldate.TabIndex = 25;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(4, 109);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 12);
-            this.label6.TabIndex = 22;
-            this.label6.Text = "收货日期";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(198, 109);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(53, 12);
-            this.label7.TabIndex = 23;
-            this.label7.Text = "快递单号";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(383, 109);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(77, 12);
-            this.label8.TabIndex = 24;
-            this.label8.Text = "快递公司名称";
+            this.repairContactAddress.DataPropertyName = "repairContactAddress";
+            this.repairContactAddress.HeaderText = "联系地址";
+            this.repairContactAddress.Name = "repairContactAddress";
+            this.repairContactAddress.ReadOnly = true;
+            this.repairContactAddress.Visible = false;
             // 
             // frmMaintenance
             // 
@@ -704,6 +724,18 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox txtnewsnid;
         private System.Windows.Forms.DataGridView dgvMain;
+        private System.Windows.Forms.TextBox txtAddress;
+        private System.Windows.Forms.TextBox txtContactinfo;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox cbbcontactsid;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox txttrackingname;
+        private System.Windows.Forms.TextBox txttrackingid;
+        private System.Windows.Forms.DateTimePicker dtparrivaldate;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DataGridViewTextBoxColumn cid;
         private System.Windows.Forms.DataGridViewTextBoxColumn cName;
         private System.Windows.Forms.DataGridViewTextBoxColumn proID;
@@ -720,17 +752,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn returndate;
         private System.Windows.Forms.DataGridViewTextBoxColumn returntrackingid;
         private System.Windows.Forms.DataGridViewTextBoxColumn returntrackingname;
-        private System.Windows.Forms.TextBox txtAddress;
-        private System.Windows.Forms.TextBox txtContactinfo;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ComboBox cbbcontactsid;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox txttrackingname;
-        private System.Windows.Forms.TextBox txttrackingid;
-        private System.Windows.Forms.DateTimePicker dtparrivaldate;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn repairContactinfo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn repairContactAddress;
     }
 }

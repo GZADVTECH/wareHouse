@@ -484,6 +484,7 @@
             this.sellprice.HeaderText = "销售单价";
             this.sellprice.Name = "sellprice";
             this.sellprice.ReadOnly = true;
+            this.sellprice.Width = 150;
             // 
             // tax
             // 
@@ -502,6 +503,7 @@
             this.subtotal.HeaderText = "小计";
             this.subtotal.Name = "subtotal";
             this.subtotal.ReadOnly = true;
+            this.subtotal.Width = 130;
             // 
             // frmDelivery
             // 

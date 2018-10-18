@@ -72,12 +72,14 @@ namespace WHBLL
         /// <param name="id">用户账号</param>
         /// <param name="pwd">新密码</param>
         /// <returns></returns>
-        public static int UpdatePwd(Dictionary<string,object> dictionary)
+        public static int ExecuteUser(Dictionary<string,object> dictionary)
         {
             SqlParameter[] param =
             {
                 new SqlParameter("@loginNumber",dictionary["loginNumber"]),
                 new SqlParameter("@loginPwd",dictionary["loginPwd"]),
+                new SqlParameter("@userName",dictionary["userName"]),
+                new SqlParameter("@userRights",dictionary["userRights"]),
                 new SqlParameter("@type",dictionary["type"])
             };
             int i = SQLHelper.Execute("SQL", "pro_execute_userinfo", param, CommandType.StoredProcedure);
@@ -121,7 +123,7 @@ namespace WHBLL
                 new SqlParameter("@creationTime",dictionary["creationTime"]),
                 new SqlParameter("@auditStatus",dictionary["auditStatus"]),
                 new SqlParameter("@completeState",dictionary["completeState"]),
-                new SqlParameter("@typeid",dictionary["type"])
+                new SqlParameter("@type",dictionary["type"])
             };
             int i = SQLHelper.Execute("SQL", "pro_execute_purchaseOrder", param, CommandType.StoredProcedure);
             return i;
@@ -237,23 +239,12 @@ namespace WHBLL
             SqlParameter[] param =
             {
                 new SqlParameter("@internalOrderNumber",dictionary["internalOrderNumber"]),
+                new SqlParameter("@beginTime",dictionary["beginTime"]),
+                new SqlParameter("@endTime",dictionary["endTime"]),
                 new SqlParameter("@type",dictionary["type"])
             };
             DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_search_purchaseOrder", param, CommandType.StoredProcedure);
             return dt;
-        }
-        /// <summary>
-        /// 查询内部订单号
-        /// </summary>
-        /// <returns></returns>
-        public static int QueryPID(Dictionary<string, object> dictionary)
-        {
-            SqlParameter[] param =
-            {
-                new SqlParameter("@internalOrderNumber",dictionary["internalOrderNumber"])
-            };
-            int index = (int)SQLHelper.QueryScalar("SQL", "pro_search_purchaseOrder", param,CommandType.StoredProcedure);
-            return index;
         }
         /// <summary>
         /// 入库单添加信息
@@ -455,20 +446,20 @@ namespace WHBLL
                 new SqlParameter("@repairCustomernumber",dictionary["repairCustomernumber"]),
                 new SqlParameter("@repairProductID",dictionary["repairProductID"]),
                 new SqlParameter("@repairSNCode",dictionary["repairSNCode"]),
-                new SqlParameter("@repairMeg",dictionary["repairMeg"]),
-                new SqlParameter("@repairName",dictionary["repairName"]),
-                new SqlParameter("@repairArrivalTime",dictionary["repairArrivalTime"]),
-                new SqlParameter("@repairExpressNumber",dictionary["repairExpressNumber"]),
-                new SqlParameter("@repairExpressCompany",dictionary["repairExpressCompany"]),
-                new SqlParameter("@repairContacts",dictionary["repairContacts"]),
-                new SqlParameter("@repairContactinfo",dictionary["repairContactinfo"]),
-                new SqlParameter("@repairContactAddress",dictionary["repairContactAddress"]),
-                new SqlParameter("@repairReturnTime",dictionary["repairReturnTime"]),
-                new SqlParameter("@repairReturnExpressNumber",dictionary["repairReturnExpressNumber"]),
-                new SqlParameter("@repairReturnExpressCompany",dictionary["repairReturnExpressCompany"]),
-                new SqlParameter("@repairReturnSNCode",dictionary["repairReturnSNCode"]),
+                new SqlParameter("@repairMeg",dictionary["repairMeg"]==null?null:dictionary["repairMeg"]),
+                new SqlParameter("@repairName",dictionary["repairName"]==null?null:dictionary["repairName"]),
+                new SqlParameter("@repairArrivalTime",dictionary["repairArrivalTime"]==null?string.Empty:dictionary["repairArrivalTime"]),
+                new SqlParameter("@repairExpressNumber",dictionary["repairExpressNumber"]==null?string.Empty:dictionary["repairExpressNumber"]),
+                new SqlParameter("@repairExpressCompany",dictionary["repairExpressCompany"]==null?string.Empty:dictionary["repairExpressCompany"]),
+                new SqlParameter("@repairContacts",dictionary["repairContacts"]==null?string.Empty:dictionary["repairContacts"]),
+                new SqlParameter("@repairContactinfo",dictionary["repairContactinfo"]==null?string.Empty:dictionary["repairContactinfo"]),
+                new SqlParameter("@repairContactAddress",dictionary["repairContactAddress"]==null?string.Empty:dictionary["repairContactAddress"]),
+                new SqlParameter("@repairReturnTime",dictionary["repairReturnTime"]==null?string.Empty:dictionary["repairReturnTime"]),
+                new SqlParameter("@repairReturnExpressNumber",dictionary["repairReturnExpressNumber"]==null?string.Empty:dictionary["repairReturnExpressNumber"]),
+                new SqlParameter("@repairReturnExpressCompany",dictionary["repairReturnExpressCompany"]==null?string.Empty:dictionary["repairReturnExpressCompany"]),
+                new SqlParameter("@repairReturnSNCode",dictionary["repairReturnSNCode"]==null?string.Empty:dictionary["repairReturnSNCode"]),
                 new SqlParameter("@repairOperatorID",dictionary["repairOperatorID"]),
-                new SqlParameter("@repairStatus",dictionary["repairStatus"]),
+                new SqlParameter("@repairStatus",dictionary["repairStatus"]==null?1:dictionary["repairStatus"]),
                 new SqlParameter("@type",dictionary["type"]),
             };
             int index = SQLHelper.Execute("SQL", "pro_execute_repair", param, CommandType.StoredProcedure);
@@ -498,7 +489,7 @@ namespace WHBLL
         /// <returns></returns>
         public static DataTable QueryProCargo()
         {
-            DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_cargo_pro", null, CommandType.StoredProcedure);
+            DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_search_auditStatus", null, CommandType.StoredProcedure);
             return dt;
         }
         /// <summary>
@@ -507,7 +498,64 @@ namespace WHBLL
         /// <returns></returns>
         public static DataTable QueryPro()
         {
-            DataTable dt = SQLHelper.QueryDataTable("SQL", "select * from procurement where [check]=0", null, CommandType.Text);
+            DataTable dt = SQLHelper.QueryDataTable("SQL", "select * from purchaseOrder where auditStatus = 0 and completeState=0", null, CommandType.Text);
+            return dt;
+        }
+        /// <summary>
+        /// 执行供应商操作
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <returns></returns>
+        public static int ExecuteSupplier(Dictionary<string,object> dictionary)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("@supplierNumber",dictionary["supplierNumber"]),
+                new SqlParameter("@supplierName",dictionary["supplierName"]),
+                new SqlParameter("@supplierInfo",dictionary["supplierInfo"]),
+                new SqlParameter("@supplierRemark",dictionary["supplierRemark"]),
+                new SqlParameter("@supplierIperatorID",dictionary["supplierIperatorID"]),
+                new SqlParameter("@type",dictionary["type"])
+            };
+            int returnvalue = SQLHelper.Execute("SQL", "pro_execute_supplier", param, CommandType.StoredProcedure);
+            return returnvalue;
+        }
+        /// <summary>
+        /// 修改状态
+        /// </summary>
+        /// <param name="suppliernumber"></param>
+        /// <returns></returns>
+        public static int ChangeStatus(int suppliernumber)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("@supplierNumber",suppliernumber)
+            };
+            int returnvalue = SQLHelper.Execute("SQL", "update supplier set supplierStatus=0 where supplierNumber=@supplierNumber", param, CommandType.Text);
+            return returnvalue;
+        }
+        /// <summary>
+        /// 查询用户权限
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable GetUserLimits()
+        {
+            DataTable dt = SQLHelper.QueryDataTable("SQL", "select * from rights", null, CommandType.Text);
+            return dt;
+        }
+        /// <summary>
+        /// 获取详细月结表
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <returns></returns>
+        public static DataTable GetMonthlyKnot(Dictionary<string,object> dictionary)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("@beginTime",dictionary["beginTime"]),
+                new SqlParameter("@endTime",dictionary["endTime"])
+            };
+            DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_monthlyknot", param, CommandType.StoredProcedure);
             return dt;
         }
     }

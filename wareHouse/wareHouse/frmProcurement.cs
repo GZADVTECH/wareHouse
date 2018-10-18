@@ -47,7 +47,7 @@ namespace wareHouse
             dgvProcurement.AllowUserToAddRows = false;
             Getsupplier();//获取供应商
             Inventory();//获取产品
-            SaleBing();//获取折扣
+            //SaleBing();//获取折扣
             GetClient();//获取客户
         }
         /// <summary>
@@ -58,9 +58,17 @@ namespace wareHouse
             dictionary = new Dictionary<string, object>();
             dictionary.Add("supplierNumber",0);
             dictionary.Add("type", 1);
-            cbbSupplierName.DataSource = BLL.GetSupplier(dictionary);
-            cbbSupplierName.DisplayMember = "supplierName";
-            cbbSupplierName.ValueMember = "supplierNumber";
+            DataTable dt = BLL.GetSupplier(dictionary);
+            Dictionary<string, string> supplierdictionary = new Dictionary<string, string>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                supplierdictionary.Add(dr["supplierNumber"].ToString(), dr["supplierName"].ToString() + "(" + dr["supplierInfo"].ToString() + ")");
+            }
+            BindingSource bs = new BindingSource();
+            bs.DataSource = supplierdictionary;
+            cbbSupplierName.DisplayMember = "Value";
+            cbbSupplierName.ValueMember = "Key";
+            cbbSupplierName.DataSource = bs;
         }
         /// <summary>
         /// 获取客户信息
@@ -156,18 +164,21 @@ namespace wareHouse
             {
                 dictionary = new Dictionary<string, object>();
                 dictionary.Add("internalOrderNumber", txtPID.Text);
-                if (BLL.QueryPID(dictionary) <= 0)
+                dictionary.Add("beginTime", null);
+                dictionary.Add("endTime", null);
+                dictionary.Add("type", 3);
+                if (BLL.QueryProcurement(dictionary).Rows.Count <= 0)
                 {
                     //插入数据
                     dictionary = new Dictionary<string, object>();
                     dictionary.Add("internalOrderNumber", txtPID.Text);
                     dictionary.Add("officialOrderNumber", txtorderid.Text);
                     dictionary.Add("operatorID", USERID);
-                    dictionary.Add("customerID", dtpBuy.Value);
-                    dictionary.Add("arrivalTime", dtpArrival.Value);
-                    dictionary.Add("creationTime", cbbClient.SelectedValue.ToString());
-                    //dictionary.Add("auditStatus",0);
-                    //dictionary.Add("completeState",0);
+                    dictionary.Add("customerID", cbbClient.SelectedValue.ToString());
+                    dictionary.Add("arrivalTime", dtpArrival.Value.ToString());
+                    dictionary.Add("creationTime", dtpBuy.Value.ToString());
+                    dictionary.Add("auditStatus", 0);
+                    dictionary.Add("completeState", 0);
                     dictionary.Add("type",1);
                     int procurement = BLL.ExecuteProcurement(dictionary);
                     if (procurement > 0)
@@ -240,29 +251,29 @@ namespace wareHouse
             bs.DataSource = modeldictionary;
             cbbName.DataSource = bs;
         }
-        /// <summary>
-        /// 折扣率
-        /// </summary>
-        private void SaleBing()
-        {
-            Dictionary<string, double> percent = new Dictionary<string, double>();
-            percent.Add("100%", 1);
-            percent.Add("90%", 0.9);
-            percent.Add("80%", 0.8);
-            percent.Add("70%", 0.7);
-            percent.Add("60%", 0.6);
-            percent.Add("50%", 0.5);
-            percent.Add("40%", 0.4);
-            percent.Add("30%", 0.3);
-            percent.Add("20%", 0.2);
-            percent.Add("10%", 0.1);
+        ///// <summary>
+        ///// 折扣率
+        ///// </summary>
+        //private void SaleBing()
+        //{
+        //    Dictionary<string, double> percent = new Dictionary<string, double>();
+        //    percent.Add("100%", 1);
+        //    percent.Add("90%", 0.9);
+        //    percent.Add("80%", 0.8);
+        //    percent.Add("70%", 0.7);
+        //    percent.Add("60%", 0.6);
+        //    percent.Add("50%", 0.5);
+        //    percent.Add("40%", 0.4);
+        //    percent.Add("30%", 0.3);
+        //    percent.Add("20%", 0.2);
+        //    percent.Add("10%", 0.1);
 
-            BindingSource bs = new BindingSource();
-            bs.DataSource = percent;
-            cbbSale.DataSource = bs;
-            cbbSale.DisplayMember = "Key";
-            cbbSale.ValueMember = "Value";
-        }
+        //    BindingSource bs = new BindingSource();
+        //    bs.DataSource = percent;
+        //    cbbSale.DataSource = bs;
+        //    cbbSale.DisplayMember = "Key";
+        //    cbbSale.ValueMember = "Value";
+        //}
         /// <summary>
         /// 添加事件
         /// </summary>
@@ -296,7 +307,7 @@ namespace wareHouse
             {
                 //-1：不存在相同数据，添加数据
                 DataGridViewRow dgvr = new DataGridViewRow();
-                string[] items = new string[] { cbbName.SelectedValue.ToString(), cbbSupplierName.SelectedValue.ToString(), cbbName.Text, txtNumber.Text, cbbSupplierName.Text, cbbSale.SelectedValue.ToString(),cbParts.Checked.ToString(),cbcheck.Checked.ToString(),rtbRemark.Text };
+                string[] items = new string[] { cbbName.SelectedValue.ToString(), cbbSupplierName.SelectedValue.ToString(), cbbName.Text, txtNumber.Text, cbbSupplierName.Text, cbParts.Checked.ToString(),cbcheck.Checked.ToString(),rtbRemark.Text };
                 for (int i = 0; i < items.Count(); i++)
                 {
                     DataGridViewTextBoxCell txtcell = new DataGridViewTextBoxCell();
@@ -385,6 +396,8 @@ namespace wareHouse
             }
             dictionary = new Dictionary<string, object>();
             dictionary.Add("internalOrderNumber", tstxtPID.Text);
+            dictionary.Add("beginTime", null);
+            dictionary.Add("endTime", null);
             dictionary.Add("type", 3);
             DataTable dt = BLL.QueryProcurement(dictionary);
             if (dt.Rows.Count > 0)
@@ -404,8 +417,8 @@ namespace wareHouse
                 {
                     dr = dt.Rows[j];
                     DataGridViewRow selectdgvr = new DataGridViewRow();
-                    string[] items = new string[] { dr["productID"].ToString(), dr["supplierNumber"].ToString(), dr["productName"].ToString()+"("+ dr["PNID"].ToString()+")"
-                        , dr["supplierName"].ToString(), dr["discount"].ToString(), dr["isParts"].ToString(), (dr["isInvoice"]).ToString(),dr["purchaseRemark"].ToString() } ;
+                    string[] items = new string[] { dr["productID"].ToString(), dr["supplierNumber"].ToString(), dr["productName"].ToString()+"("+ dr["model"].ToString()+")"
+                        , dr["purchaseQuantity"].ToString(), dr["supplierName"].ToString(),dr[""].ToString(), dr["supportingProducts"].ToString(), (dr["invoice"]).ToString(),dr["purchaseRemark"].ToString() } ;
                     for (int i = 0; i < items.Count(); i++)
                     {
                         DataGridViewTextBoxCell txtcell = new DataGridViewTextBoxCell();

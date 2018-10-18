@@ -9,15 +9,15 @@ using System.Data;
 
 namespace WHDAL
 {
-   public class ExcelHelper
+    public class ExcelHelper
     {
-        public static DataTable QueryExcel(string path,string sql)
+        public static DataTable QueryExcel(string path, string sql)
         {
             if (string.IsNullOrEmpty(path))
             {
                 throw new Exception("未设置参数：path");
             }
-            if (string .IsNullOrEmpty(sql))
+            if (string.IsNullOrEmpty(sql))
             {
                 throw new Exception("未设置参数：sql");
             }
@@ -30,13 +30,12 @@ namespace WHDAL
                     conn.Open();
                     using (OleDbCommand cmd = new OleDbCommand(sql, conn))//执行语句
                     {
-                        using (OleDbDataAdapter da=new OleDbDataAdapter(cmd))
+                        using (OleDbDataAdapter da = new OleDbDataAdapter(cmd))
                         {
                             DataTable dt = new DataTable();
                             da.Fill(dt);
                             return dt;
                         }
-                        
                     }
                 }
             }
@@ -47,7 +46,6 @@ namespace WHDAL
                 log.Append(ex);
                 throw new Exception(log.ToString());
             }
-            
         }
     }
 }

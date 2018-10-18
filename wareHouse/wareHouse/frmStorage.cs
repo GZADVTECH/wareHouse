@@ -163,6 +163,8 @@ namespace wareHouse
             //查询数据
             dictionary = new Dictionary<string, object>();
             dictionary.Add("internalOrderNumber", tstxtPID.Text);
+            dictionary.Add("beginTime", null);
+            dictionary.Add("endTime", null);
             dictionary.Add("type", 3);
             DataTable dt = BLL.QueryProcurement(dictionary);
             DataTable storageDt = BLL.QueryStorage(dictionary);

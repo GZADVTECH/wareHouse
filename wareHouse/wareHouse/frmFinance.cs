@@ -50,17 +50,16 @@ namespace wareHouse
             dgv.Rows.Clear();
             int index = 0;
             Dictionary<string, object> dictionary = new Dictionary<string, object>();
-            //dictionary.Add("internalOrderNumber",);
+            dictionary.Add("internalOrderNumber",null);
             dictionary.Add("type", 1);
             DataTable dt = WHBLL.BLL.QueryFinace(dictionary);
             foreach (DataRow dr in dt.Rows)
             {
                 string[] item =
                 {
-                    (++index).ToString(),dr["purchaseID"].ToString(),dr["internalOrderNumber"].ToString(),dr["creationTime"].ToString(),dr["supplierName"].ToString(),(Convert.ToDouble(dr["purchasePrice"])*Convert.ToDouble(dr["purchaseQuantity"])).ToString()+"("+
-                    (Convert.ToBoolean(dr["purchaseincludeTax"])?"是":"否")+")",dr["paymentDate"].ToString(),(Convert.ToBoolean(dr["auditStatus"])?"已审核":"未审核").ToString(),dr["productName"].ToString(),
-                    dr["purchaseQuantity"].ToString(),dr["customerName"].ToString(),dr["storageDate"].ToString(),
-                    dr["CollectionQuantity"].ToString(),dr["invoiceNumber"].ToString(),dr["supplierRelevantNumber"].ToString(),dr["salesPrice"].ToString()+"("+
+                    (++index).ToString(),dr["financialNumber"].ToString(),dr["internalOrderNumber"].ToString(),dr["creationTime"].ToString(),dr["supplierName"].ToString(),(Convert.ToDouble(dr["purchasePrice"])*Convert.ToDouble(dr["purchaseQuantity"])).ToString()+"("+
+                    (Convert.ToBoolean(dr["purchaseincludeTax"])?"是":"否")+")",dr["paymentDate"].ToString(),(Convert.ToBoolean(dr["auditStatus"])?"已审核":"未审核").ToString(),dr["productName"].ToString(),dr["purchasePrice"].ToString()+"("+(Convert.ToBoolean(dr["purchaseincludeTax"])?"是":"否")+")",
+                    dr["purchaseQuantity"].ToString(),dr["customerName"].ToString(),dr["storageDate"].ToString(),dr["CollectionQuantity"].ToString(),dr["invoiceNumber"].ToString(),dr["supplierRelevantNumber"].ToString(),dr["salesPrice"].ToString()+"("+
                     ((dr["salesincludeTax"].ToString()=="true")?"是":"否").ToString()+")",dr["paymentRemark"].ToString(),dr["paymentDate"].ToString(),dr["paymentAmount"].ToString(),
                 };
                 DataGridViewRow dgvr = new DataGridViewRow();
@@ -131,6 +130,7 @@ namespace wareHouse
             if (cindex==18)
             {
                 DateTime dt;
+                if (string.IsNullOrEmpty(dgvFinace[cindex, rindex].Value.ToString())) return;
                 if (dgvFinace[cindex, rindex].Value.ToString() == string.Empty) return;
                 if (!DateTime.TryParse(dgvFinace[cindex,rindex].Value.ToString(),out dt))
                 {
@@ -143,7 +143,7 @@ namespace wareHouse
             if (cindex==19)
             {
                 Decimal dec;
-                if (dgvFinace[cindex, rindex].Value.ToString() == string.Empty) return;
+                if (dgvFinace[cindex, rindex].Value == null) return;
                 if (!Decimal.TryParse(dgvFinace[cindex,rindex].Value.ToString(),out dec))
                 {
                     MessageBox.Show("输入的格式不正确", "系统提示");

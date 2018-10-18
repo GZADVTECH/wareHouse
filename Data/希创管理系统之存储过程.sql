@@ -3,11 +3,11 @@ drop procedure pro_execute_purchaseOrder
 go
 create procedure pro_execute_purchaseOrder
 @internalOrderNumber nvarchar(30),		--内部订单号
-@officialOrderNumber nvarchar(50),		--正式订单号
+@officialOrderNumber nvarchar(50)='',	--正式订单号
 @operatorID nvarchar(20),				--操作员编号
-@customerID int,			   			--客户编号
-@arrivalTime datetime,					--预计到货时间
-@creationTime datetime		,			--创建时间
+@customerID int='',			   			--客户编号
+@arrivalTime datetime=null,				--预计到货时间
+@creationTime datetime=null,			--创建时间
 @auditStatus bit=0,						--经理审核状态
 @completeState bit=0,					--订单完成状态
 @type int=0								--状态
@@ -273,6 +273,7 @@ end
 if(@type=3)
 begin
 delete userinfo where loginNumber=@loginNumber
+exec pro_execute_userprivacy @usernumber,@type=3
 end
 end
 go
@@ -282,7 +283,7 @@ drop procedure pro_execute_userprivacy
 go
 create procedure pro_execute_userprivacy
 @userNumber int,						   --用户编号
-@userName nvarchar(20),					   --用户姓名
+@userName nvarchar(20)='',					   --用户姓名
 @userNativeplace nvarchar(20)='',		   --籍贯
 @userGender bit=0,						   --性别
 @userMarriage bit=0,					   --婚姻
@@ -381,7 +382,7 @@ go
 drop procedure pro_execute_supplier
 go
 create procedure pro_execute_supplier
-@supplierNumber int,				   --供应商编号
+@supplierNumber int=0,				   --供应商编号
 @supplierName nvarchar(20),			   --供应商名称
 @supplierInfo nvarchar(100),		   --供应商信息
 @supplierRemark nvarchar(200),		   --备注
@@ -489,7 +490,8 @@ end
 --更新
 if(@type=2)
 begin
-update borrow set borrowReturnTime=@borrowReturnTime,IsReturn=@IsReturn,borrowRemark=@borrowRemark,borrowStatus=@borrowStatus where borrowNumber=@borrowNumber
+update borrow set borrowReturnTime=@borrowReturnTime,IsReturn=@IsReturn,borrowRemark=@borrowRemark,borrowStatus=@borrowStatus 
+where borrowNumber=@borrowNumber
 end
 --删除
 if(@type=3)
@@ -503,12 +505,12 @@ go
 drop procedure pro_execute_monthlyknot
 go
 create procedure pro_execute_monthlyknot
-@monthlyKnotNumber int,					--月结编号
+@monthlyKnotNumber int=0,				--月结编号
 @monthlyKnotProductID nvarchar(30),		--产品编号
-@beginmonthNumber int,					--月初数量
-@monthlyInput int,						--本月入库数量
-@monthlyOutput int,						--本月发出数量
-@endmonthNumber int,					--月末数量
+@beginmonthNumber int=0,				--月初数量
+@monthlyInput int=0,					--本月入库数量
+@monthlyOutput int=0,					--本月发出数量
+@endmonthNumber int=0,					--月末数量
 @thismonth datetime,					--当前年月
 @type int								--类型
 as
@@ -516,12 +518,13 @@ begin
 --插入
 if(@type=1)
 begin
-insert into monthlyknot values(@beginmonthNumber,@beginmonthNumber,@monthlyInput,@monthlyOutput,@endmonthNumber,@thismonth)
+insert into monthlyknot values(@monthlyKnotProductID,@beginmonthNumber,@monthlyInput,@monthlyOutput,@endmonthNumber,@thismonth)
 end
 --更新
 if(@type=2)
 begin
-update monthlyknot set beginmonthNumber=@beginmonthNumber,monthlyInput=@monthlyInput,monthlyOutput=@monthlyOutput,endmonthNumber=@endmonthNumber where monthlyKnotNumber=@monthlyKnotNumber
+update monthlyknot set beginmonthNumber=@beginmonthNumber,monthlyInput=@monthlyInput,monthlyOutput=@monthlyOutput,endmonthNumber=@endmonthNumber 
+where monthlyKnotNumber=@monthlyKnotNumber
 end
 --删除
 if(@type=3)
@@ -543,44 +546,59 @@ if(@type=1)
 select * from purchaseOrder orde left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber
 --查询某个时间段
 else if(@type=2)
-select orde.*,good.*,sup.supplierName ,stoc.*
+select orde.*,good.*,sup.supplierName ,stoc.*,privacy.userName,customer.customerCompany
 from purchaseOrder orde 
 left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber
 left join supplier sup on sup.supplierNumber=good.supplierNumber
 left join stock stoc on stoc.productID=good.productID
+left join userinfo info on info.loginNumber=orde.operatorID
+left join userprivacy privacy on info.userNumber=privacy.userNumber
+left join customerinfo customer on customer.customerNumber=orde.customerID
 where creationTime between @beginTime and @endTime
 --通过内部订单号查询详细内容
 else if(@type=3)
-select orde.*,good.*,sup.supplierName,stoc.*
-from purchaseOrder orde 
-left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber 
+select orde.*,good.*,sup.supplierName,stoc.*,privacy.userName,customer.customerCompany
+from purchaseOrder orde
+left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber
 left join supplier sup on sup.supplierNumber=good.supplierNumber
 left join stock stoc on stoc.productID=good.productID
-where orde.internalOrderNumber=@internalOrderNumber and auditStatus=1
+left join userinfo info on info.loginNumber=orde.operatorID
+left join userprivacy privacy on info.userNumber=privacy.userNumber
+left join customerinfo customer on customer.customerNumber=orde.customerID
+where orde.internalOrderNumber=@internalOrderNumber and auditStatus=0 and completeState=0
 --通过正式订单号查询详细内容
 else if(@type=4)
-select orde.*,good.*,sup.supplierName,stoc.* 
+select orde.*,good.*,sup.supplierName,stoc.*,privacy.userName,customer.customerCompany
 from purchaseOrder orde 
 left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber 
 left join supplier sup on sup.supplierNumber=good.supplierNumber
 left join stock stoc on stoc.productID=good.productID
-where officialOrderNumber=@officialOrderNumber and auditStatus=1
+left join userinfo info on info.loginNumber=orde.operatorID
+left join userprivacy privacy on info.userNumber=privacy.userNumber
+left join customerinfo customer on customer.customerNumber=orde.customerID
+where officialOrderNumber=@officialOrderNumber and auditStatus=0 and completeState=0
 --查询尚未审核的订单详细
 else if(@type=5)
-select orde.*,good.*,sup.supplierName,stoc.*
+select orde.*,good.*,sup.supplierName,stoc.*,privacy.userName,customer.customerCompany
 from purchaseOrder orde 
 left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber 
 left join supplier sup on sup.supplierNumber=good.supplierNumber
 left join stock stoc on stoc.productID=good.productID
-where auditStatus=0
+left join userinfo info on info.loginNumber=orde.operatorID
+left join userprivacy privacy on info.userNumber=privacy.userNumber
+left join customerinfo customer on customer.customerNumber=orde.customerID
+where auditStatus=0 and completeState=0
 --查询订单未完成的订单详细
 else if(@type=6)
-select orde.*,good.*,sup.supplierName,stoc.*
+select orde.*,good.*,sup.supplierName,stoc.*,privacy.userName,customer.customerCompany
 from purchaseOrder orde 
 left join purchaseGoods good on orde.internalOrderNumber=good.internalOrderNumber 
 left join supplier sup on sup.supplierNumber=good.supplierNumber
 left join stock stoc on stoc.productID=good.productID
-where completeState=0
+left join userinfo info on info.loginNumber=orde.operatorID
+left join userprivacy privacy on info.userNumber=privacy.userNumber
+left join customerinfo customer on customer.customerNumber=orde.customerID
+where completeState=0 and completeState=0
 end
 go
 
@@ -658,7 +676,7 @@ as
 begin
 --查询全部
 if(@type=1)
-select good.purchaseID,orde.internalOrderNumber,orde.creationTime,sup.supplierName
+select finance.financialNumber,orde.internalOrderNumber,orde.creationTime,sup.supplierName
 ,stoc.purchasePrice,good.purchaseQuantity,stoc.purchaseincludeTax,finance.paymentDate
 ,orde.auditStatus,stoc.productName,stoc.unit,good.purchaseQuantity,customer.customerName
 ,ware.storageDate,ware.CollectionQuantity,ware.invoiceNumber,ware.supplierRelevantNumber
@@ -688,6 +706,18 @@ left join customerinfo customer on customer.customerNumber=orde.customerID
 left join finance finance on finance.financialNumber=good.internalOrderNumber
 left join outgoing outgo on outgo.officialOrderNumber=orde.officialOrderNumber
 where orde.internalOrderNumber=@internalOrderNumber
+if(@type=3)
+begin
+select orde.internalOrderNumber,orde.creationTime,goods.purchaseQuantity,stoc.purchasePrice,stoc.purchaseincludeTax,orde.arrivalTime,orde.auditStatus,stoc.productName
+,customer.customerName,ware.storageDate,ware.CollectionQuantity,ware.invoiceNumber,orde.officialOrderNumber,stoc.salesPrice,stoc.salesincludeTax,finances.paymentRemark
+,finances.paymentDate,finances.paymentAmount
+from purchaseOrder orde
+left join purchaseGoods goods on orde.internalOrderNumber=goods.internalOrderNumber
+left join warehousing ware on orde.internalOrderNumber=ware.internalOrderNumber
+left join stock  stoc on stoc.productID=goods.productID
+left join finance finances on finances.internalOrderNumber=orde.internalOrderNumber
+left join customerinfo customer on customer.customerNumber=orde.customerID
+end
 end
 end
 go
@@ -710,7 +740,7 @@ left join outgoing outgo on outgo.officialOrderNumber=orde.officialOrderNumber
 where orde.officialOrderNumber=@officialOrderNumber
 end
 go
-
+execute pro_search_userinfo @loginNumber='admin',@loginPwd='0000000',@type=2
 --关于用户信息详细查询存储过程
 drop procedure pro_search_userinfo
 go
@@ -720,8 +750,10 @@ as
 begin
 --查询全部
 if(@type=1)
-select loginNumber,userRights,userOperatorID,userStatus,privacy.userName from userinfo uinfo
+select uinfo.userNumber,loginNumber,userRights,userOperatorID,userStatus,privacy.userName,rights.rightsName 
+from userinfo uinfo
 left join userprivacy privacy on uinfo.userNumber=privacy.userNumber
+left join rights rights on rights.rightsLevel=uinfo.userRights
 --查询是否存在
 else if(@type=2)
 select loginNumber,userRights,privacy.userName from userinfo uinfo
@@ -770,17 +802,88 @@ if(@type=1)
 select repa.*,stoc.productName,stoc.model,customer.customerName from repair repa 
 left join stock stoc on repa.repairProductID=stoc.productID
 left join customerinfo customer on customer.customerNumber=repa.repairCustomernumber
+where repa.repairStatus=1
 --查询指定客户产品详细
 else if(@type=2)
 select repa.*,stoc.productName,stoc.model,customer.customerName from repair repa 
 left join stock stoc on repa.repairProductID=stoc.productID
 left join customerinfo customer on customer.customerNumber=repa.repairCustomernumber
-where repa.repairCustomernumber=@repairCustomernumber and repa.repairProductID=@repairProductID and repa.repairSNCode=@repairSNCode
+where repa.repairCustomernumber=@repairCustomernumber and repa.repairProductID=@repairProductID 
+and repa.repairSNCode=@repairSNCode and repa.repairStatus=1
 end
 go
 --关于借货详细查询存储过程
 
 --关于月结详细查询存储过程
+drop procedure pro_monthlyknot
+go
+create procedure pro_monthlyknot
+@beginTime datetime,@endTime datetime
+as
+begin
+select stock.lastWarehousing,monthly.monthlyKnotProductID,stock.productName,stock.model,stock.purchasePrice
+,stock.purchaseincludeTax,monthly.beginmonthNumber,monthly.monthlyInput,monthly.monthlyOutput,monthly.endmonthNumber
+from monthlyknot monthly
+left join stock stock on monthly.monthlyKnotProductID=stock.productID
+where monthly.thismonth between @beginTime and @endTime
+end
+go
+--查询未审核的详细订单资料
+drop procedure pro_search_auditStatus
+go
+create procedure pro_search_auditStatus
+as
+begin
+select purchase.*,goods.*,stoc.productName,stoc.model,customer.customerName,privacy.userName 
+from purchaseOrder purchase
+left join purchaseGoods goods on goods.internalOrderNumber=purchase.internalOrderNumber
+left join stock stoc on stoc.productID=goods.productID
+left join customerinfo customer on customer.customerNumber=purchase.customerID
+left join userinfo info on info.loginNumber=purchase.operatorID
+left join userprivacy privacy on privacy.userNumber=info.userNumber
+end
+go
 
----------------------------------------------------------------------
 
+----------------------------------触发器-----------------------------------
+--入库触发月结表更新
+drop trigger trig_warehousing_monthlyknot
+go
+create trigger trig_warehousing_monthlyknot
+on warehousing
+for insert,update
+as
+declare @Input int,@procudetNumber nvarchar(30),@monthlyIn int
+set @Input=(select CollectionQuantity from inserted)
+set @procudetNumber=(select goods.productID from inserted inserteds 
+left join purchaseGoods goods on inserteds.purchaseID=goods.purchaseID)
+set @monthlyIn=(select monthlyInput from monthlyknot)
+update monthlyknot set monthlyInput=@Input+@monthlyIn where monthlyKnotProductID=@procudetNumber
+go
+--出库触发月结表更新
+drop trigger trig_outgoing_monthlyknot
+go
+create trigger trig_outgoing_monthlyknot
+on outgoing
+for insert,update
+as
+declare @Output int,@procudetNumber nvarchar(30),@monthlyOut int
+set @Output=(select outgoingQuantity from inserted)
+set @procudetNumber=(select outgoingproductID from inserted)
+set @monthlyOut=(select monthlyOutput from monthlyknot)
+update monthlyknot set monthlyOutput=@monthlyOut-@Output where monthlyKnotProductID=@procudetNumber
+go
+--库存添加触发月结表添加
+drop trigger trig_stock_monthlyknot
+go
+create trigger trig_stock_monthlyknot
+on stock
+for insert
+as
+declare @procudetNumber nvarchar(30),@beginNumber int,@datetime nvarchar(6)
+set @procudetNumber=(select productID from inserted)
+set @beginNumber=(select inventoryQuantity from inserted)
+set @datetime=CONVERT(varchar(6),GETDATE(),112)
+execute pro_execute_monthlyknot @monthlyKnotProductID=@procudetNumber,@beginmonthNumber=@beginNumber,@monthlyInput=0
+,@monthlyOutput=0,@endmonthNumber=0,@thismonth=@datetime,@type=1
+go

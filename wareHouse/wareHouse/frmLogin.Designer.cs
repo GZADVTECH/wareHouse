@@ -84,7 +84,6 @@
             this.txtPwd.Name = "txtPwd";
             this.txtPwd.Size = new System.Drawing.Size(120, 21);
             this.txtPwd.TabIndex = 1;
-            this.txtPwd.Text = "0000000";
             this.txtPwd.UseSystemPasswordChar = true;
             // 
             // linkLabel1

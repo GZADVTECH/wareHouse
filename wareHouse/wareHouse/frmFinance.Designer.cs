@@ -161,6 +161,7 @@
             this.dgvFinace.Location = new System.Drawing.Point(1, 28);
             this.dgvFinace.Name = "dgvFinace";
             this.dgvFinace.RowTemplate.Height = 23;
+            this.dgvFinace.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFinace.Size = new System.Drawing.Size(1052, 455);
             this.dgvFinace.TabIndex = 2;
             this.dgvFinace.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFinace_CellClick);

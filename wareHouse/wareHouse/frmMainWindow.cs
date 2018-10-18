@@ -36,7 +36,14 @@ namespace wareHouse
         /// <param name="e"></param>
         private void frmMainWindow_Load(object sender, EventArgs e)
         {
-
+            switch (userLimit)
+            {
+                case 2:tsbProcurement.Visible = false;tsbFinance.Visible = false;tsbSuper.Visible = false;break;
+                case 3:tsbStorage.Visible = false;tsbDelivery.Visible = false;tsbFinance.Visible = false;tsbInventory.Visible = false;tsbRepair.Visible = false;tsbSuper.Visible = false;break;
+                case 4: tsbProcurement.Visible = false; tsbStorage.Visible = false; tsbDelivery.Visible = false;tsbClient.Visible = false;tsbInventory.Visible = false;tsbSupplier.Visible = false;tsbRepair.Visible = false;tsbSuper.Visible = false;break;
+                default:
+                    break;
+            }
         }
         /// <summary>
         /// 窗体关闭时关闭程序
@@ -120,7 +127,7 @@ namespace wareHouse
         /// <param name="e"></param>
         private void tsbSuper_Click(object sender, EventArgs e)
         {
-            frmSuper frmSuper = new frmSuper(userName);
+            frmSuper frmSuper = new frmSuper(userID);
             frmSuper.MdiParent = this;
             frmSuper.Show();
         }
@@ -134,6 +141,13 @@ namespace wareHouse
             frmMaintenance main = new frmMaintenance(userID);
             main.MdiParent = this;
             main.Show();
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            frmSupplier supplier = new frmSupplier(userID);
+            supplier.MdiParent = this;
+            supplier.Show();
         }
     }
 }

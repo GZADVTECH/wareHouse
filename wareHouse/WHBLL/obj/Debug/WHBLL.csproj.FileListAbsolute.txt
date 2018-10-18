@@ -7,3 +7,4 @@ F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\bin\Debug\WHDAL.dll
 F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\bin\Debug\WHMODELS.dll
 F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\bin\Debug\WHDAL.pdb
 F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\bin\Debug\WHMODELS.pdb
+F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\obj\Debug\WHBLL.csproj.ResolveComReference.cache

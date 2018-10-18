@@ -138,7 +138,7 @@ namespace wareHouse
                 //判断产品编号是否存在
                 foreach (DataGridViewRow row in dgvInventory.Rows)
                 {
-                    if (row.Cells["inventoryNumber"].Value.ToString().Trim()==txtPID.Text.Trim().ToString())
+                    if (row.Cells["productID"].Value.ToString().Trim()==txtPID.Text.Trim().ToString())
                     {
                         exist++;
                         selectedindex = row.Index;
