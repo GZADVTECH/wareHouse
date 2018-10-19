@@ -51,7 +51,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbsale = new System.Windows.Forms.CheckBox();
             this.cbpurchase = new System.Windows.Forms.CheckBox();
-            this.btnClear = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.cbbUnit = new System.Windows.Forms.ComboBox();
             this.txtNum = new System.Windows.Forms.TextBox();
@@ -249,7 +248,6 @@
             // 
             this.groupBox1.Controls.Add(this.cbsale);
             this.groupBox1.Controls.Add(this.cbpurchase);
-            this.groupBox1.Controls.Add(this.btnClear);
             this.groupBox1.Controls.Add(this.btnSave);
             this.groupBox1.Controls.Add(this.cbbUnit);
             this.groupBox1.Controls.Add(this.txtNum);
@@ -294,19 +292,9 @@
             this.cbpurchase.Text = "含税";
             this.cbpurchase.UseVisualStyleBackColor = true;
             // 
-            // btnClear
-            // 
-            this.btnClear.Location = new System.Drawing.Point(702, 61);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(82, 33);
-            this.btnClear.TabIndex = 11;
-            this.btnClear.Text = "清空";
-            this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnSave_Click);
-            // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(702, 20);
+            this.btnSave.Location = new System.Drawing.Point(701, 42);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(82, 33);
             this.btnSave.TabIndex = 10;
@@ -510,7 +498,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtinventoryNumber;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.DataGridViewTextBoxColumn inventoryNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn productID;
         private System.Windows.Forms.DataGridViewTextBoxColumn productName;

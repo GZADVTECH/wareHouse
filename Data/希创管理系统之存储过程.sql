@@ -565,7 +565,7 @@ left join stock stoc on stoc.productID=good.productID
 left join userinfo info on info.loginNumber=orde.operatorID
 left join userprivacy privacy on info.userNumber=privacy.userNumber
 left join customerinfo customer on customer.customerNumber=orde.customerID
-where orde.internalOrderNumber=@internalOrderNumber and auditStatus=0 and completeState=0
+where orde.internalOrderNumber=@internalOrderNumber and completeState=0
 --通过正式订单号查询详细内容
 else if(@type=4)
 select orde.*,good.*,sup.supplierName,stoc.*,privacy.userName,customer.customerCompany
@@ -576,7 +576,7 @@ left join stock stoc on stoc.productID=good.productID
 left join userinfo info on info.loginNumber=orde.operatorID
 left join userprivacy privacy on info.userNumber=privacy.userNumber
 left join customerinfo customer on customer.customerNumber=orde.customerID
-where officialOrderNumber=@officialOrderNumber and auditStatus=0 and completeState=0
+where officialOrderNumber=@officialOrderNumber and completeState=0
 --查询尚未审核的订单详细
 else if(@type=5)
 select orde.*,good.*,sup.supplierName,stoc.*,privacy.userName,customer.customerCompany
@@ -587,7 +587,7 @@ left join stock stoc on stoc.productID=good.productID
 left join userinfo info on info.loginNumber=orde.operatorID
 left join userprivacy privacy on info.userNumber=privacy.userNumber
 left join customerinfo customer on customer.customerNumber=orde.customerID
-where auditStatus=0 and completeState=0
+where completeState=0 and auditStatus=0
 --查询订单未完成的订单详细
 else if(@type=6)
 select orde.*,good.*,sup.supplierName,stoc.*,privacy.userName,customer.customerCompany
@@ -598,7 +598,18 @@ left join stock stoc on stoc.productID=good.productID
 left join userinfo info on info.loginNumber=orde.operatorID
 left join userprivacy privacy on info.userNumber=privacy.userNumber
 left join customerinfo customer on customer.customerNumber=orde.customerID
-where completeState=0 and completeState=0
+where completeState=0
+else if(@type=7)
+select orde.internalOrderNumber,orde.officialOrderNumber,orde.auditStatus,orde.completeState,goods.purchaseID
+,ware.receiptExpressNumber,ware.receiptExpressCompany,ware.productionPosition,ware.supplierRelevantNumber
+,ware.storageDate,ware.CollectionQuantity,ware.wareOperatorID,ware.wareRemark,ware.invoiceNumber,ware.wareState
+,goods.productID,stoc.productName,stoc.model,sup.supplierName,goods.purchaseQuantity,goods.invoice,orde.arrivalTime
+from purchaseOrder orde
+left join purchaseGoods goods on goods.internalOrderNumber=orde.internalOrderNumber
+left join warehousing ware on ware.purchaseID=goods.purchaseID
+left join stock stoc on stoc.productID=goods.productID
+left join supplier sup on sup.supplierNumber=goods.supplierNumber
+where orde.internalOrderNumber=@internalOrderNumber and completeState=0
 end
 go
 
@@ -614,10 +625,13 @@ if(@type=1)
 select * from warehousing
 --通过采购编号查询入库详细
 if(@type=2)
-select * from warehousing where purchaseID=@purchaseID and wareState=1
+select * from warehousing where purchaseID=@purchaseID and wareState=0
 --通过内部订单号查询入库详细
 if(@type=3)
-select * from warehousing where internalOrderNumber=@internalOrderNumber and wareState=1
+select ware.*,goods.productID,goods.purchaseRemark
+from warehousing ware
+left join purchaseGoods goods on ware.internalOrderNumber=goods.internalOrderNumber
+where goods.internalOrderNumber=@internalOrderNumber and wareState=0
 end
 go
 
@@ -706,18 +720,6 @@ left join customerinfo customer on customer.customerNumber=orde.customerID
 left join finance finance on finance.financialNumber=good.internalOrderNumber
 left join outgoing outgo on outgo.officialOrderNumber=orde.officialOrderNumber
 where orde.internalOrderNumber=@internalOrderNumber
-if(@type=3)
-begin
-select orde.internalOrderNumber,orde.creationTime,goods.purchaseQuantity,stoc.purchasePrice,stoc.purchaseincludeTax,orde.arrivalTime,orde.auditStatus,stoc.productName
-,customer.customerName,ware.storageDate,ware.CollectionQuantity,ware.invoiceNumber,orde.officialOrderNumber,stoc.salesPrice,stoc.salesincludeTax,finances.paymentRemark
-,finances.paymentDate,finances.paymentAmount
-from purchaseOrder orde
-left join purchaseGoods goods on orde.internalOrderNumber=goods.internalOrderNumber
-left join warehousing ware on orde.internalOrderNumber=ware.internalOrderNumber
-left join stock  stoc on stoc.productID=goods.productID
-left join finance finances on finances.internalOrderNumber=orde.internalOrderNumber
-left join customerinfo customer on customer.customerNumber=orde.customerID
-end
 end
 end
 go
@@ -843,7 +845,25 @@ left join userinfo info on info.loginNumber=purchase.operatorID
 left join userprivacy privacy on privacy.userNumber=info.userNumber
 end
 go
-
+--财务总结表数据
+drop procedure pro_all_finance
+go
+create procedure pro_all_finance
+@internalOrderNumber nvarchar(30)
+as
+begin
+select orde.internalOrderNumber,orde.creationTime,goods.purchaseQuantity,stoc.purchasePrice,stoc.purchaseincludeTax,orde.arrivalTime,orde.auditStatus,stoc.productName
+,customer.customerName,ware.storageDate,ware.CollectionQuantity,ware.invoiceNumber,orde.officialOrderNumber,stoc.salesPrice,stoc.salesincludeTax,finances.paymentRemark
+,finances.paymentDate,finances.paymentAmount
+from purchaseOrder orde
+left join purchaseGoods goods on orde.internalOrderNumber=goods.internalOrderNumber
+left join warehousing ware on orde.internalOrderNumber=ware.internalOrderNumber
+left join stock  stoc on stoc.productID=goods.productID
+left join finance finances on finances.internalOrderNumber=orde.internalOrderNumber
+left join customerinfo customer on customer.customerNumber=orde.customerID
+where orde.internalOrderNumber=@internalOrderNumber
+end
+go
 
 ----------------------------------触发器-----------------------------------
 --入库触发月结表更新
@@ -886,4 +906,41 @@ set @beginNumber=(select inventoryQuantity from inserted)
 set @datetime=CONVERT(varchar(6),GETDATE(),112)
 execute pro_execute_monthlyknot @monthlyKnotProductID=@procudetNumber,@beginmonthNumber=@beginNumber,@monthlyInput=0
 ,@monthlyOutput=0,@endmonthNumber=0,@thismonth=@datetime,@type=1
+go
+
+--入库触发更改库存
+drop trigger trig_stock_warehousing
+go
+create trigger trig_stock_warehousing
+on warehousing
+for insert
+as
+declare @productID nvarchar(30),@CollectionQuantity int,@stockQuantity int
+set @productID=(select Max(goods.productID) from inserted inser right join purchaseGoods goods on goods.purchaseID=inser.purchaseID)
+set @CollectionQuantity=(select Max(CollectionQuantity) from inserted inser)
+set @stockQuantity=(select Max(inventoryQuantity) from stock where productID=@productID)
+update stock set inventoryQuantity=@stockQuantity-@CollectionQuantity where productID=@productID
+go
+--出库触发更改库存
+drop trigger trig_stock_outgoing
+go
+create trigger trig_stock_outgoing
+on outgoing
+for insert
+as
+declare @productID nvarchar(30),@outgoingQuantity int,@stockQuantity int
+set @productID=(select Max(outgoingproductID) from inserted)
+set @outgoingQuantity=(select Max(outgoingQuantity) from inserted)
+set @stockQuantity=(select Max(inventoryQuantity) from stock)
+update stock set inventoryQuantity=@stockQuantity-@outgoingQuantity where productID=@productID
+go
+
+--当删除用户信息时同步删除用户隐私
+create trigger trig_userinfo_userprivacy
+on userinfo
+for delete
+as
+declare @usernumber int
+set @usernumber=(select userNumber from deleted)
+delete userprivacy where userNumber=@usernumber
 go

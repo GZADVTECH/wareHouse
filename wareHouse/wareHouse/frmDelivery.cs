@@ -51,14 +51,14 @@ namespace wareHouse
             if (dt.Rows.Count!=0)
             {
                 txtContract.Text = dt.Rows[0]["officialOrderNumber"].ToString();
-                cbbClientName.SelectedValue = dt.Rows[0]["customerinfo"].ToString();
+                cbbClientName.SelectedValue = dt.Rows[0]["customerNumber"].ToString();
                 foreach (DataRow dr in dt.Rows)
                 {
                     int index = 0;//序号
                     dgvPro.Rows.Clear();//清空DataGridView的数据
                     DataGridViewRow dgvr = new DataGridViewRow();
                     string allprice = (Convert.ToDouble(dr["inventoryQuantity"].ToString()) * Convert.ToDouble(dr["salesPrice"].ToString()) * Convert.ToDouble(string.IsNullOrEmpty(dr["outgoingDiscount"].ToString()) ? "1" : dr["outgoingDiscount"].ToString())).ToString();
-                    string[] item = new string[] { (++index).ToString(), dr["productID"].ToString(),dr["productName"].ToString(), dr["model"].ToString(), dr["inventoryQuantity"].ToString(), dr["salesPrice"].ToString(), dr["salesincludeTax"].ToString(), string.IsNullOrEmpty(dr["outgoingDiscount"].ToString()) ? "1" : dr["outgoingDiscount"].ToString(),allprice  };
+                    string[] item = new string[] { (++index).ToString(), dr["productID"].ToString(),dr["productName"].ToString()+"("+ dr["model"].ToString()+")", dr["inventoryQuantity"].ToString(), dr["salesPrice"].ToString(), dr["salesincludeTax"].ToString(), string.IsNullOrEmpty(dr["outgoingDiscount"].ToString()) ? "1" : dr["outgoingDiscount"].ToString(),allprice  };
                     for (int i = 0; i < item.Count(); i++)
                     {
                         DataGridViewTextBoxCell dgvtbc = new DataGridViewTextBoxCell();

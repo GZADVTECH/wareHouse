@@ -19,6 +19,8 @@ namespace wareHouse
         int actalamount = 0;
         //产品应收数量
         int receivable = 0;
+        //所有采购货物入库完成情况
+        bool COMPLETESTATE;
         Dictionary<string, object> dictionary;
         private string USERID;
         public frmStorage(string userid)
@@ -165,26 +167,24 @@ namespace wareHouse
             dictionary.Add("internalOrderNumber", tstxtPID.Text);
             dictionary.Add("beginTime", null);
             dictionary.Add("endTime", null);
-            dictionary.Add("type", 3);
+            dictionary.Add("type", 7);
             DataTable dt = BLL.QueryProcurement(dictionary);
-            DataTable storageDt = BLL.QueryStorage(dictionary);
-            if (storageDt.Rows.Count > 0)
+            if (dt.Rows.Count > 0)
             {
                 if (Convert.ToBoolean(dt.Rows[0]["auditStatus"].ToString()) == false)
                 {
                     MessageBox.Show("该订单尚未审核。。。", "系统提示");
                     return;
                 }
-                txtPID.Text = storageDt.Rows[0]["internalOrderNumber"].ToString();
+                txtPID.Text = dt.Rows[0]["internalOrderNumber"].ToString();
                 txtorderID.Text = dt.Rows[0]["officialOrderNumber"].ToString();
-                dtpDeliveryDate.Text = dt.Rows[0]["storageDate"].ToString();
-                cbbLocation.DisplayMember = storageDt.Rows[0]["productionPosition"].ToString();
-                txtCourier.Text = storageDt.Rows[0]["receiptExpressNumber"].ToString();
-                cbbCourier.Text = storageDt.Rows[0]["receiptExpressCompany"].ToString();
-                txtSupplierID.Text = storageDt.Rows[0]["supplierRelevantNumber"].ToString();
-                rtbRemark.Text = storageDt.Rows[0]["wareRemark"].ToString();
-
-                    int index = 1;
+                dtpDeliveryDate.Text = dt.Rows[0]["arrivalTime"].ToString();
+                cbbLocation.DisplayMember = dt.Rows[0]["productionPosition"].ToString();
+                txtCourier.Text = dt.Rows[0]["receiptExpressNumber"].ToString();
+                cbbCourier.Text = dt.Rows[0]["receiptExpressCompany"].ToString();
+                txtSupplierID.Text = dt.Rows[0]["supplierRelevantNumber"].ToString();
+                rtbRemark.Text = dt.Rows[0]["wareRemark"].ToString();
+                
 
                 ////收货人绑定数据
                 //consigneeID.ValueMember = "loginNumber";
@@ -202,7 +202,7 @@ namespace wareHouse
                 //ComboBox默认显示
                 //checktaker.DefaultCellStyle.NullValue = ((System.Data.DataRowView)checktaker.Items[0])[consigneeID.DisplayMember].ToString();
                 //显示datagridview数据
-                for (int i = 0; i < storageDt.Rows.Count; i++)
+                for (int i = 0; i < dt.Rows.Count; i++)
                 {
                     DataGridViewRow dgvr = new DataGridViewRow();
                     dgvr.CreateCells(dgvPro);//根据dgvPro创建模板
@@ -210,11 +210,10 @@ namespace wareHouse
                     string[] data = new string[]
                     {
                         dr["purchaseID"].ToString(),dr["productID"].ToString(),dr["productName"].ToString(),dr["model"].ToString()
-                        ,dr["supplierName"].ToString(),storageDt.Rows[i]["CollectionQuantity"].ToString(),dr["purchaseQuantity"].ToString()
-                        ,Convert.ToBoolean(dr["invoice"])==true?"是":"否",storageDt.Rows[i]["invoiceNumber"].ToString(),storageDt.Rows[i]["wareOperatorID"].ToString()
-                        ,storageDt.Rows[i]["wareOperatorID"].ToString(),dr["purchaseID"].ToString()
+                        ,dr["supplierName"].ToString(),dr["CollectionQuantity"].ToString(),dr["purchaseQuantity"].ToString()
+                        ,Convert.ToBoolean(dr["invoice"])==true?"是":"否",dr["invoiceNumber"].ToString()
                     };
-                    int[] count = new int[] { 0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12,13 };
+                    int[] count = new int[] { 0, 1, 4, 5, 6, 7, 8, 9, 10 };
                     int order = 0;
                     foreach (int number in count)
                     {
@@ -227,14 +226,14 @@ namespace wareHouse
             {
                 if (dt.Rows.Count > 0)
                 {
-                    if (Convert.ToBoolean(dt.Rows[0]["check"].ToString()) == false)
+                    if (Convert.ToBoolean(dt.Rows[0]["auditStatus"].ToString()) == false)
                     {
                         MessageBox.Show("该订单尚未审核。。。", "系统提示");
                         return;
                     }
-                    txtPID.Text = dt.Rows[0]["pID"].ToString();
-                    txtorderID.Text = dt.Rows[0]["contractOrder"].ToString();
-                    dtpDeliveryDate.Text = dt.Rows[0]["storageDate"].ToString();
+                    txtPID.Text = dt.Rows[0]["internalOrderNumber"].ToString();
+                    txtorderID.Text = dt.Rows[0]["officialOrderNumber"].ToString();
+                    dtpDeliveryDate.Text = dt.Rows[0]["arrivalTime"].ToString();
 
                     int index = 1;
 
@@ -257,11 +256,11 @@ namespace wareHouse
                         string[] data = new string[]
                         {
                             index++.ToString(),item["productID"].ToString(),item["productName"].ToString(),item["model"].ToString()
-                        ,item["supplierName"].ToString(),item["CollectionQuantity"].ToString(),item["purchaseQuantity"].ToString()
-                        ,Convert.ToBoolean(item["invoice"])==true?"是":"否",item["purchaseID"].ToString()
+                        ,item["supplierName"].ToString(),item["purchaseQuantity"].ToString()
+                        ,Convert.ToBoolean(item["invoice"])==true?"是":"否"
                         };
 
-                        int[] count = new int[] { 0, 1, 4, 5, 6, 7, 8, 9,13 };
+                        int[] count = new int[] { 0, 1, 4, 5, 6, 8, 9};
                         int order = 0;
                         foreach (int number in count)
                         {
@@ -286,9 +285,15 @@ namespace wareHouse
         /// <param name="e"></param>
         private void dgvPro_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0)
+            {
+                return;
+            }
             int index = e.RowIndex;
             if (dgvPro.Columns[e.ColumnIndex].Name == "plus")
             {
+                if (string.IsNullOrEmpty(dgvPro.Rows[index].Cells["Num"].Value.ToString()))
+                    dgvPro.Rows[index].Cells["Num"].Value = "0";
                 amount = Convert.ToInt32(dgvPro.Rows[index].Cells["Num"].Value);
                 if (Convert.ToInt32(dgvPro.Rows[index].Cells["actualAmount"].Value) < amount + 1)
                 {
@@ -298,6 +303,8 @@ namespace wareHouse
             }
             if (dgvPro.Columns[e.ColumnIndex].Name == "minus")
             {
+                if (string.IsNullOrEmpty(dgvPro.Rows[index].Cells["Num"].Value.ToString()))
+                    dgvPro.Rows[index].Cells["Num"].Value = "0";
                 amount = Convert.ToInt32(dgvPro.Rows[index].Cells["Num"].Value);
                 if (amount == 0)
                 {
@@ -317,6 +324,7 @@ namespace wareHouse
             dgvPro.AllowUserToAddRows = false;
             //仓位默认位置
             cbbLocation.SelectedIndex = 0;
+            cbbCourier.SelectedIndex = 0;
         }
         /// <summary>
         /// 单元格编辑结束验证
@@ -326,6 +334,8 @@ namespace wareHouse
         private void dgvPro_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
+            if (dgvPro.Rows[index].Cells["Num"].Value==null)
+                dgvPro.Rows[index].Cells["Num"].Value = "0";
             int num = Convert.ToInt32(dgvPro.Rows[index].Cells["Num"].Value);
             if (num > Convert.ToInt32(dgvPro.Rows[index].Cells["actualAmount"].Value) || num < 0)
             {
@@ -403,16 +413,37 @@ namespace wareHouse
                     MessageBox.Show("快递公司不允许为空！", "系统提示");
                     return;
                 }
-
-                dictionary = new Dictionary<string, object>();
-                dictionary.Add("internalOrderNumber", tstxtPID.Text);
-                dictionary.Add("type", 3);
-                if (BLL.QueryStorage(dictionary).Rows.Count > 0)
+                int count = 0;
+                for (int i = 0; i < dgvPro.Rows.Count; i++)
                 {
-                    cargoOperation(2);
-                    return;
+                    if (string.IsNullOrEmpty(dgvPro.Rows[i].Cells[7].FormattedValue.ToString()))
+                    {
+                        MessageBox.Show("数量不允许为空！", "系统提示");
+                        return;
+                    }
+                    if (dgvPro.Rows[i].Cells["Num"].Value.ToString() == dgvPro.Rows[i].Cells["actualAmount"].Value.ToString())
+                    {
+                        count++;
+                    }
                 }
+                if (count == dgvPro.Rows.Count)
+                    COMPLETESTATE = true;
+                else
+                    COMPLETESTATE = false;
+                dictionary = new Dictionary<string, object>();
+                dictionary.Add("internalOrderNumber", txtPID.Text);
+                dictionary.Add("type", 3);
+                //查询是否有该数据
+                if (BLL.QueryStorage(dictionary).Rows.Count <= 0)
+                {
+                    //无则新建
                     cargoOperation(1);
+                }
+                else
+                {
+                    //有则更新
+                    cargoOperation(2);
+                }
             }
         }
         /// <summary>
@@ -422,19 +453,9 @@ namespace wareHouse
         private void cargoOperation(int typeid)
         {
             int allindex = 0;
-            string checktaker = "";
             string invoiceid = "";
             foreach (DataGridViewRow dgvr in dgvPro.Rows)
             {
-                if (dgvr.Cells["consigneeID"].Value == null)
-                {
-                    MessageBox.Show("请选择收货人", "系统提示");
-                    return;
-                }
-                if (dgvr.Cells["checktaker"].Value != null)
-                {
-                    checktaker = dgvr.Cells["checktaker"].Value.ToString();
-                }
                 if (dgvr.Cells["invoiceID"].Value != null)
                 {
                     invoiceid = dgvr.Cells["invoiceID"].Value.ToString();
@@ -442,19 +463,19 @@ namespace wareHouse
                 dictionary = new Dictionary<string, object>();
                 dictionary.Add("purchaseID", dgvr.Cells["ID"].Value.ToString());
                 dictionary.Add("internalOrderNumber", txtPID.Text);
-                dictionary.Add("receiptExpressNumber",txtCourier.Text);
-                dictionary.Add("receiptExpressCompany",cbbCourier.Text);
+                dictionary.Add("receiptExpressNumber", txtCourier.Text);
+                dictionary.Add("receiptExpressCompany", cbbCourier.Text);
                 dictionary.Add("productionPosition", cbbLocation.Text);
-                dictionary.Add("supplierRelevantNumber",txtSupplierID.Text);
-                dictionary.Add("storageDate",dtpDeliveryDate.Text);
+                dictionary.Add("supplierRelevantNumber", txtSupplierID.Text);
+                dictionary.Add("storageDate", dtpDeliveryDate.Text);
                 dictionary.Add("CollectionQuantity", dgvr.Cells["Num"].Value.ToString());
-                dictionary.Add("wareOperatorID",USERID);
+                dictionary.Add("wareOperatorID", USERID);
                 dictionary.Add("invoiceNumber", invoiceid);
                 dictionary.Add("wareRemark", rtbRemark.Text);
-                dictionary.Add("wareState",0);
-                dictionary.Add("type",typeid);
-                int index = BLL.InsStorage(dictionary);
-                allindex += index;
+                dictionary.Add("wareState", COMPLETESTATE?1:0);
+                dictionary.Add("type", typeid);
+                if(BLL.InsStorage(dictionary)>0)
+                allindex++;
             }
             if (allindex == dgvPro.Rows.Count)
             {
@@ -572,6 +593,11 @@ namespace wareHouse
             {
                 tsbtnSelect_Click(sender, e);
             }
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

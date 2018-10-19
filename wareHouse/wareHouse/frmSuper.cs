@@ -59,7 +59,6 @@ namespace wareHouse
         /// </summary>
         private void QueryProCargo()
         {
-            lbPro.Items.Clear();
             rtbDetailed.Text = string.Empty;
             Dictionary<string, object> dictionary = new Dictionary<string, object>();
             dictionary.Add("internalOrderNumber", null);
@@ -83,6 +82,7 @@ namespace wareHouse
         /// <param name="e"></param>
         private void lbPro_SelectedValueChanged(object sender, EventArgs e)
         {
+            lbPro.Items.Clear();
             if (dt.Rows.Count <= 0) return;
             rtbDetailed.Text = string.Empty;
             StringBuilder sb = new StringBuilder();
@@ -106,6 +106,7 @@ namespace wareHouse
         {
             if (MessageBox.Show("是否确认通过？", "系统提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
+                QueryProCargo();
                 dictionary = new Dictionary<string, object>();
                 dictionary.Add("internalOrderNumber", lbPro.SelectedValue.ToString());
                 dictionary.Add("officialOrderNumber", null);
@@ -130,6 +131,7 @@ namespace wareHouse
         {
             if (MessageBox.Show("是否确认驳回？", "系统提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
+                QueryProCargo();
                 dictionary = new Dictionary<string, object>();
                 dictionary.Add("internalOrderNumber", lbPro.SelectedValue.ToString());
                 dictionary.Add("officialOrderNumber", null);
@@ -168,7 +170,11 @@ namespace wareHouse
                     }
                 }
             }
-            if (Convert.ToInt32(cbbBeginYear.Text) < Convert.ToInt32(cbbEndYear.Text) || Convert.ToInt32(cbbBeginMonth.Text) < Convert.ToInt32(cbbEndMonth.Text)) MessageBox.Show("查询时间错误，请重新输入！", "系统提示");
+            if (Convert.ToInt32(cbbBeginYear.Text) > Convert.ToInt32(cbbEndYear.Text) || Convert.ToInt32(cbbBeginMonth.Text) > Convert.ToInt32(cbbEndMonth.Text))
+            {
+                MessageBox.Show("查询时间错误，请重新输入！", "系统提示");
+                return;
+            }
             //将总价值为零
             txtCount.Text = "0.00";
             //获取始终时间

@@ -197,16 +197,19 @@ namespace wareHouse
                     if (index > 0)
                     {
                         MessageBox.Show("添加成功！", "系统提示");
+
                         //将添加成功的数据显示到DataGridView中
-                        DataGridViewRow dgvr = new DataGridViewRow();
-                        string[] item = new string[] { "inventoryNumber", "productID", "productName", "model", "purchasePrice", "purchaseincludeTax", "salesPrice", "salesincludeTax", "unit", "inventoryQuantity" };
-                        for (int i = 0; i < dictionary.Count(); i++)
-                        {
-                            DataGridViewTextBoxCell dgvc = new DataGridViewTextBoxCell();
-                            dgvc.Value = dictionary[item[i]];
-                            dgvr.Cells.Add(dgvc);
-                        }
-                        dgvInventory.Rows.Add(dgvr);
+                        //DataGridViewRow dgvr = new DataGridViewRow();
+                        //string[] item = new string[] { "inventoryNumber", "productID", "productName", "model", "purchasePrice", "purchaseincludeTax", "salesPrice", "salesincludeTax", "unit", "inventoryQuantity" };
+                        //foreach (string items in item)
+                        //{
+                        //    DataGridViewTextBoxCell dgvc = new DataGridViewTextBoxCell();
+                        //    dgvc.Value = dictionary[items];
+                        //    dgvr.Cells.Add(dgvc);
+                        //}
+                        //dgvInventory.Rows.Add(dgvr);
+                        GetInventory();
+
                         //清空产品信息操作框信息
                         Clear(groupBox1);
                     }

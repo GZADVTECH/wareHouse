@@ -84,7 +84,6 @@
             this.actualAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.isInvoice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.invoiceID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cargoautoID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPro)).BeginInit();
@@ -175,6 +174,7 @@
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(88, 22);
             this.toolStripButton1.Text = "打印入库单";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // groupBox1
             // 
@@ -208,7 +208,7 @@
             this.dtpDeliveryDate.Location = new System.Drawing.Point(300, 51);
             this.dtpDeliveryDate.Name = "dtpDeliveryDate";
             this.dtpDeliveryDate.Size = new System.Drawing.Size(112, 21);
-            this.dtpDeliveryDate.TabIndex = 5;
+            this.dtpDeliveryDate.TabIndex = 4;
             // 
             // rtbRemark
             // 
@@ -229,7 +229,7 @@
             this.cbbLocation.Location = new System.Drawing.Point(710, 18);
             this.cbbLocation.Name = "cbbLocation";
             this.cbbLocation.Size = new System.Drawing.Size(112, 20);
-            this.cbbLocation.TabIndex = 1;
+            this.cbbLocation.TabIndex = 3;
             // 
             // cbbCourier
             // 
@@ -250,7 +250,7 @@
             this.cbbCourier.Location = new System.Drawing.Point(493, 51);
             this.cbbCourier.Name = "cbbCourier";
             this.cbbCourier.Size = new System.Drawing.Size(112, 20);
-            this.cbbCourier.TabIndex = 6;
+            this.cbbCourier.TabIndex = 5;
             // 
             // label10
             // 
@@ -311,7 +311,7 @@
             this.txtSupplierID.Location = new System.Drawing.Point(710, 51);
             this.txtSupplierID.Name = "txtSupplierID";
             this.txtSupplierID.Size = new System.Drawing.Size(112, 21);
-            this.txtSupplierID.TabIndex = 3;
+            this.txtSupplierID.TabIndex = 6;
             this.txtSupplierID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ControlKeyPress);
             // 
             // label3
@@ -329,7 +329,7 @@
             this.txtorderID.Location = new System.Drawing.Point(298, 18);
             this.txtorderID.Name = "txtorderID";
             this.txtorderID.Size = new System.Drawing.Size(116, 21);
-            this.txtorderID.TabIndex = 0;
+            this.txtorderID.TabIndex = 1;
             // 
             // txtPID
             // 
@@ -371,14 +371,13 @@
             this.Num,
             this.actualAmount,
             this.isInvoice,
-            this.invoiceID,
-            this.cargoautoID});
+            this.invoiceID});
             this.dgvPro.Location = new System.Drawing.Point(0, 197);
             this.dgvPro.Name = "dgvPro";
             this.dgvPro.RowTemplate.Height = 23;
             this.dgvPro.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvPro.Size = new System.Drawing.Size(855, 296);
-            this.dgvPro.TabIndex = 2;
+            this.dgvPro.TabIndex = 8;
             this.dgvPro.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPro_CellClick);
             this.dgvPro.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPro_CellContentClick);
             this.dgvPro.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPro_CellEndEdit);
@@ -409,7 +408,7 @@
             this.btnDou.Location = new System.Drawing.Point(194, 80);
             this.btnDou.Name = "btnDou";
             this.btnDou.Size = new System.Drawing.Size(27, 17);
-            this.btnDou.TabIndex = 3;
+            this.btnDou.TabIndex = 12;
             this.btnDou.Text = "...";
             this.btnDou.UseVisualStyleBackColor = true;
             this.btnDou.Click += new System.EventHandler(this.btnDou_Click);
@@ -419,7 +418,7 @@
             this.btnSNSave.Location = new System.Drawing.Point(146, 115);
             this.btnSNSave.Name = "btnSNSave";
             this.btnSNSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSNSave.TabIndex = 4;
+            this.btnSNSave.TabIndex = 13;
             this.btnSNSave.Text = "录入";
             this.btnSNSave.UseVisualStyleBackColor = true;
             this.btnSNSave.Click += new System.EventHandler(this.btnSNSave_Click);
@@ -434,7 +433,7 @@
             this.lvSN.Location = new System.Drawing.Point(-1, 155);
             this.lvSN.Name = "lvSN";
             this.lvSN.Size = new System.Drawing.Size(240, 309);
-            this.lvSN.TabIndex = 8;
+            this.lvSN.TabIndex = 14;
             this.lvSN.UseCompatibleStateImageBehavior = false;
             this.lvSN.View = System.Windows.Forms.View.Details;
             // 
@@ -458,7 +457,7 @@
             this.txtSNName.Location = new System.Drawing.Point(93, 21);
             this.txtSNName.Name = "txtSNName";
             this.txtSNName.Size = new System.Drawing.Size(128, 21);
-            this.txtSNName.TabIndex = 0;
+            this.txtSNName.TabIndex = 9;
             // 
             // label15
             // 
@@ -475,7 +474,7 @@
             this.txtSNSNID.Location = new System.Drawing.Point(93, 50);
             this.txtSNSNID.Name = "txtSNSNID";
             this.txtSNSNID.Size = new System.Drawing.Size(128, 21);
-            this.txtSNSNID.TabIndex = 1;
+            this.txtSNSNID.TabIndex = 10;
             // 
             // label14
             // 
@@ -491,7 +490,7 @@
             this.txtSN.Location = new System.Drawing.Point(93, 77);
             this.txtSN.Name = "txtSN";
             this.txtSN.Size = new System.Drawing.Size(95, 21);
-            this.txtSN.TabIndex = 2;
+            this.txtSN.TabIndex = 11;
             // 
             // label13
             // 
@@ -594,12 +593,6 @@
             this.invoiceID.HeaderText = "发票号码";
             this.invoiceID.Name = "invoiceID";
             // 
-            // cargoautoID
-            // 
-            this.cargoautoID.HeaderText = "入库编号";
-            this.cargoautoID.Name = "cargoautoID";
-            this.cargoautoID.Visible = false;
-            // 
             // frmStorage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -680,6 +673,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn actualAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn isInvoice;
         private System.Windows.Forms.DataGridViewTextBoxColumn invoiceID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cargoautoID;
     }
 }

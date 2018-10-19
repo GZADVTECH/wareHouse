@@ -31,6 +31,12 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSupplier));
             this.dgvSupplier = new System.Windows.Forms.DataGridView();
+            this.supplierNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.supplierName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.supplierInfo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.supplierRemark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.supplierStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.supplierIperatorID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.修改ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.停止供应ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,12 +50,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.supplierNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.supplierName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.supplierInfo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.supplierRemark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.supplierStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.supplierIperatorID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSupplier)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -72,8 +72,56 @@
             this.dgvSupplier.Name = "dgvSupplier";
             this.dgvSupplier.ReadOnly = true;
             this.dgvSupplier.RowTemplate.Height = 23;
+            this.dgvSupplier.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSupplier.Size = new System.Drawing.Size(652, 319);
             this.dgvSupplier.TabIndex = 0;
+            // 
+            // supplierNumber
+            // 
+            this.supplierNumber.DataPropertyName = "supplierNumber";
+            this.supplierNumber.HeaderText = "供应商编号";
+            this.supplierNumber.Name = "supplierNumber";
+            this.supplierNumber.ReadOnly = true;
+            this.supplierNumber.Visible = false;
+            // 
+            // supplierName
+            // 
+            this.supplierName.DataPropertyName = "supplierName";
+            this.supplierName.HeaderText = "供应商名称";
+            this.supplierName.Name = "supplierName";
+            this.supplierName.ReadOnly = true;
+            // 
+            // supplierInfo
+            // 
+            this.supplierInfo.DataPropertyName = "supplierInfo";
+            this.supplierInfo.HeaderText = "供应商信息";
+            this.supplierInfo.Name = "supplierInfo";
+            this.supplierInfo.ReadOnly = true;
+            this.supplierInfo.Width = 300;
+            // 
+            // supplierRemark
+            // 
+            this.supplierRemark.DataPropertyName = "supplierRemark";
+            this.supplierRemark.HeaderText = "备注";
+            this.supplierRemark.Name = "supplierRemark";
+            this.supplierRemark.ReadOnly = true;
+            this.supplierRemark.Width = 200;
+            // 
+            // supplierStatus
+            // 
+            this.supplierStatus.DataPropertyName = "supplierStatus";
+            this.supplierStatus.HeaderText = "供应商状态";
+            this.supplierStatus.Name = "supplierStatus";
+            this.supplierStatus.ReadOnly = true;
+            this.supplierStatus.Visible = false;
+            // 
+            // supplierIperatorID
+            // 
+            this.supplierIperatorID.DataPropertyName = "supplierIperatorID";
+            this.supplierIperatorID.HeaderText = "操作员编号";
+            this.supplierIperatorID.Name = "supplierIperatorID";
+            this.supplierIperatorID.ReadOnly = true;
+            this.supplierIperatorID.Visible = false;
             // 
             // contextMenuStrip1
             // 
@@ -119,7 +167,7 @@
             this.btnSave.Location = new System.Drawing.Point(559, 45);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 2;
+            this.btnSave.TabIndex = 4;
             this.btnSave.Text = "提交";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -129,14 +177,14 @@
             this.txtMessage.Location = new System.Drawing.Point(78, 45);
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.Size = new System.Drawing.Size(463, 21);
-            this.txtMessage.TabIndex = 1;
+            this.txtMessage.TabIndex = 2;
             // 
             // txtRemark
             // 
             this.txtRemark.Location = new System.Drawing.Point(437, 17);
             this.txtRemark.Name = "txtRemark";
             this.txtRemark.Size = new System.Drawing.Size(209, 21);
-            this.txtRemark.TabIndex = 1;
+            this.txtRemark.TabIndex = 3;
             // 
             // label4
             // 
@@ -188,53 +236,6 @@
             this.label1.Size = new System.Drawing.Size(65, 12);
             this.label1.TabIndex = 0;
             this.label1.Text = "供应商编号";
-            // 
-            // supplierNumber
-            // 
-            this.supplierNumber.DataPropertyName = "supplierNumber";
-            this.supplierNumber.HeaderText = "供应商编号";
-            this.supplierNumber.Name = "supplierNumber";
-            this.supplierNumber.ReadOnly = true;
-            this.supplierNumber.Visible = false;
-            // 
-            // supplierName
-            // 
-            this.supplierName.DataPropertyName = "supplierName";
-            this.supplierName.HeaderText = "供应商名称";
-            this.supplierName.Name = "supplierName";
-            this.supplierName.ReadOnly = true;
-            // 
-            // supplierInfo
-            // 
-            this.supplierInfo.DataPropertyName = "supplierInfo";
-            this.supplierInfo.HeaderText = "供应商信息";
-            this.supplierInfo.Name = "supplierInfo";
-            this.supplierInfo.ReadOnly = true;
-            this.supplierInfo.Width = 300;
-            // 
-            // supplierRemark
-            // 
-            this.supplierRemark.DataPropertyName = "supplierRemark";
-            this.supplierRemark.HeaderText = "备注";
-            this.supplierRemark.Name = "supplierRemark";
-            this.supplierRemark.ReadOnly = true;
-            this.supplierRemark.Width = 200;
-            // 
-            // supplierStatus
-            // 
-            this.supplierStatus.DataPropertyName = "supplierStatus";
-            this.supplierStatus.HeaderText = "供应商状态";
-            this.supplierStatus.Name = "supplierStatus";
-            this.supplierStatus.ReadOnly = true;
-            this.supplierStatus.Visible = false;
-            // 
-            // supplierIperatorID
-            // 
-            this.supplierIperatorID.DataPropertyName = "supplierIperatorID";
-            this.supplierIperatorID.HeaderText = "操作员编号";
-            this.supplierIperatorID.Name = "supplierIperatorID";
-            this.supplierIperatorID.ReadOnly = true;
-            this.supplierIperatorID.Visible = false;
             // 
             // frmSupplier
             // 

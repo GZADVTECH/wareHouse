@@ -406,7 +406,7 @@ namespace wareHouse
                 CHECK = dr["auditStatus"].ToString();
                 txtPID.Text = dr["internalOrderNumber"].ToString();
                 txtorderid.Text = dr["officialOrderNumber"].ToString();
-                UserName.Text = dr["operatorID"].ToString();
+                UserName.Text = dr["userName"].ToString();
                 cbbClient.Text = dr["customerID"].ToString();
                 dtpBuy.Value = Convert.ToDateTime(dr["creationTime"]);
                 dtpArrival.Value = Convert.ToDateTime(dr["arrivalTime"]);
@@ -418,7 +418,7 @@ namespace wareHouse
                     dr = dt.Rows[j];
                     DataGridViewRow selectdgvr = new DataGridViewRow();
                     string[] items = new string[] { dr["productID"].ToString(), dr["supplierNumber"].ToString(), dr["productName"].ToString()+"("+ dr["model"].ToString()+")"
-                        , dr["purchaseQuantity"].ToString(), dr["supplierName"].ToString(),dr[""].ToString(), dr["supportingProducts"].ToString(), (dr["invoice"]).ToString(),dr["purchaseRemark"].ToString() } ;
+                        , dr["purchaseQuantity"].ToString(), dr["supplierName"].ToString(), dr["supportingProducts"].ToString(), (dr["invoice"]).ToString(),dr["purchaseRemark"].ToString() } ;
                     for (int i = 0; i < items.Count(); i++)
                     {
                         DataGridViewTextBoxCell txtcell = new DataGridViewTextBoxCell();
