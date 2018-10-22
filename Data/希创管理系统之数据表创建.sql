@@ -24,6 +24,8 @@ create table purchaseOrder
 	completeState bit,				 --订单完成状态
 )
 go
+select * from purchaseOrder
+go
 
 --采购货物表
 drop table purchaseGoods
@@ -39,6 +41,8 @@ create table purchaseGoods
 	invoice bit,						  --是否附有发票
 	purchaseRemark nvarchar(100),		  --备注
 )
+go
+select * from purchaseGoods
 go
 
 --入库表
@@ -60,6 +64,8 @@ create table warehousing
 	wareState bit,							   --完成状态
 )
 go
+select * from warehousing
+go
 
 --序列号表
 drop table serial
@@ -74,6 +80,8 @@ create table serial
 	sellingTime datetime,				--售出时间
 	serielOperatorID nvarchar(20),		--操作员编号
 )
+go
+select * from serial
 go
 
 --库存表
@@ -95,6 +103,8 @@ create table stock
 	stockOperatorID nvarchar(20),	--操作员编号
 )
 go
+select * from stock
+go
 
 --财务表
 drop table finance
@@ -108,6 +118,8 @@ create table finance
 	paymentRemark nvarchar(100),		  --备注
 	financeOperatorID nvarchar(20),		  --操作员编号
 )
+go
+select * from finance
 go
 
 --出库表
@@ -130,7 +142,9 @@ create table outgoing
 	outgoingState bit,							  --完成状态
 )
 go
-select * from userinfo
+select * from outgoing
+go
+
 --用户信息表
 drop table userinfo
 go
@@ -143,6 +157,8 @@ create table userinfo
 	userStatus bit,						  --用户状态
 	userOperatorID nvarchar(20),		  --操作员编号
 )
+go
+select * from userinfo
 go
 
 --用户隐私表（加密）
@@ -165,6 +181,8 @@ create table userprivacy
 	userMonologue nvarchar(max),			   --个人独白
 )
 go
+select * from userprivacy
+go
 
 --用户权限表
 drop table rights
@@ -175,6 +193,8 @@ create table rights
 	rightsName nvarchar(20),		 --权限名称
 	rightsRemark nvarchar(100),		 --权限备注
 )
+go
+select * from rights
 go
 
 --客户信息表
@@ -193,6 +213,8 @@ create table customerinfo
 	customerOperatorID nvarchar(20),						 --操作员编号
 )
 go
+select * from customerinfo
+go
 
 --供应商表
 drop table supplier
@@ -206,6 +228,8 @@ create table supplier
 	supplierStatus bit,					   --供应商状态
 	supplierIperatorID nvarchar(20),	   --操作员编号
 )
+go
+select * from supplier
 go
 
 --维修表
@@ -232,6 +256,8 @@ create table repair
 	repairStatus bit,							  --完成状态
 )
 go
+select * from repair
+go
 
 --借货表
 drop table borrow
@@ -251,6 +277,8 @@ create table borrow
 	borrowStatus bit,					   --完成状态
 )
 go
+select * from borrow
+go
 
 --月结表
 drop table monthlyknot
@@ -265,4 +293,6 @@ create table monthlyknot
 	endmonthNumber int,						--月末数量
 	thismonth datetime,						--当前年月
 )
+go
+select * from monthlyknot
 go

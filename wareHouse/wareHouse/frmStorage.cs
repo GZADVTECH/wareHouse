@@ -21,6 +21,8 @@ namespace wareHouse
         int receivable = 0;
         //所有采购货物入库完成情况
         bool COMPLETESTATE;
+        //保存状态
+        bool SAVESTATE;
         Dictionary<string, object> dictionary;
         private string USERID;
         public frmStorage(string userid)
@@ -41,6 +43,8 @@ namespace wareHouse
                 Clear(this);//清空窗体所有控件
                 tstxtPID.Text = string.Empty;//查询输入框清空
                 dgvPro.AllowUserToAddRows = false;//不允许自动生成行
+                SAVESTATE = false;//状态为false
+                groupBox2.Enabled = false;//S/N框禁止状态
             }
         }
         /// <summary>
@@ -480,6 +484,8 @@ namespace wareHouse
             if (allindex == dgvPro.Rows.Count)
             {
                 MessageBox.Show("操作成功！", "系统提示");
+                SAVESTATE = true;
+                groupBox2.Enabled = true;
             }
             else
                 MessageBox.Show("操作失败！", "系统提示");
@@ -541,6 +547,8 @@ namespace wareHouse
         /// <param name="e"></param>
         private void btnSNSave_Click(object sender, EventArgs e)
         {
+            if (!SAVESTATE)
+                return;
             if (string.IsNullOrEmpty(txtSNName.Text)||string.IsNullOrEmpty(txtSNSNID.Text))
             {
                 MessageBox.Show("无详细的产品信息，无法录入！", "系统提示");

@@ -53,6 +53,14 @@
             this.cbbproName = new System.Windows.Forms.ComboBox();
             this.label22 = new System.Windows.Forms.Label();
             this.dgvPro = new System.Windows.Forms.DataGridView();
+            this.autoid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.proID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.proname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sellprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sale = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subtotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dtpCArriveDate = new System.Windows.Forms.DateTimePicker();
             this.label17 = new System.Windows.Forms.Label();
             this.cbbCtrackingName = new System.Windows.Forms.ComboBox();
@@ -66,18 +74,19 @@
             this.label18 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.autoid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.proID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.proname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sellprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sale = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subtotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gbSNCode = new System.Windows.Forms.GroupBox();
+            this.txtPName = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtCount = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lbSNCode = new System.Windows.Forms.ListBox();
+            this.btnSave = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPro)).BeginInit();
+            this.gbSNCode.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -94,7 +103,7 @@
             this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(942, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1209, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -313,6 +322,8 @@
             // 
             // dgvPro
             // 
+            this.dgvPro.AllowUserToAddRows = false;
+            this.dgvPro.AllowUserToDeleteRows = false;
             this.dgvPro.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPro.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.autoid,
@@ -325,11 +336,66 @@
             this.subtotal});
             this.dgvPro.Location = new System.Drawing.Point(0, 49);
             this.dgvPro.Name = "dgvPro";
+            this.dgvPro.ReadOnly = true;
             this.dgvPro.RowTemplate.Height = 23;
             this.dgvPro.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvPro.Size = new System.Drawing.Size(933, 230);
             this.dgvPro.TabIndex = 0;
+            this.dgvPro.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPro_CellContentClick);
             this.dgvPro.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPro_CellEndEdit);
+            // 
+            // autoid
+            // 
+            this.autoid.HeaderText = "序号";
+            this.autoid.Name = "autoid";
+            this.autoid.ReadOnly = true;
+            // 
+            // proID
+            // 
+            this.proID.HeaderText = "产品编号";
+            this.proID.Name = "proID";
+            this.proID.ReadOnly = true;
+            this.proID.Visible = false;
+            // 
+            // proname
+            // 
+            this.proname.HeaderText = "产品名称(规格型号)";
+            this.proname.Name = "proname";
+            this.proname.ReadOnly = true;
+            this.proname.Width = 300;
+            // 
+            // amount
+            // 
+            this.amount.HeaderText = "数量";
+            this.amount.Name = "amount";
+            this.amount.ReadOnly = true;
+            // 
+            // sellprice
+            // 
+            this.sellprice.HeaderText = "销售单价";
+            this.sellprice.Name = "sellprice";
+            this.sellprice.ReadOnly = true;
+            this.sellprice.Width = 150;
+            // 
+            // tax
+            // 
+            this.tax.HeaderText = "是否含税";
+            this.tax.Name = "tax";
+            this.tax.ReadOnly = true;
+            this.tax.Visible = false;
+            // 
+            // sale
+            // 
+            this.sale.HeaderText = "折扣";
+            this.sale.Name = "sale";
+            this.sale.ReadOnly = true;
+            // 
+            // subtotal
+            // 
+            this.subtotal.HeaderText = "小计";
+            this.subtotal.Name = "subtotal";
+            this.subtotal.ReadOnly = true;
+            this.subtotal.Width = 130;
             // 
             // dtpCArriveDate
             // 
@@ -455,61 +521,93 @@
             this.label13.TabIndex = 0;
             this.label13.Text = "合同订单号";
             // 
-            // autoid
+            // gbSNCode
             // 
-            this.autoid.HeaderText = "序号";
-            this.autoid.Name = "autoid";
-            this.autoid.ReadOnly = true;
+            this.gbSNCode.Controls.Add(this.btnSave);
+            this.gbSNCode.Controls.Add(this.lbSNCode);
+            this.gbSNCode.Controls.Add(this.label6);
+            this.gbSNCode.Controls.Add(this.txtPName);
+            this.gbSNCode.Controls.Add(this.label3);
+            this.gbSNCode.Controls.Add(this.txtCount);
+            this.gbSNCode.Controls.Add(this.label5);
+            this.gbSNCode.Enabled = false;
+            this.gbSNCode.Location = new System.Drawing.Point(939, 28);
+            this.gbSNCode.Name = "gbSNCode";
+            this.gbSNCode.Size = new System.Drawing.Size(270, 361);
+            this.gbSNCode.TabIndex = 4;
+            this.gbSNCode.TabStop = false;
+            this.gbSNCode.Text = "S/N售出";
             // 
-            // proID
+            // txtPName
             // 
-            this.proID.HeaderText = "产品编号";
-            this.proID.Name = "proID";
-            this.proID.ReadOnly = true;
-            this.proID.Visible = false;
+            this.txtPName.Enabled = false;
+            this.txtPName.Location = new System.Drawing.Point(124, 17);
+            this.txtPName.Name = "txtPName";
+            this.txtPName.Size = new System.Drawing.Size(128, 21);
+            this.txtPName.TabIndex = 13;
             // 
-            // proname
+            // label3
             // 
-            this.proname.HeaderText = "产品名称(规格型号)";
-            this.proname.Name = "proname";
-            this.proname.Width = 300;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(29, 22);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(89, 12);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "产品名称(型号)";
             // 
-            // amount
+            // label5
             // 
-            this.amount.HeaderText = "数量";
-            this.amount.Name = "amount";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(89, 53);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(29, 12);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "数量";
             // 
-            // sellprice
+            // txtCount
             // 
-            this.sellprice.HeaderText = "销售单价";
-            this.sellprice.Name = "sellprice";
-            this.sellprice.ReadOnly = true;
-            this.sellprice.Width = 150;
+            this.txtCount.Location = new System.Drawing.Point(124, 51);
+            this.txtCount.MaxLength = 100;
+            this.txtCount.Name = "txtCount";
+            this.txtCount.Size = new System.Drawing.Size(128, 21);
+            this.txtCount.TabIndex = 9;
+            this.txtCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumber_KeyPress);
             // 
-            // tax
+            // label6
             // 
-            this.tax.HeaderText = "是否含税";
-            this.tax.Name = "tax";
-            this.tax.Visible = false;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(83, 84);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(35, 12);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "S/N码";
             // 
-            // sale
+            // lbSNCode
             // 
-            this.sale.HeaderText = "折扣";
-            this.sale.Name = "sale";
-            this.sale.ReadOnly = true;
+            this.lbSNCode.FormattingEnabled = true;
+            this.lbSNCode.ItemHeight = 12;
+            this.lbSNCode.Location = new System.Drawing.Point(124, 85);
+            this.lbSNCode.Name = "lbSNCode";
+            this.lbSNCode.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbSNCode.Size = new System.Drawing.Size(128, 232);
+            this.lbSNCode.TabIndex = 16;
             // 
-            // subtotal
+            // btnSave
             // 
-            this.subtotal.HeaderText = "小计";
-            this.subtotal.Name = "subtotal";
-            this.subtotal.ReadOnly = true;
-            this.subtotal.Width = 130;
+            this.btnSave.Location = new System.Drawing.Point(183, 331);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 17;
+            this.btnSave.Text = "提交";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // frmDelivery
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(942, 394);
+            this.ClientSize = new System.Drawing.Size(1209, 394);
+            this.Controls.Add(this.gbSNCode);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.toolStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -523,6 +621,8 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPro)).EndInit();
+            this.gbSNCode.ResumeLayout(false);
+            this.gbSNCode.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -575,5 +675,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn tax;
         private System.Windows.Forms.DataGridViewTextBoxColumn sale;
         private System.Windows.Forms.DataGridViewTextBoxColumn subtotal;
+        private System.Windows.Forms.GroupBox gbSNCode;
+        private System.Windows.Forms.ListBox lbSNCode;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtPName;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtCount;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnSave;
     }
 }

@@ -34,7 +34,7 @@ namespace wareHouse
             cbbcontactsid.SelectedIndex = 0;
             //快递名称索引默认为0
             txttrackingname.SelectedIndex = 0;
-            txtreturntrackingname.SelectedIndex = 0;
+            txtreturntrackingname.SelectedIndex = -1;
             //绑定DataGridView
             dgvMain.AutoGenerateColumns = false;
             dgvMain.AllowUserToAddRows = false;
@@ -236,7 +236,7 @@ namespace wareHouse
                 int index = 0;
                 foreach (DataGridViewRow row in dgvMain.Rows)
                 {
-                    if (cbbcname.SelectedValue.ToString() == row.Cells["proID"].Value.ToString())
+                    if (cbbcname.SelectedValue.ToString() == row.Cells["cid"].Value.ToString())
                     {
                         if (txtsnid.Text == row.Cells["snid"].Value.ToString())
                         {
@@ -302,8 +302,8 @@ namespace wareHouse
                     txtreturntrackingname.Text = dgvMain["returntrackingname", e.RowIndex].Value.ToString();//校准归还快递公司
                     cbbcontactsid.SelectedValue = dgvMain["contactsid", e.RowIndex].Value;//校准联系人
                     txtnewsnid.Text = dgvMain["returnsnid", e.RowIndex].Value.ToString();//校准归还S/N号
-                    txtContactinfo.Text= dgvMain["returnsnid", e.RowIndex].Value.ToString();//校准联系方式
-                    txtAddress.Text= dgvMain["returnsnid", e.RowIndex].Value.ToString();//校准联系地址
+                    txtContactinfo.Text= dgvMain["repairContactinfo", e.RowIndex].Value.ToString();//校准联系方式
+                    txtAddress.Text= dgvMain["repairContactAddress", e.RowIndex].Value.ToString();//校准联系地址
                 }
             }
         }

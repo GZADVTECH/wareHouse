@@ -337,12 +337,11 @@ namespace WHBLL
         {
             SqlParameter[] param =
             {
-                new SqlParameter("@serialNumber",dictionary["serialNumber"]),
                 new SqlParameter("@productID",dictionary["productID"]),
                 new SqlParameter("@SNCode",dictionary["SNCode"]),
                 new SqlParameter("@type",dictionary["type"])
             };
-            DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_snid", param, CommandType.StoredProcedure);
+            DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_search_serial", param, CommandType.StoredProcedure);
             return dt;
         }
         /// <summary>

@@ -345,6 +345,7 @@ namespace wareHouse
                 if (error>0)
                 {
                     MessageBox.Show("提交成功！", "系统提示");
+                    gbSNCode.Enabled = true;
                 }
                 if (port.Length>0)
                 {
@@ -406,6 +407,51 @@ namespace wareHouse
         private void cbbproName_SelectedValueChanged(object sender, EventArgs e)
         {
 
+        }
+        /// <summary>
+        /// 单击单元格显示SN码
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvPro_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewRow dr = dgvPro.Rows[e.RowIndex];
+            txtPName.Text = dr.Cells["proname"].Value.ToString();
+            txtPName.Tag = dr.Cells["proID"].ToString();
+            txtCount.Text = dr.Cells["amount"].ToString();
+            dictionary = new Dictionary<string, object>();
+            dictionary.Add("productID", dr.Cells["proID"].ToString());
+            dictionary.Add("SNCode",null);
+            dictionary.Add("type",3);
+            lbSNCode.DataSource = BLL.QuerySNID(dictionary);
+            lbSNCode.DisplayMember = "SNCode";
+            lbSNCode.ValueMember = "serialNumber";
+        }
+        /// <summary>
+        /// 售出SN提交
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            int index = 0;
+            foreach (ListControl item in lbSNCode.SelectedItems)
+            {
+                dictionary = new Dictionary<string, object>();
+                dictionary.Add("productID",txtPName.Tag);
+                dictionary.Add("SNCode",item.Text);
+                dictionary.Add("sell",1);
+                dictionary.Add("entryTime",null);
+                dictionary.Add("sellingTime",DateTime.Now);
+                dictionary.Add("serielOperatorID", ID);
+                dictionary.Add("type",2);
+                if (BLL.InsSNID(dictionary) > 0)
+                    index++;
+                if (index==lbSNCode.SelectedItems.Count)
+                {
+                    MessageBox.Show("保存成功！", "系统提示");
+                }
+            }
         }
     }
 }

@@ -59,6 +59,17 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvPro = new System.Windows.Forms.DataGridView();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.plus = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.minus = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.productName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pnid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.supplierName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Num = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.actualAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isInvoice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.invoiceID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnDou = new System.Windows.Forms.Button();
             this.btnSNSave = new System.Windows.Forms.Button();
@@ -73,17 +84,6 @@
             this.txtSN = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.productID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.plus = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.minus = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.productName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pnid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.supplierName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Num = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.actualAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.isInvoice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.invoiceID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPro)).BeginInit();
@@ -384,6 +384,94 @@
             this.dgvPro.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvPro_CellMouseDown);
             this.dgvPro.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPro_CellMouseLeave);
             // 
+            // ID
+            // 
+            this.ID.HeaderText = "采购编号";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Width = 80;
+            // 
+            // productID
+            // 
+            this.productID.DataPropertyName = "productID";
+            this.productID.HeaderText = "产品编号";
+            this.productID.Name = "productID";
+            this.productID.ReadOnly = true;
+            this.productID.Visible = false;
+            // 
+            // plus
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.NullValue = "+";
+            this.plus.DefaultCellStyle = dataGridViewCellStyle1;
+            this.plus.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.plus.HeaderText = "+";
+            this.plus.Name = "plus";
+            this.plus.Text = "+";
+            this.plus.UseColumnTextForButtonValue = true;
+            this.plus.Width = 20;
+            // 
+            // minus
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.NullValue = "-";
+            this.minus.DefaultCellStyle = dataGridViewCellStyle2;
+            this.minus.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.minus.HeaderText = "-";
+            this.minus.Name = "minus";
+            this.minus.Text = "-";
+            this.minus.UseColumnTextForButtonValue = true;
+            this.minus.Width = 20;
+            // 
+            // productName
+            // 
+            this.productName.HeaderText = "产品名称";
+            this.productName.Name = "productName";
+            this.productName.ReadOnly = true;
+            this.productName.Width = 150;
+            // 
+            // pnid
+            // 
+            this.pnid.HeaderText = "配置（规格）";
+            this.pnid.Name = "pnid";
+            this.pnid.ReadOnly = true;
+            this.pnid.Width = 200;
+            // 
+            // supplierName
+            // 
+            this.supplierName.HeaderText = "供应商";
+            this.supplierName.Name = "supplierName";
+            this.supplierName.ReadOnly = true;
+            // 
+            // Num
+            // 
+            this.Num.HeaderText = "数量";
+            this.Num.Name = "Num";
+            this.Num.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Num.Width = 80;
+            // 
+            // actualAmount
+            // 
+            this.actualAmount.DataPropertyName = "actualAmount";
+            this.actualAmount.HeaderText = "应收数量";
+            this.actualAmount.Name = "actualAmount";
+            this.actualAmount.ReadOnly = true;
+            // 
+            // isInvoice
+            // 
+            this.isInvoice.DataPropertyName = "isInvoice";
+            this.isInvoice.HeaderText = "是否附有发票";
+            this.isInvoice.Name = "isInvoice";
+            this.isInvoice.ReadOnly = true;
+            this.isInvoice.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.isInvoice.Width = 120;
+            // 
+            // invoiceID
+            // 
+            this.invoiceID.DataPropertyName = "invoiceID";
+            this.invoiceID.HeaderText = "发票号码";
+            this.invoiceID.Name = "invoiceID";
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnDou);
@@ -395,6 +483,7 @@
             this.groupBox2.Controls.Add(this.label14);
             this.groupBox2.Controls.Add(this.txtSN);
             this.groupBox2.Controls.Add(this.label13);
+            this.groupBox2.Enabled = false;
             this.groupBox2.Location = new System.Drawing.Point(862, 28);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(239, 465);
@@ -504,94 +593,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // ID
-            // 
-            this.ID.HeaderText = "采购编号";
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
-            this.ID.Width = 80;
-            // 
-            // productID
-            // 
-            this.productID.DataPropertyName = "productID";
-            this.productID.HeaderText = "产品编号";
-            this.productID.Name = "productID";
-            this.productID.ReadOnly = true;
-            this.productID.Visible = false;
-            // 
-            // plus
-            // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.NullValue = "+";
-            this.plus.DefaultCellStyle = dataGridViewCellStyle1;
-            this.plus.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.plus.HeaderText = "+";
-            this.plus.Name = "plus";
-            this.plus.Text = "+";
-            this.plus.UseColumnTextForButtonValue = true;
-            this.plus.Width = 20;
-            // 
-            // minus
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.NullValue = "-";
-            this.minus.DefaultCellStyle = dataGridViewCellStyle2;
-            this.minus.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.minus.HeaderText = "-";
-            this.minus.Name = "minus";
-            this.minus.Text = "-";
-            this.minus.UseColumnTextForButtonValue = true;
-            this.minus.Width = 20;
-            // 
-            // productName
-            // 
-            this.productName.HeaderText = "产品名称";
-            this.productName.Name = "productName";
-            this.productName.ReadOnly = true;
-            this.productName.Width = 150;
-            // 
-            // pnid
-            // 
-            this.pnid.HeaderText = "配置（规格）";
-            this.pnid.Name = "pnid";
-            this.pnid.ReadOnly = true;
-            this.pnid.Width = 200;
-            // 
-            // supplierName
-            // 
-            this.supplierName.HeaderText = "供应商";
-            this.supplierName.Name = "supplierName";
-            this.supplierName.ReadOnly = true;
-            // 
-            // Num
-            // 
-            this.Num.HeaderText = "数量";
-            this.Num.Name = "Num";
-            this.Num.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Num.Width = 80;
-            // 
-            // actualAmount
-            // 
-            this.actualAmount.DataPropertyName = "actualAmount";
-            this.actualAmount.HeaderText = "应收数量";
-            this.actualAmount.Name = "actualAmount";
-            this.actualAmount.ReadOnly = true;
-            // 
-            // isInvoice
-            // 
-            this.isInvoice.DataPropertyName = "isInvoice";
-            this.isInvoice.HeaderText = "是否附有发票";
-            this.isInvoice.Name = "isInvoice";
-            this.isInvoice.ReadOnly = true;
-            this.isInvoice.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.isInvoice.Width = 120;
-            // 
-            // invoiceID
-            // 
-            this.invoiceID.DataPropertyName = "invoiceID";
-            this.invoiceID.HeaderText = "发票号码";
-            this.invoiceID.Name = "invoiceID";
             // 
             // frmStorage
             // 

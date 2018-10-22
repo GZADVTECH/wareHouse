@@ -226,7 +226,7 @@
             this.txtID.Name = "txtID";
             this.txtID.ReadOnly = true;
             this.txtID.Size = new System.Drawing.Size(100, 21);
-            this.txtID.TabIndex = 1;
+            this.txtID.TabIndex = 0;
             // 
             // label1
             // 

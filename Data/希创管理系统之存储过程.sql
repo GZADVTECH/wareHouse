@@ -449,7 +449,7 @@ update repair set repairArrivalTime=@repairArrivalTime,repairExpressNumber=@repa
 end
 else if(@repairReturnExpressNumber is not null)
 begin
-update repair set repairReturnTime=@repairReturnTime,repairReturnExpressNumber=@repairReturnExpressNumber,repairReturnExpressCompany=@repairReturnExpressCompany,repairReturnSNCode=@repairReturnSNCode where repairCustomernumber=@repairCustomernumber and repairProductID=@repairProductID
+update repair set repairReturnTime=@repairReturnTime,repairReturnExpressNumber=@repairReturnExpressNumber,repairReturnExpressCompany=@repairReturnExpressCompany,repairReturnSNCode=@repairReturnSNCode,repairStatus=1 where repairCustomernumber=@repairCustomernumber and repairProductID=@repairProductID
 end
 else
 begin
@@ -804,14 +804,14 @@ if(@type=1)
 select repa.*,stoc.productName,stoc.model,customer.customerName from repair repa 
 left join stock stoc on repa.repairProductID=stoc.productID
 left join customerinfo customer on customer.customerNumber=repa.repairCustomernumber
-where repa.repairStatus=1
+where repa.repairStatus=0
 --查询指定客户产品详细
 else if(@type=2)
 select repa.*,stoc.productName,stoc.model,customer.customerName from repair repa 
 left join stock stoc on repa.repairProductID=stoc.productID
 left join customerinfo customer on customer.customerNumber=repa.repairCustomernumber
 where repa.repairCustomernumber=@repairCustomernumber and repa.repairProductID=@repairProductID 
-and repa.repairSNCode=@repairSNCode and repa.repairStatus=1
+and repa.repairSNCode=@repairSNCode and repa.repairStatus=0
 end
 go
 --关于借货详细查询存储过程

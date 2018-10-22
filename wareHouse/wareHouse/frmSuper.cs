@@ -68,12 +68,13 @@ namespace wareHouse
             dt = WHBLL.BLL.QueryProcurement(dictionary);
             if (dt.Rows.Count <= 0)
             {
+                lbPro.Items.Clear();
                 rtbDetailed.Text = "无订单！";
                 return;
             }
-            lbPro.DataSource = WHBLL.BLL.QueryPro();
             lbPro.DisplayMember = "internalOrderNumber";
             lbPro.ValueMember = "internalOrderNumber";
+            lbPro.DataSource = WHBLL.BLL.QueryPro();
         }
         /// <summary>
         /// 选择之后显示详细信息
@@ -82,7 +83,8 @@ namespace wareHouse
         /// <param name="e"></param>
         private void lbPro_SelectedValueChanged(object sender, EventArgs e)
         {
-            lbPro.Items.Clear();
+            if (lbPro.Items.Count <= 0)
+                return;
             if (dt.Rows.Count <= 0) return;
             rtbDetailed.Text = string.Empty;
             StringBuilder sb = new StringBuilder();
@@ -123,6 +125,7 @@ namespace wareHouse
                     MessageBox.Show("审核成功！", "系统提示");
                     QueryProCargo();
                     rtbDetailed.Text = string.Empty;
+                    
                 }
             }
         }
