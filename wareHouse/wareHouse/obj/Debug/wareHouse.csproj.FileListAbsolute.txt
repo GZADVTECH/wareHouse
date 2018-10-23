@@ -58,3 +58,7 @@ F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\bin\Debug\ShockwaveFlas
 F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\obj\Debug\wareHouse.frmReport.resources
 F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\obj\Debug\wareHouse.frmSupplier.resources
 F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\obj\Debug\wareHouse.csproj.ResolveComReference.cache
+F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\bin\Debug\wareHouse.exe.manifest
+F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\bin\Debug\wareHouse.application
+F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\obj\Debug\wareHouse.exe.manifest
+F:\Items\C#\希创仓库管理系统\wareHouse\wareHouse\obj\Debug\wareHouse.application

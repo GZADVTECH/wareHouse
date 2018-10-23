@@ -180,6 +180,8 @@ namespace wareHouse
             }
             //将总价值为零
             txtCount.Text = "0.00";
+            //总价值代数
+            double amount = 0;
             //获取始终时间
             string beginTime, endTime;
             beginTime = cbbBeginYear.Text + cbbBeginMonth.Text + "01";
@@ -194,7 +196,7 @@ namespace wareHouse
             DataTable dt = WHBLL.BLL.GetMonthlyKnot(dictionary);
             if (dt.Rows.Count>0)
             {
-                for (int i = 0; i < dt.Rows.Count-1; i++)
+                for (int i = 0; i < dt.Rows.Count; i++)
                 {
                     string[] item = {(++i).ToString(),dt.Rows[i]["lastWarehousing"].ToString(), dt.Rows[i]["monthlyKnotProductID"].ToString(), dt.Rows[i]["productName"].ToString(), dt.Rows[i]["model"].ToString()
                             , dt.Rows[i]["purchasePrice"].ToString()+"("+ (Convert.ToBoolean(dt.Rows[i]["purchaseincludeTax"])?"是":"否").ToString()+")", dt.Rows[i]["beginmonthNumber"].ToString()
@@ -208,7 +210,9 @@ namespace wareHouse
                         dgvr.Cells.Add(dgvtbc);
                     }
                     dgvMonth.Rows.Add(dgvr);
+                    amount+=Convert.ToDouble(dgvMonth.Rows[i].Cells["amount"].Value);
                 }
+                txtCount.Text = amount.ToString();
             }
             else
             {
