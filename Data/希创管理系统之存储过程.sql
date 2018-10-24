@@ -468,9 +468,9 @@ go
 drop procedure pro_execute_borrow
 go
 create procedure pro_execute_borrow
-@borrowNumber int,					   --借货编号
+@borrowNumber int='',					   --借货编号
 @borrowProductID nvarchar(30),		   --产品编号
-@borrowSNCode nvarchar(30),			   --S/N码
+@borrowSNCode nvarchar(30)='',			   --S/N码
 @borrowQuantity int,				   --数量
 @borrower nvarchar(20),				   --借货人
 @borrowOperatorID nvarchar(20),		   --操作员编号
@@ -815,7 +815,22 @@ and repa.repairSNCode=@repairSNCode and repa.repairStatus=0
 end
 go
 --关于借货详细查询存储过程
-
+drop procedure pro_search_borrow
+go
+create procedure pro_search_borrow
+@borrownumber int=0,@type int
+as
+begin
+if(@type=1)
+select * from borrow
+else if(@type=2)
+select * from borrow where borrowNumber=@borrownumber
+else if(@type=3)
+select * from borrow where IsReturn=0
+else if (@type=4)
+select * from borrow where IsReturn=1
+end
+go
 --关于月结详细查询存储过程
 drop procedure pro_monthlyknot
 go

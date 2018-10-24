@@ -557,5 +557,44 @@ namespace WHBLL
             DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_monthlyknot", param, CommandType.StoredProcedure);
             return dt;
         }
+        /// <summary>
+        /// 获取借货详细
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <returns></returns>
+        public static DataTable GetBorrow(Dictionary<string,object> dictionary)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("@borrownumber",dictionary["borrownumber"]),
+                new SqlParameter("@type",dictionary["type"])
+            };
+            DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_search_borrow", param, CommandType.StoredProcedure);
+            return dt;
+        }
+        /// <summary>
+        /// 借货执行操作
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <returns></returns>
+        public static int ExecuteBorrow(Dictionary<string,object> dictionary)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("@borrowNumber",dictionary["borrowNumber"]),
+                new SqlParameter("@borrowProductID",dictionary["borrowProductID"]),
+                new SqlParameter("@borrowSNCode",dictionary["borrowSNCode"]),
+                new SqlParameter("@borrowQuantity",dictionary["borrowQuantity"]),
+                new SqlParameter("@borrower",dictionary["borrower"]),
+                new SqlParameter("@borrowOperatorID",dictionary["borrowOperatorID"]),
+                new SqlParameter("@borrowTime",dictionary["borrowTime"]),
+                new SqlParameter("@borrowReturnTime",dictionary["borrowReturnTime"]),
+                new SqlParameter("@IsReturn",dictionary["IsReturn"]),
+                new SqlParameter("@borrowRemark",dictionary["borrowRemark"]),
+                new SqlParameter("@borrowStatus",dictionary["borrowStatus"]),
+                new SqlParameter("@type",dictionary["type"]),
+            };
+            return SQLHelper.Execute("SQL", "pro_execute_borrow", param, CommandType.StoredProcedure);
+        }
     }
 }

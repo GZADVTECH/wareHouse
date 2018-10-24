@@ -39,6 +39,7 @@
             this.tsbSupplier = new System.Windows.Forms.ToolStripButton();
             this.tsbRepair = new System.Windows.Forms.ToolStripButton();
             this.tsbSuper = new System.Windows.Forms.ToolStripButton();
+            this.tsbBorrow = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,6 +54,7 @@
             this.tsbInventory,
             this.tsbSupplier,
             this.tsbRepair,
+            this.tsbBorrow,
             this.tsbSuper});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -141,6 +143,15 @@
             this.tsbSuper.Text = "超级管理";
             this.tsbSuper.Click += new System.EventHandler(this.tsbSuper_Click);
             // 
+            // tsbBorrow
+            // 
+            this.tsbBorrow.Image = ((System.Drawing.Image)(resources.GetObject("tsbBorrow.Image")));
+            this.tsbBorrow.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbBorrow.Name = "tsbBorrow";
+            this.tsbBorrow.Size = new System.Drawing.Size(76, 22);
+            this.tsbBorrow.Text = "借货管理";
+            this.tsbBorrow.Click += new System.EventHandler(this.tsbBorrow_Click);
+            // 
             // frmMainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -172,5 +183,6 @@
         private System.Windows.Forms.ToolStripButton tsbProcurement;
         private System.Windows.Forms.ToolStripButton tsbRepair;
         private System.Windows.Forms.ToolStripButton tsbSupplier;
+        private System.Windows.Forms.ToolStripButton tsbBorrow;
     }
 }

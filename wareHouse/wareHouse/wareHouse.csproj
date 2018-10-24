@@ -101,6 +101,12 @@
       <DependentUpon>Finance.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="frmBorrow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBorrow.Designer.cs">
+      <DependentUpon>frmBorrow.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmClient.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -206,6 +212,9 @@
     <EmbeddedResource Include="Finance.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Finance.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBorrow.resx">
+      <DependentUpon>frmBorrow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmClient.resx">
       <DependentUpon>frmClient.cs</DependentUpon>

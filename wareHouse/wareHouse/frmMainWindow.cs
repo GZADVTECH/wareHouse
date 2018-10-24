@@ -149,5 +149,12 @@ namespace wareHouse
             supplier.MdiParent = this;
             supplier.Show();
         }
+
+        private void tsbBorrow_Click(object sender, EventArgs e)
+        {
+            frmBorrow borrow = new frmBorrow(userID);
+            borrow.MdiParent = this;
+            borrow.Show();
+        }
     }
 }
