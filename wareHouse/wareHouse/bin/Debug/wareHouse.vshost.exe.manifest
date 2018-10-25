@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="wareHouse.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="wareHouse.exe" version="1.0.1.3" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <application />
   <entryPoint>
     <assemblyIdentity name="wareHouse" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
@@ -446,26 +446,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="wareHouse.exe" size="2229184">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="wareHouse.exe" size="2449856">
       <assemblyIdentity name="wareHouse" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>HtrAnF869LlfDvIrohHGnRC0Z6J0ZvWzW9wkoxB/em8=</dsig:DigestValue>
+        <dsig:DigestValue>7Lm5HryCYkPelIzml6Mhihnpw6Ek4zJAsKrar3X5gQg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="WHBLL.dll" size="29696">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="WHBLL.dll" size="30720">
       <assemblyIdentity name="WHBLL" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>4C5cp3XIcPMTDwtZQPY60MJtDxAeWEtgcUI5KARPXGo=</dsig:DigestValue>
+        <dsig:DigestValue>IX/YpSGwNWjb8SPI3tE7yMX5l6gXjRnF/UCJ7m3etqM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -477,7 +477,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>xM4DooxpIfxQM6Ibcw3nsw1XmJl4P3fgeSuJw8M9HT8=</dsig:DigestValue>
+        <dsig:DigestValue>ZqvS5cZHP/FFtm50GOlwQCzFyd+u21wRuJBv5byZKys=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -489,7 +489,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>m2iNNmtHgAlq0FOCV0v/8kphv6rxcmk7CaCjRThgwNs=</dsig:DigestValue>
+        <dsig:DigestValue>/SoCQ4B/C949YDuYCjoJ1mnL8JgsQR/hOR65BB8a8BI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

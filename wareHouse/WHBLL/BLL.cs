@@ -591,8 +591,8 @@ namespace WHBLL
                 new SqlParameter("@borrowReturnTime",dictionary["borrowReturnTime"]),
                 new SqlParameter("@IsReturn",dictionary["IsReturn"]),
                 new SqlParameter("@borrowRemark",dictionary["borrowRemark"]),
-                new SqlParameter("@borrowStatus",dictionary["borrowStatus"]),
-                new SqlParameter("@type",dictionary["type"]),
+                new SqlParameter("@borrowStatus",dictionary[""]),
+                new SqlParameter("@type",dictionary[""]),
             };
             return SQLHelper.Execute("SQL", "pro_execute_borrow", param, CommandType.StoredProcedure);
         }

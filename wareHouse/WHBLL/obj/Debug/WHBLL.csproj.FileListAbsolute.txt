@@ -1,10 +1,10 @@
 F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\bin\Debug\WHBLL.dll
 F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\bin\Debug\WHBLL.pdb
-F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\obj\Debug\WHBLL.dll
-F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\obj\Debug\WHBLL.pdb
-F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\obj\Debug\WHBLL.csprojResolveAssemblyReference.cache
 F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\bin\Debug\WHDAL.dll
 F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\bin\Debug\WHMODELS.dll
 F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\bin\Debug\WHDAL.pdb
 F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\bin\Debug\WHMODELS.pdb
+F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\obj\Debug\WHBLL.csprojResolveAssemblyReference.cache
 F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\obj\Debug\WHBLL.csproj.ResolveComReference.cache
+F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\obj\Debug\WHBLL.dll
+F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\obj\Debug\WHBLL.pdb
