@@ -453,7 +453,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>37c5+vqTetDZz+01h0D+3NFXFtZNyo9zjvKAlwMyjWQ=</dsig:DigestValue>
+        <dsig:DigestValue>HugmxE/v6HkHAsAaoeRx1mmW/6LVP3XvKk3PPbPTe5U=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -465,7 +465,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>dkuiMlcEFoULcfHxwrYQHwl50snllynDcAu4rr1IN5I=</dsig:DigestValue>
+        <dsig:DigestValue>LLhCZvB738DlUQL9W17c3398X960Y1PG74BQugJMa1E=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -477,7 +477,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>SN/hS9y0O8RBgjE+ymLv11KA9UBPWkyAJ68fA56kqaI=</dsig:DigestValue>
+        <dsig:DigestValue>NLwWHjnMirbv0gOcCFAkDUeaGPYIR52txjr3nl6wj7k=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -489,17 +489,17 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>C3GS9x60WbY/bljRTPh4ryZ+fs1k75SV1lcINSF330w=</dsig:DigestValue>
+        <dsig:DigestValue>0Dyhhc9VdiwTVhAuogHmoW2S7DkHtFNOYObjSj1UDIc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="wareHouse.exe.config" size="330">
+  <file name="wareHouse.exe.config" size="329">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>Nw5CeKglaX34KNavK+bfO7zU3Shdb4fkbjComxa/400=</dsig:DigestValue>
+      <dsig:DigestValue>muu4AVXA6Gj4E/owWCW+EvmWfahEJyDdanojI7XoxrA=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>
