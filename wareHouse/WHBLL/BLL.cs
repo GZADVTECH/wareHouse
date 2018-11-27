@@ -400,7 +400,8 @@ namespace WHBLL
         {
             SqlParameter[] param =
             {
-                new SqlParameter("@officialOrderNumber",dictionary["officialOrderNumber"])
+                new SqlParameter("@officialOrderNumber",dictionary["officialOrderNumber"]),
+                new SqlParameter("@outgoingOrderNumber",dictionary["outgoingOrderNumber"])
             };
             DataTable dt = SQLHelper.QueryDataTable("SQL", "pro_search_outgoing", param, CommandType.StoredProcedure);
             return dt;
@@ -415,7 +416,7 @@ namespace WHBLL
         {
             SqlParameter[] param =
             {
-                new SqlParameter("@outgoingNumber",dictionary["outgoingNumber"]),
+                new SqlParameter("@outgoingNumber",dictionary["outgoingOrderNumber"]),
                 new SqlParameter("@officialOrderNumber",dictionary["officialOrderNumber"]),
                 new SqlParameter("@outgoingcustomerID",dictionary["outgoingcustomerID"]),
                 new SqlParameter("@outgoingproductID",dictionary["outgoingproductID"]),

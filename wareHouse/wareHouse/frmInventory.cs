@@ -15,6 +15,7 @@ namespace wareHouse
     {
         Dictionary<string, object> dictionary;
         private string USERID;
+        DataTable dt;
         public frmInventory(string userid)
         {
             InitializeComponent();
@@ -31,7 +32,7 @@ namespace wareHouse
             DataGridViewRow dgvr = dgvInventory.SelectedRows[0];
             txtinventoryNumber.Text = dgvr.Cells["inventoryNumber"].Value.ToString();
             txtPID.Text = dgvr.Cells["productID"].Value.ToString() ;
-            txtPName.Text = dgvr.Cells["productName"].Value.ToString();
+            cbbPName.Text = dgvr.Cells["productName"].Value.ToString();
             txtPNID.Text = dgvr.Cells["model"].Value.ToString();
             txtPrice.Text = dgvr.Cells["purchasePrice"].Value.ToString();
             cbpurchase.Checked = Convert.ToBoolean(dgvr.Cells["purchaseincludeTax"].Value);
@@ -97,6 +98,24 @@ namespace wareHouse
             //默认操作
             cbbUnit.SelectedIndex = 0;
             dgvInventory.AllowUserToAddRows = false;
+            //自动编入库存编号
+            txtinventoryNumber.Text = string.Format("{0:000}", dgvInventory.Rows.Count+1);
+            //添加产品名称选项
+            Dictionary<string, char> PItems = new Dictionary<string, char>();
+            PItems.Add("扫描器", 'C');
+            PItems.Add("打印头", 'D');
+            PItems.Add("打印机", 'A');
+            PItems.Add("连接线", 'L');
+            PItems.Add("配件", 'P');
+            PItems.Add("维修", 'W');
+            PItems.Add("借货", 'J');
+            PItems.Add("赠送", 'Z');
+            PItems.Add("其他", 'B');
+            BindingSource bs = new BindingSource();
+            bs.DataSource = PItems;
+            cbbPName.DisplayMember = "Key";
+            cbbPName.ValueMember = "Value";
+            cbbPName.DataSource = bs;
         }
         /// <summary>
         /// 加载库存信息
@@ -109,7 +128,7 @@ namespace wareHouse
             dictionary.Add("productName", null);
             dictionary.Add("model", null);
             dictionary.Add("type", 1);
-            DataTable dt = BLL.GetStock(dictionary);
+            dt = BLL.GetStock(dictionary);
             dgvInventory.AutoGenerateColumns = false;
             dgvInventory.DataSource = dt;
         }
@@ -150,7 +169,7 @@ namespace wareHouse
                     dictionary = new Dictionary<string, object>();
                     dictionary.Add("inventoryNumber",txtinventoryNumber.Text);
                     dictionary.Add("productID",txtPID.Text);
-                    dictionary.Add("productName",txtPName.Text);
+                    dictionary.Add("productName",cbbPName.Text);
                     dictionary.Add("model",txtPNID.Text);
                     dictionary.Add("purchasePrice",txtPrice.Text);
                     dictionary.Add("purchaseincludeTax",cbpurchase.Checked);
@@ -182,7 +201,7 @@ namespace wareHouse
                     dictionary = new Dictionary<string, object>();
                     dictionary.Add("inventoryNumber", txtinventoryNumber.Text);
                     dictionary.Add("productID", txtPID.Text);
-                    dictionary.Add("productName", txtPName.Text);
+                    dictionary.Add("productName", cbbPName.Text);
                     dictionary.Add("model", txtPNID.Text);
                     dictionary.Add("purchasePrice", txtPrice.Text);
                     dictionary.Add("purchaseincludeTax", cbpurchase.Checked);
@@ -223,33 +242,32 @@ namespace wareHouse
         /// <param name="e"></param>
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            //是否存在
-            int exist = 0;
-            //存在编号
-            int selectedindex = 0;
-            //判断产品编号是否存在
-            foreach (DataGridViewRow row in dgvInventory.Rows)
+            string Message = ttxtID.Text;//存储查询数据
+            if (string.IsNullOrEmpty(Message))
             {
-                if (row.Cells["productID"].Value.ToString().Trim() == ttxtID.Text.Trim().ToString())
-                {
-                    exist++;
-                    selectedindex = row.Index;
-                }
+                GetInventory();
             }
-            if (exist>0)
+            else
             {
-                //存在则将详细的信息添加到产品信息中
-                DataGridViewRow dgvr = dgvInventory.Rows[selectedindex];
-                txtinventoryNumber.Text = dgvr.Cells["inventoryNumber"].Value.ToString();
-                txtPID.Text = dgvr.Cells["productID"].Value.ToString();
-                txtPName.Text = dgvr.Cells["productName"].Value.ToString();
-                txtPNID.Text = dgvr.Cells["model"].Value.ToString();
-                txtPrice.Text = dgvr.Cells["purchasePrice"].Value.ToString();
-                cbpurchase.Checked = Convert.ToBoolean(dgvr.Cells["purchaseincludeTax"].Value);
-                txtSalePrice.Text = dgvr.Cells["salesPrice"].Value.ToString();
-                cbsale.Checked = Convert.ToBoolean(dgvr.Cells["salesincludeTax"].Value);
-                txtNum.Text = dgvr.Cells["inventoryQuantity"].Value.ToString();
-                cbbUnit.Text = dgvr.Cells["unit"].Value.ToString();
+                //获取全部数据
+                GetInventory();
+                List<DataGridViewRow> num = new List<DataGridViewRow>();
+                //将数据进行分析
+                foreach (DataGridViewRow row in dgvInventory.Rows)
+                {
+                    if (!(row.Cells["productID"].Value.ToString().Trim().Contains(ttxtID.Text.Trim())||row.Cells["productName"].Value.ToString().Trim().Contains(ttxtID.Text.Trim())))
+                    {
+                        num.Add(row);
+                    }
+                }
+                //通过分析数据查询相对应的数据
+                foreach (DataGridViewRow item in num)
+                {
+                    dgvInventory.Rows.Remove(item);
+                }
+                //返回数据
+                //错误处理
+
             }
         }
 
@@ -299,11 +317,30 @@ namespace wareHouse
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ttxtID_KeyPress(object sender, KeyPressEventArgs e)
-        {
+        {//回车键进行查询
             if (e.KeyChar==13)
             {
                 toolStripButton2_Click(sender, e);
             }
+        }
+        /// <summary>
+        /// 选中之后自动编号
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cbbPName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbbPName.SelectedIndex < 0)
+                return;
+            int num = 0;//存储出现数字
+            //循环遍历DataGridView表格
+            for (int i = 0; i < dgvInventory.Rows.Count; i++)
+            {
+                if (dgvInventory.Rows[i].Cells["productID"].Value.ToString().Contains(cbbPName.SelectedValue.ToString()))
+                    num++;
+            }
+            //选定之后自动添加编号
+            txtPID.Text = cbbPName.SelectedValue.ToString() + string.Format("{0:000}",++num);
         }
     }
 }

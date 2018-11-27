@@ -207,7 +207,7 @@ create procedure pro_execute_outgoing
 @outgoingQuantity int,						  --出库数量
 @outgoingDiscount float=1,					  --折扣
 @includeTax bit,							  --是否含税
-@deliveryExpressnumber nvarchar(50),		  --发货快递单号
+@deliveryExpressnumber nvarchar(50)='',		  --发货快递单号
 @deliveryExpressCompany nvarchar(20),		  --发货快递公司
 @deliveryTime datetime,						  --发货时间
 @outgoingOperatorID nvarchar(20),			  --操作员编号
@@ -676,6 +676,7 @@ select * from stock where productID=@productID
 --通过产品名称和规格型号查询
 else if(@type=4)
 select * from stock where productName=@productName and model=@model
+--查询产品名称，型号，编号
 else if(@type=5)
 select productID,productName,model from stock
 end

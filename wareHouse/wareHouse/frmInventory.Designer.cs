@@ -49,6 +49,7 @@
             this.unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.inventoryQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbbPName = new System.Windows.Forms.ComboBox();
             this.cbsale = new System.Windows.Forms.CheckBox();
             this.cbpurchase = new System.Windows.Forms.CheckBox();
             this.btnSave = new System.Windows.Forms.Button();
@@ -62,7 +63,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtPNID = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtPName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtinventoryNumber = new System.Windows.Forms.TextBox();
             this.txtPID = new System.Windows.Forms.TextBox();
@@ -109,8 +109,8 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(120, 22);
-            this.toolStripButton1.Text = "快速查询产品编号：";
+            this.toolStripButton1.Size = new System.Drawing.Size(72, 22);
+            this.toolStripButton1.Text = "快速查询：";
             // 
             // ttxtID
             // 
@@ -246,6 +246,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbbPName);
             this.groupBox1.Controls.Add(this.cbsale);
             this.groupBox1.Controls.Add(this.cbpurchase);
             this.groupBox1.Controls.Add(this.btnSave);
@@ -259,7 +260,6 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtPNID);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.txtPName);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtinventoryNumber);
             this.groupBox1.Controls.Add(this.txtPID);
@@ -272,10 +272,19 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "产品信息操作";
             // 
+            // cbbPName
+            // 
+            this.cbbPName.FormattingEnabled = true;
+            this.cbbPName.Location = new System.Drawing.Point(86, 44);
+            this.cbbPName.Name = "cbbPName";
+            this.cbbPName.Size = new System.Drawing.Size(136, 20);
+            this.cbbPName.TabIndex = 11;
+            this.cbbPName.SelectedIndexChanged += new System.EventHandler(this.cbbPName_SelectedIndexChanged);
+            // 
             // cbsale
             // 
             this.cbsale.AutoSize = true;
-            this.cbsale.Location = new System.Drawing.Point(428, 54);
+            this.cbsale.Location = new System.Drawing.Point(427, 46);
             this.cbsale.Name = "cbsale";
             this.cbsale.Size = new System.Drawing.Size(48, 16);
             this.cbsale.TabIndex = 6;
@@ -285,7 +294,7 @@
             // cbpurchase
             // 
             this.cbpurchase.AutoSize = true;
-            this.cbpurchase.Location = new System.Drawing.Point(428, 22);
+            this.cbpurchase.Location = new System.Drawing.Point(427, 20);
             this.cbpurchase.Name = "cbpurchase";
             this.cbpurchase.Size = new System.Drawing.Size(48, 16);
             this.cbpurchase.TabIndex = 4;
@@ -311,15 +320,16 @@
             "套",
             "卷",
             "包",
-            "盒"});
-            this.cbbUnit.Location = new System.Drawing.Point(568, 47);
+            "盒",
+            "条"});
+            this.cbbUnit.Location = new System.Drawing.Point(568, 44);
             this.cbbUnit.Name = "cbbUnit";
             this.cbbUnit.Size = new System.Drawing.Size(71, 20);
             this.cbbUnit.TabIndex = 9;
             // 
             // txtNum
             // 
-            this.txtNum.Location = new System.Drawing.Point(568, 20);
+            this.txtNum.Location = new System.Drawing.Point(568, 18);
             this.txtNum.MaxLength = 5;
             this.txtNum.Name = "txtNum";
             this.txtNum.Size = new System.Drawing.Size(71, 21);
@@ -330,7 +340,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(497, 23);
+            this.label6.Location = new System.Drawing.Point(497, 22);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 12);
             this.label6.TabIndex = 0;
@@ -339,7 +349,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(521, 50);
+            this.label5.Location = new System.Drawing.Point(521, 48);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(29, 12);
             this.label5.TabIndex = 0;
@@ -347,7 +357,7 @@
             // 
             // txtSalePrice
             // 
-            this.txtSalePrice.Location = new System.Drawing.Point(305, 49);
+            this.txtSalePrice.Location = new System.Drawing.Point(305, 44);
             this.txtSalePrice.Name = "txtSalePrice";
             this.txtSalePrice.Size = new System.Drawing.Size(116, 21);
             this.txtSalePrice.TabIndex = 5;
@@ -357,7 +367,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(246, 53);
+            this.label8.Location = new System.Drawing.Point(246, 48);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(53, 12);
             this.label8.TabIndex = 0;
@@ -391,23 +401,16 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(257, 79);
+            this.label3.Location = new System.Drawing.Point(257, 80);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 12);
             this.label3.TabIndex = 0;
             this.label3.Text = "规格";
             // 
-            // txtPName
-            // 
-            this.txtPName.Location = new System.Drawing.Point(86, 73);
-            this.txtPName.Name = "txtPName";
-            this.txtPName.Size = new System.Drawing.Size(136, 21);
-            this.txtPName.TabIndex = 2;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(14, 76);
+            this.label2.Location = new System.Drawing.Point(14, 48);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 0;
@@ -415,22 +418,22 @@
             // 
             // txtinventoryNumber
             // 
-            this.txtinventoryNumber.Location = new System.Drawing.Point(86, 17);
+            this.txtinventoryNumber.Location = new System.Drawing.Point(86, 18);
             this.txtinventoryNumber.Name = "txtinventoryNumber";
             this.txtinventoryNumber.Size = new System.Drawing.Size(136, 21);
             this.txtinventoryNumber.TabIndex = 0;
             // 
             // txtPID
             // 
-            this.txtPID.Location = new System.Drawing.Point(86, 45);
+            this.txtPID.Location = new System.Drawing.Point(86, 76);
             this.txtPID.Name = "txtPID";
             this.txtPID.Size = new System.Drawing.Size(136, 21);
-            this.txtPID.TabIndex = 1;
+            this.txtPID.TabIndex = 2;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(14, 20);
+            this.label7.Location = new System.Drawing.Point(14, 22);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(53, 12);
             this.label7.TabIndex = 0;
@@ -439,7 +442,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 48);
+            this.label1.Location = new System.Drawing.Point(14, 80);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 0;
@@ -486,7 +489,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtPNID;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtPName;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtPID;
         private System.Windows.Forms.Label label1;
@@ -508,5 +510,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn salesincludeTax;
         private System.Windows.Forms.DataGridViewTextBoxColumn unit;
         private System.Windows.Forms.DataGridViewTextBoxColumn inventoryQuantity;
+        private System.Windows.Forms.ComboBox cbbPName;
     }
 }
