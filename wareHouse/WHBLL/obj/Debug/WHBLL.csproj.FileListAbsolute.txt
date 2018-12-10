@@ -8,3 +8,13 @@ F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\obj\Debug\WHBLL.csprojResol
 F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\obj\Debug\WHBLL.csproj.ResolveComReference.cache
 F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\obj\Debug\WHBLL.dll
 F:\Items\C#\希创仓库管理系统\wareHouse\WHBLL\obj\Debug\WHBLL.pdb
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHBLL\bin\Debug\WHBLL.dll
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHBLL\bin\Debug\WHBLL.pdb
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHBLL\bin\Debug\WHDAL.dll
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHBLL\bin\Debug\WHMODELS.dll
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHBLL\bin\Debug\WHDAL.pdb
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHBLL\bin\Debug\WHMODELS.pdb
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHBLL\obj\Debug\WHBLL.csprojResolveAssemblyReference.cache
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHBLL\obj\Debug\WHBLL.csproj.ResolveComReference.cache
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHBLL\obj\Debug\WHBLL.dll
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHBLL\obj\Debug\WHBLL.pdb

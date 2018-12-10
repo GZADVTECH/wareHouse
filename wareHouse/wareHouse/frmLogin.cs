@@ -42,7 +42,7 @@ namespace wareHouse
                 return;
             }
             Dictionary<string, object> dictionary = new Dictionary<string, object>();
-            dictionary.Add("loginPwd", txtPwd.Text);
+            dictionary.Add("loginPwd", MD5Encrypt.MD5Encrypt32(txtPwd.Text));
             dictionary.Add("loginNumber", txtUid.Text);
             dictionary.Add("type", 2);
             DataTable i = BLL.VerificationLogin(dictionary);

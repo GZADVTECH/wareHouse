@@ -6,3 +6,11 @@ F:\Items\C#\希创仓库管理系统\wareHouse\WHDAL\obj\Debug\WHDAL.csprojResol
 F:\Items\C#\希创仓库管理系统\wareHouse\WHDAL\obj\Debug\WHDAL.csproj.ResolveComReference.cache
 F:\Items\C#\希创仓库管理系统\wareHouse\WHDAL\obj\Debug\WHDAL.dll
 F:\Items\C#\希创仓库管理系统\wareHouse\WHDAL\obj\Debug\WHDAL.pdb
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHDAL\bin\Debug\WHDAL.dll
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHDAL\bin\Debug\WHDAL.pdb
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHDAL\bin\Debug\WHMODELS.dll
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHDAL\bin\Debug\WHMODELS.pdb
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHDAL\obj\Debug\WHDAL.csprojResolveAssemblyReference.cache
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHDAL\obj\Debug\WHDAL.csproj.ResolveComReference.cache
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHDAL\obj\Debug\WHDAL.dll
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHDAL\obj\Debug\WHDAL.pdb

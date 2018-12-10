@@ -38,8 +38,8 @@
             this.tsbInventory = new System.Windows.Forms.ToolStripButton();
             this.tsbSupplier = new System.Windows.Forms.ToolStripButton();
             this.tsbRepair = new System.Windows.Forms.ToolStripButton();
-            this.tsbSuper = new System.Windows.Forms.ToolStripButton();
             this.tsbBorrow = new System.Windows.Forms.ToolStripButton();
+            this.tsbSuper = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -134,15 +134,6 @@
             this.tsbRepair.Text = "维修管理";
             this.tsbRepair.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
-            // tsbSuper
-            // 
-            this.tsbSuper.Image = ((System.Drawing.Image)(resources.GetObject("tsbSuper.Image")));
-            this.tsbSuper.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbSuper.Name = "tsbSuper";
-            this.tsbSuper.Size = new System.Drawing.Size(76, 22);
-            this.tsbSuper.Text = "超级管理";
-            this.tsbSuper.Click += new System.EventHandler(this.tsbSuper_Click);
-            // 
             // tsbBorrow
             // 
             this.tsbBorrow.Image = ((System.Drawing.Image)(resources.GetObject("tsbBorrow.Image")));
@@ -152,12 +143,24 @@
             this.tsbBorrow.Text = "借货管理";
             this.tsbBorrow.Click += new System.EventHandler(this.tsbBorrow_Click);
             // 
+            // tsbSuper
+            // 
+            this.tsbSuper.Image = ((System.Drawing.Image)(resources.GetObject("tsbSuper.Image")));
+            this.tsbSuper.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSuper.Name = "tsbSuper";
+            this.tsbSuper.Size = new System.Drawing.Size(76, 22);
+            this.tsbSuper.Text = "超级管理";
+            this.tsbSuper.Click += new System.EventHandler(this.tsbSuper_Click);
+            // 
             // frmMainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1306, 763);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.ClientSize = new System.Drawing.Size(1306, 749);
             this.Controls.Add(this.toolStrip1);
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Name = "frmMainWindow";

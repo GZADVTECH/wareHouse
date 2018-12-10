@@ -2,3 +2,7 @@ F:\Items\C#\希创仓库管理系统\wareHouse\WHMODELS\bin\Debug\WHMODELS.dll
 F:\Items\C#\希创仓库管理系统\wareHouse\WHMODELS\bin\Debug\WHMODELS.pdb
 F:\Items\C#\希创仓库管理系统\wareHouse\WHMODELS\obj\Debug\WHMODELS.dll
 F:\Items\C#\希创仓库管理系统\wareHouse\WHMODELS\obj\Debug\WHMODELS.pdb
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHMODELS\bin\Debug\WHMODELS.dll
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHMODELS\bin\Debug\WHMODELS.pdb
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHMODELS\obj\Debug\WHMODELS.dll
+E:\程序\广州希创旺思管理系统\wareHouse\wareHouse\WHMODELS\obj\Debug\WHMODELS.pdb

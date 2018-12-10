@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WHBLL;
 
 namespace wareHouse
 {
@@ -49,13 +50,13 @@ namespace wareHouse
             //判断旧密码是否正确，如果正确，将进行修改密码操作
             Dictionary<string, object> dictionary = new Dictionary<string, object>();
             dictionary.Add("loginNumber", txtUid.Text);
-            dictionary.Add("loginPwd", txtOldPwd.Text);
+            dictionary.Add("loginPwd", MD5Encrypt.MD5Encrypt32(txtOldPwd.Text));
             dictionary.Add("type", 2);
             if ((WHBLL.BLL.VerificationLogin(dictionary).Rows.Count > 0))
             {
                 dictionary = new Dictionary<string, object>();
                 dictionary.Add("loginNumber", txtUid.Text);
-                dictionary.Add("loginPwd", txtNewPwd.Text);
+                dictionary.Add("loginPwd", MD5Encrypt.MD5Encrypt32(txtNewPwd.Text));
                 dictionary.Add("userName", null);
                 dictionary.Add("userRights", null);
                 dictionary.Add("type", 2);
